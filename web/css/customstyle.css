@@ -1,0 +1,31 @@
+
+.rowAuthor0 {
+    color: grey;
+    text-decoration: line-through;
+}
+.rowAuthor1 {
+    text-decoration: none;
+}
+.rowBook0 {
+    color: grey;
+    text-decoration: line-through;
+}
+.rowBook1 {
+    text-decoration: none;
+}
+
+.rowGenre0 {
+    color: grey;
+    text-decoration: line-through;
+}
+.rowGenre1 {
+    text-decoration: none;
+}
+.rowCustomer0{
+    color: grey;   
+ text-decoration: line-through;
+}
+.rowCustomer1{
+   text-decoration: none;
+}
+
