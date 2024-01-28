@@ -42,20 +42,23 @@ public class EditDiscountServlet extends HttpServlet {
                 target = "EditDiscount.jsp";
             }
 
-//            if (mode.equals("editAuthor")) {
-//                int ID, status;
-//                String authorName, authorBio;
-//
-//                ID = Integer.parseInt(request.getParameter("authorID"));
-//                authorName = request.getParameter("authorName");
-//                authorBio = request.getParameter("authorBio");
-//                status = Integer.parseInt(request.getParameter("status"));
-//
-//                Author newAuthor = new Author(ID, authorName, authorBio, status);
-//                myAuthorManager.updateAuthor(newAuthor);
-//
-//                target = "ManageAuthorServlet?mode=viewAuthor";
-//            }
+            if (mode.equals("editDiscount")) {
+                int ID, quantity,percent, status;
+                String description,code, endDate;
+
+               ID = Integer.parseInt(request.getParameter("voucher_id"));
+               quantity = Integer.parseInt(request.getParameter("quantity"));
+               percent = Integer.parseInt(request.getParameter("percent"));
+               status = Integer.parseInt(request.getParameter("status"));
+               description = request.getParameter("description");
+               endDate = request.getParameter("end-date");
+               code = request.getParameter("code");
+
+                Discount newDiscount = new Discount(ID, code, percent, quantity, endDate, status, description);
+                mydiscountDAO.updateDiscount(newDiscount);
+
+                target = "ManageDiscountServlet?mode=viewDiscount";
+            }
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
     }
