@@ -4,6 +4,7 @@
     Author     : phuon
 --%>
 
+<%@page import="entity.Discount"%>
 <%@page import="entity.Genre"%>
 <%@page import="entity.Author"%>
 <%@page import="java.util.ArrayList"%>
@@ -71,7 +72,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active" href="ManageBookServlet?mode=viewBook">
+                            <a class="nav-link" href="ManageBookServlet?mode=viewBook">
                                 <i class="fas fa-book"></i> BOOKS
                             </a>
                         </li>
@@ -97,11 +98,18 @@
                                <i class="fas fa-user-plus"></i> STAFF
                             </a>
                         </li>
-                        <li class="nav-item">
+                         <li class="nav-item active">
                             <a class="nav-link" href="ManageStaffServlet?mode=viewDiscount">
                                <i class="fas fa-user-plus"></i> DISCOUNT
                             </a>
                         </li>
+
+                        <!--                        <li class="nav-item">
+                                                    <a class="nav-link" href="Billing.jsp">
+                                                        <i class="fas fa-money-bill-wave"></i> 
+                                                    </a>
+                                                </li>-->
+
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -113,27 +121,29 @@
                 </div>
             </div>
         </nav>
+        <% Discount disount =(Discount) request.getAttribute("tempDiscount"); %>
         <div class="container tm-mt-big tm-mb-big">
             <div class="row">
                 <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
                     <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="tm-block-title d-inline-block">ADD STAFF</h2>
+                                <h2 class="tm-block-title d-inline-block">EDIT DISCOUNT  </h2>
                             </div>
                         </div>
                         <div class="row tm-edit-product-row">
                             <div class="col-xl-6 col-lg-6 col-md-10" id="add">
-                                <form action="AddStaffServlet" method="post" class="tm-edit-product-form" >
-
-
+                                <form action="EditDiscountServlet?mode=editDiscount" method="post" class="tm-edit-product-form" >
                                     <div class="form-group mb-3">
-                                        <label  for="name" >Name </label>
-                                        <input id="name" name="name" type="text"class="form-control validate" required=""/>
+                                        <label  for="name" >Percent </label>
+                                        <input id="name" name="percent" value="<%=disount.getPercent() %>" type="number"class="form-control validate" required=""/>
                                     </div>
+                                    <input id="name" name="voucher_id" value="<%=disount.getVoucher_id() %>" type="hidden"number"class="form-control validate" required=""/>
+                                    <input id="name" name="code" value="<%=disount.getCode() %>" type="hidden"class="form-control validate" required=""/>
+                                    <input id="name" name="status" value="<%=disount.getStatus() %>" type="hidden"class="form-control validate" required=""/>
                                     <div class="form-group mb-3">
-                                        <label  for="name" >Username </label>
-                                        <input id="name" name="username" type="text"class="form-control validate" required=""/>
+                                        <label  for="name" >Quantity </label>
+                                        <input id="name" name="quantity" value="<%=disount.getQuantity() %>" type="number"class="form-control validate" required=""/>
                                     </div>
 
 
@@ -143,12 +153,12 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                                 <div class="form-group mb-3">
-                                    <label  for="name" >Password </label>
-                                    <input id="name" name="password" value="123456" type="text"class="form-control validate" readonly=""/>
+                                    <label  for="name" >End-date </label>
+                                    <input id="name" name="end-date" value="<%=disount.getEndDate() %>" type="date"class="form-control validate"/>
                                 </div> 
                                 <div class="form-group mb-3">
-                                    <label  for="name" >Email </label>
-                                    <input id="name" name="email" type="text"class="form-control validate" required=""/>
+                                    <label  for="name" >Description </label>
+                                    <input id="name" name="description" value="<%=disount.getDescription() %>" type="text"class="form-control validate" required=""/>
                                 </div>
 
 
@@ -164,7 +174,7 @@
                                                                 </div>-->
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary btn-block text-uppercase">ADD NEW STAFF</button>
+                                <button type="submit" class="btn btn-primary btn-block text-uppercase">EDIT DISCOUNT</button>
                             </div>
                             </form>
 

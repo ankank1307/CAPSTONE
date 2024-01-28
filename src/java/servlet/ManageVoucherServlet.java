@@ -4,12 +4,8 @@
  */
 package servlet;
 
-import dao.DiscountDAO;
-import entity.Discount;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Tuyen Do
+ * @author phuon
  */
-public class ManageDiscountServlet extends HttpServlet {
+public class ManageVoucherServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,27 +29,8 @@ public class ManageDiscountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-           /* TODO output your page here. You may use following sample code. */
-            String mode = request.getParameter("mode");
-            String target = "";
-            DiscountDAO myDiscountDAO = new DiscountDAO();
-            if (mode.equals("viewDiscount")) {
-                ArrayList<Discount> listDiscount = new ArrayList<>();
-                listDiscount = myDiscountDAO.getListDiscount();
-                target = "ViewDiscount.jsp";
-                request.setAttribute("listDiscount", listDiscount);
-            }
-            if (mode.equals("disableDiscount")) {
-                int code = Integer.parseInt(request.getParameter("code"));
-//                myDiscountDAO.disableDiscount(code);
-                target = "ManageDiscountServlet?mode=viewDiscount";
-            }
-             
-            
-            RequestDispatcher rd = request.getRequestDispatcher(target);
-            rd.forward(request, response);
-        }
+       String target = "";
+     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
