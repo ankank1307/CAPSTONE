@@ -73,7 +73,7 @@ public class DiscountDAO {
         try {
             Connection con = DBContext.getConnection();
 
-            String query = "UPDATE discount SET percent = ?, quantity = ?, end_start = ?, status = ?, description = ? WHERE voucher_id = ?";
+            String query = "UPDATE discount SET percent = ?, quantity = ?, end_date = ?, status = ?, description = ? WHERE voucher_id = ?";
 
             PreparedStatement pst = con.prepareStatement(query);
             pst.setInt(6, discount.getVoucher_id());
