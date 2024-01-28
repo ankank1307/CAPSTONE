@@ -49,14 +49,14 @@ public class DiscountDAO {
     public void insertDiscount(Discount discount) {
         try {
             Connection con = DBContext.getConnection();
-            PreparedStatement pst = con.prepareStatement("INSERT INTO discount(voucher_id,code, percent,start_date, end_date, status) VALUE(?,?,?,?,?,?)");
-            pst.setInt(1, discount.getVoucher_id());
-            pst.setString(2, discount.getCode().toString());
-            pst.setInt(3, discount.getPercent());
-            pst.setInt(4, discount.getQuantity());
-            pst.setString(5, discount.getEndDate().toString());
-            pst.setInt(6, discount.getStatus());
-            pst.setString(7, discount.getDescription());
+            PreparedStatement pst = con.prepareStatement("INSERT INTO discount(code, percent,quantity, end_date, status,description) VALUE(?,?,?,?,?,?)");
+            
+            pst.setString(1, discount.getCode().toString());
+            pst.setInt(2, discount.getPercent());
+            pst.setInt(3, discount.getQuantity());
+            pst.setString(4, discount.getEndDate().toString());
+            pst.setInt(5, discount.getStatus());
+            pst.setString(6, discount.getDescription());
             pst.executeUpdate();
 
             pst.close();
@@ -73,10 +73,10 @@ public class DiscountDAO {
         try {
             Connection con = DBContext.getConnection();
 
-            String query = "UPDATE discount SET percent = ?, quantity = ?, end_start = ?, status = ?, description = ? WHERE code = ?";
+            String query = "UPDATE discount SET percent = ?, quantity = ?, end_start = ?, status = ?, description = ? WHERE voucher_id = ?";
 
             PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(6, discount.getCode().toString());
+            pst.setInt(6, discount.getVoucher_id());
             pst.setInt(1, discount.getPercent());
             pst.setInt(2, discount.getQuantity());
             pst.setString(3, discount.getEndDate().toString());
@@ -94,12 +94,12 @@ public class DiscountDAO {
 
     }
 
-    public Discount getDiscountByCode(String code) {
+    public Discount getDiscountByID(int id) {
         Discount discount = null;
         try {
             Connection con = DBContext.getConnection();
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM discount WHERE code = ?");
-            pst.setString(1, code);
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM discount WHERE voucher_id = ?");
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
