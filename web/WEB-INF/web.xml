@@ -164,6 +164,18 @@
         <servlet-name>VoucherOfCustomerJson</servlet-name>
         <servlet-class>servlet.Json.VoucherOfCustomerJson</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageVoucherServlet</servlet-name>
+        <servlet-class>servlet.ManageVoucherServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddDiscount</servlet-name>
+        <servlet-class>servlet.AddDiscount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditDiscountServlet</servlet-name>
+        <servlet-class>servlet.EditDiscountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -335,6 +347,18 @@
     <servlet-mapping>
         <servlet-name>VoucherOfCustomerJson</servlet-name>
         <url-pattern>/VoucherOfCustomerJson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageVoucherServlet</servlet-name>
+        <url-pattern>/ManageVoucherServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddDiscount</servlet-name>
+        <url-pattern>/AddDiscount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditDiscountServlet</servlet-name>
+        <url-pattern>/EditDiscountServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

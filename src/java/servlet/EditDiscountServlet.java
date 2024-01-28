@@ -8,7 +8,6 @@ import dao.DiscountDAO;
 import entity.Discount;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Tuyen Do
+ * @author phuon
  */
-public class ManageDiscountServlet extends HttpServlet {
+public class EditDiscountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,27 +32,32 @@ public class ManageDiscountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-           /* TODO output your page here. You may use following sample code. */
-            String mode = request.getParameter("mode");
-            String target = "";
-            DiscountDAO myDiscountDAO = new DiscountDAO();
-            if (mode.equals("viewDiscount")) {
-                ArrayList<Discount> listDiscount = new ArrayList<>();
-                listDiscount = myDiscountDAO.getListDiscount();
-                target = "ViewDiscount.jsp";
-                request.setAttribute("listDiscount", listDiscount);
+        DiscountDAO mydiscountDAO = new DiscountDAO();
+        String mode = request.getParameter("mode");
+        String target = "";
+       if (mode.equals("viewDiscount")) {
+                int id = Integer.parseInt(request.getParameter("discountID"));
+                Discount tempDiscount = mydiscountDAO.getDiscountByID(id);
+                request.setAttribute("tempDiscount", tempDiscount);
+                target = "EditDiscount.jsp";
             }
-            if (mode.equals("disableDiscount")) {
-                int code = Integer.parseInt(request.getParameter("code"));
-//                myDiscountDAO.disableDiscount(code);
-                target = "ManageDiscountServlet?mode=viewDiscount";
-            }
-             
-            
+
+//            if (mode.equals("editAuthor")) {
+//                int ID, status;
+//                String authorName, authorBio;
+//
+//                ID = Integer.parseInt(request.getParameter("authorID"));
+//                authorName = request.getParameter("authorName");
+//                authorBio = request.getParameter("authorBio");
+//                status = Integer.parseInt(request.getParameter("status"));
+//
+//                Author newAuthor = new Author(ID, authorName, authorBio, status);
+//                myAuthorManager.updateAuthor(newAuthor);
+//
+//                target = "ManageAuthorServlet?mode=viewAuthor";
+//            }
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -28,6 +28,16 @@ public class Discount {
         this.description = description;
     }
 
+    public Discount(String code, int percent, int quantity, String end_date, int status, String description) {
+        this.code = code;
+        this.percent = percent;
+        this.quantity = quantity;
+        this.end_date = end_date;
+        this.status = status;
+        this.description = description;
+    }
+    
+
     public int getVoucher_id() {
         return voucher_id;
     }

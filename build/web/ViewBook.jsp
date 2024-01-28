@@ -8,25 +8,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <ti
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.2.0/css/all.min.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="css/customstyle.css" />
-        <!-- https://fontawesome.com/ -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <!-- https://getbootstrap.com/ -->
-        <link rel="stylesheet" href="css/templatemo-style.css">
-        <!--
-            Product Admin CSS Template
-            https://templatemo.com/tm-524-product-admin
-        -->
-        <link rel="stylesheet" href="css/search_button.css" />
-        <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>tle>Book Management</title>
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:400,700"
-            />
-        <!-- https://fonts.google.com/specimen/Roboto -->
-
+    <ti
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.2.0/css/all.min.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="css/customstyle.css" />
         <!-- https://fontawesome.com/ -->
@@ -39,7 +21,26 @@
         -->
         <link rel="stylesheet" href="css/search_button.css" />
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
-       
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+            />
+        <!-- https://fonts.google.com/specimen/Roboto -->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.2.0/css/all.min.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="css/customstyle.css" />
+        <!-- https://fontawesome.com/ -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <!-- https://getbootstrap.com/ -->
+        <link rel="stylesheet" href="css/templatemo-style.css">
+         
+        <!--
+            Product Admin CSS Template
+            https://templatemo.com/tm-524-product-admin
+        -->
+        <link rel="stylesheet" href="css/search_button.css" />
+        <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
+
     </head>
 
     <body id="reportsPage">
@@ -93,16 +94,17 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
-                               <i class="fas fa-user-plus"></i> STAFF
+                                <i class="fas fa-user-plus"></i> STAFF
                             </a>
                         </li>
-                      
+                         <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                                <i class="fas fa-user-plus"></i> VOUCHERS
+                            </a>
+                        </li>
+                        
 
-                        <!--                        <li class="nav-item">
-                                                    <a class="nav-link" href="Billing.jsp">
-                                                        <i class="fas fa-money-bill-wave"></i> 
-                                                    </a>
-                                                </li>-->
+
 
                     </ul>
                     <ul class="navbar-nav">
@@ -128,7 +130,7 @@
                                         <input type="hidden" name="mode" value="search">
                                     </form>
 
-                                     <button type="submit" class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+                                    <button type="submit" class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
                                 </div>
                                 <span class="close" onclick="searchToggle(this, event);"></span>
                             </div>
@@ -161,26 +163,26 @@
                                 <tbody>
 
                                     <% for (int i = 0; i < listBook.size(); i++) {%>
-                                    <tr class="rowBook<%=listBook.get(i).getBook_status() %>">
+                                    <tr class="rowBook<%=listBook.get(i).getBook_status()%>">
 
                                         <td><%=listBook.get(i).getBook_id()%></td>
                                         <td><%=listBook.get(i).getTitle()%></td>
-                                        <td><%=listBook.get(i).getAuthor_id() %> </td>
+                                        <td><%=listBook.get(i).getAuthor_id()%> </td>
 
                                         <td><%=listBook.get(i).getGenre_id()%></td>
-                                        <td><%=listBook.get(i).getQuantity() %> </td>
-                                        <td><%=listBook.get(i).getPrice() %> </td>
-                                        <td><%=listBook.get(i).getYor() %> </td>
-                                        <td><%=listBook.get(i).getBook_status() %> </td>
+                                        <td><%=listBook.get(i).getQuantity()%> </td>
+                                        <td><%=listBook.get(i).getPrice()%> </td>
+                                        <td><%=listBook.get(i).getYor()%> </td>
+                                        <td><%=listBook.get(i).getBook_status()%> </td>
                                         <td><img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 115px;height: 115px;" alt="loading"> </td>
 
                                         <td>
-                                            <a href="ManageBookServlet?mode=disableBook&bookID=<%= listBook.get(i).getBook_id() %>" class="tm-product-delete-link"/>
+                                            <a href="ManageBookServlet?mode=disableBook&bookID=<%= listBook.get(i).getBook_id()%>" class="tm-product-delete-link"/>
                                             <i class="far fa-trash-alt tm-product-delete-icon"></i>
 
                                         </td>
                                         <td>
-                                            <a href="EditBookServlet?mode=viewBook&bookID=<%= listBook.get(i).getBook_id() %>" class="tm-product-delete-link">
+                                            <a href="EditBookServlet?mode=viewBook&bookID=<%= listBook.get(i).getBook_id()%>" class="tm-product-delete-link">
                                                 <i class="fas fa-pen"></i>                                           
                                             </a>
 
@@ -190,10 +192,10 @@
                                     <% }%>                                                                      
                                 </tbody>    
                             </table>
-                           
+
                         </div><!--
                         <!-- table container -->
-                        
+
                         <!--                        <button class="btn btn-primary btn-block text-uppercase">
                                                     Delete selected products
                                                 </button>-->
