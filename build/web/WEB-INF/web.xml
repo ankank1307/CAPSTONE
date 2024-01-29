@@ -176,6 +176,14 @@
         <servlet-name>EditDiscountServlet</servlet-name>
         <servlet-class>servlet.EditDiscountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StaffManageOrderServlet</servlet-name>
+        <servlet-class>servlet.StaffManageOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffManageBookServlet</servlet-name>
+        <servlet-class>servlet.StaffManageBookServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -359,6 +367,14 @@
     <servlet-mapping>
         <servlet-name>EditDiscountServlet</servlet-name>
         <url-pattern>/EditDiscountServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffManageOrderServlet</servlet-name>
+        <url-pattern>/StaffManageOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffManageBookServlet</servlet-name>
+        <url-pattern>/StaffManageBookServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
