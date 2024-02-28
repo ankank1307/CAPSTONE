@@ -78,7 +78,8 @@ public class LoginServlet extends HttpServlet {
             for (int i = 0; i < listStaff.size(); i++) {
                 if (userNameForm.equals(listStaff.get(i).getUsername()) && passwordForm.equals(listStaff.get(i).getPassword())) {
                     target = "StaffManageServlet?mode=StaffViewBook";
-                    session.setAttribute("staffLogin", listStaff.get(i).getStaff_name());
+                    session.setAttribute("staffLogin", listStaff.get(i));
+                    
                     break;
                 } else {
                     target = "staffLogin.jsp";

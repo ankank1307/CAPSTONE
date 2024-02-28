@@ -184,7 +184,7 @@ public class OrderDAO {
         return listOrder;
     }
 
-    public int saveOrders(Order order) {
+    public int saveOrdersCustomer(Order order) {
         int newID = 0;
         try {
             String sqlstm = "INSERT INTO orders(customer_id, order_date, total , shipping_status, order_status, review_status) VALUE(?,?,?,?,?,?)";
@@ -197,6 +197,40 @@ public class OrderDAO {
             pst.setInt(3, order.getTotal());
             pst.setString(4, order.getShipping_status());
             pst.setInt(5, order.getOrder_status());
+            pst.setString(6, order.getReview_status());
+
+            pst.executeUpdate();
+
+            ResultSet res = pst.getGeneratedKeys();
+
+            while (res.next()) {
+                newID = res.getInt(1);
+                System.out.println("Generated key: ----------" + newID);
+            }
+
+            pst.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+
+        }
+        return newID;
+    }
+    public int saveOrdersStaff(Order order) {
+        int newID = 0;
+        try {
+            String sqlstm = "INSERT INTO orders(order_date, total , shipping_status, order_status, staff_id,review_status) VALUE(?,?,?,?,?,?)";
+
+            Connection con = DBContext.getConnection();
+            PreparedStatement pst = con.prepareStatement(sqlstm, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            
+            pst.setString(1, order.getOrder_date());
+            pst.setInt(2, order.getTotal());
+            pst.setString(3, order.getShipping_status());
+            pst.setInt(4, order.getOrder_status());
+            pst.setInt(5, order.getStaff_id());
             pst.setString(6, order.getReview_status());
 
             pst.executeUpdate();

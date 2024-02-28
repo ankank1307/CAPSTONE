@@ -18,7 +18,8 @@ public class Cart implements Serializable{
     private String picture;
     private int customer_id;
 
-    public Cart() {
+    public Cart(int id) {
+        this.book_id = id;
     }
 
     public Cart(int bookID, String title, int price, int quantity) {
@@ -36,6 +37,13 @@ public class Cart implements Serializable{
         this.picture = picture;
         this.customer_id = customer_id;
     }
+
+    public Cart(int book_id, int quantity, int customer_id) {
+        this.book_id = book_id;
+        this.quantity = quantity;
+        this.customer_id = customer_id;
+    }
+    
     
 
     public int getBookID() {
