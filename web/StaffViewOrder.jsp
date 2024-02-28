@@ -103,8 +103,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-user"></i> PROFILE
+                            <a class="nav-link" href="StaffManageServlet?mode= StaffViewProfile">
+                                <i class="fas fa-user-plus"></i> PROFILE
                             </a>
                         </li>
 

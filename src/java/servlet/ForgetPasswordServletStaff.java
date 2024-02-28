@@ -5,29 +5,29 @@
  */
 package servlet;
 
-import dao.BookDAO;
-import dao.CustomerDAO;
-import dao.OrderDAO;
-import dao.StaffDAO;
-import entity.Book;
-import entity.Customer;
-import entity.Order;
-import entity.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author phuon
  */
-public class StaffManageServlet extends HttpServlet {
+public class ForgetPasswordServletStaff extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,42 +43,7 @@ public class StaffManageServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String mode = request.getParameter("mode");
-            BookDAO bookDAO = new BookDAO();
-            String target = "";
-            if(mode.equals("StaffViewBook")){
-                ArrayList<Book>listBook = new ArrayList<>();
-                listBook= bookDAO.getListBook();
-                
-                target = "StaffViewBook.jsp";
-                request.setAttribute("listBook", listBook);
-            }
-            if(mode.equals("StaffViewOrder")){
-                OrderDAO myOrderDAO = new OrderDAO();
-                ArrayList<Order> listOrder = new ArrayList<>();
-                listOrder = myOrderDAO.getListOrder();
-                
-                target = "StaffViewOrder.jsp";
-                request.setAttribute("listOrder", listOrder);
-            }
-            if (mode.equals("StaffViewCustomer")) {
-                List<Customer> listCustomer = new ArrayList<>();
-                CustomerDAO myCustomerDAO = new CustomerDAO();
-                listCustomer = myCustomerDAO.getListCustomer();
-
-                target = "StaffViewCustomer.jsp";
-                request.setAttribute("listCustomer", listCustomer);
-            }
-            if (mode.equals("StaffUpdatePassword")) {
-                
-
-                target = "StaffViewCustomer.jsp";
-//                request.setAttribute("listCustomer", listCustomer);
-            }
-            
-            RequestDispatcher rd = request.getRequestDispatcher(target);
-            rd.forward(request, response);
-            
+    
         }
     }
 
@@ -108,7 +73,58 @@ public class StaffManageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("email");
+		RequestDispatcher dispatcher = null;
+		int otpvalue = 0;
+		HttpSession mySession = request.getSession();
+		
+		if(email!=null || !email.equals("")) {
+			// sending otp
+			Random rand = new Random();
+			otpvalue = rand.nextInt(1255650);
+
+			String to = email;// change accordingly
+			// Get the session object
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.socketFactory.port", "465");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "465");
+                        props.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("phuonganhnguyenthi728@gmail.com", "czyhzymybtalaaau");// Put your email
+																									// id and
+																									// password here
+				}
+			});
+			// compose message
+			try {
+				MimeMessage message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(email));// change accordingly
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+				message.setSubject("Confirm your account");
+				message.setText("Your validate code is: " + otpvalue);
+				// send message
+				Transport.send(message);
+				System.out.println("message sent successfully");
+			}
+
+			catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+			dispatcher = request.getRequestDispatcher("EnterValidateCodeStaff.jsp");
+			request.setAttribute("message","OTP is sent to your email id");
+			//request.setAttribute("connection", con);
+			mySession.setAttribute("otp",otpvalue); 
+			mySession.setAttribute("email",email); 
+			dispatcher.forward(request, response);
+			//request.setAttribute("status", "success");
+		}
+		
+                
+     
     }
 
     /**

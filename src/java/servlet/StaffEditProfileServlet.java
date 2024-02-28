@@ -1,22 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package servlet;
 
-import dao.BookDAO;
-import dao.CustomerDAO;
-import dao.OrderDAO;
 import dao.StaffDAO;
-import entity.Book;
-import entity.Customer;
-import entity.Order;
 import entity.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author phuon
+ * @author Tuyen Do
  */
-public class StaffManageServlet extends HttpServlet {
+public class StaffEditProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,44 +32,42 @@ public class StaffManageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String mode = request.getParameter("mode");
-            BookDAO bookDAO = new BookDAO();
-            String target = "";
-            if(mode.equals("StaffViewBook")){
-                ArrayList<Book>listBook = new ArrayList<>();
-                listBook= bookDAO.getListBook();
-                
-                target = "StaffViewBook.jsp";
-                request.setAttribute("listBook", listBook);
-            }
-            if(mode.equals("StaffViewOrder")){
-                OrderDAO myOrderDAO = new OrderDAO();
-                ArrayList<Order> listOrder = new ArrayList<>();
-                listOrder = myOrderDAO.getListOrder();
-                
-                target = "StaffViewOrder.jsp";
-                request.setAttribute("listOrder", listOrder);
-            }
-            if (mode.equals("StaffViewCustomer")) {
-                List<Customer> listCustomer = new ArrayList<>();
-                CustomerDAO myCustomerDAO = new CustomerDAO();
-                listCustomer = myCustomerDAO.getListCustomer();
-
-                target = "StaffViewCustomer.jsp";
-                request.setAttribute("listCustomer", listCustomer);
-            }
-            if (mode.equals("StaffUpdatePassword")) {
-                
-
-                target = "StaffViewCustomer.jsp";
-//                request.setAttribute("listCustomer", listCustomer);
-            }
             
+            StaffDAO myStaffDAO = new StaffDAO();
+            String mode = request.getParameter("mode");
+            String target = "home.jsp";
+
+            if (mode.equals("viewStaff")) {
+                int id = Integer.parseInt(request.getParameter("staffID"));
+//                String name = request.getParameter("name");
+//                int status = Integer.parseInt(request.getParameter("status"));
+                Staff tempStaff = myStaffDAO.getStaffByID(id);
+                request.setAttribute("tempStaff", tempStaff);
+                target = "StaffEditProfile.jsp";
+            }
+
+            if (mode.equals("editStaff")) {
+                int ID, status;
+                String staffName, staffUserName, staffEmail, staffPassword;
+
+                ID = Integer.parseInt(request.getParameter("staffID"));
+                Staff thisStaff = myStaffDAO.getStaffByID(ID);
+                staffName = request.getParameter("staffName");
+                staffUserName = request.getParameter("staffUserName");
+                staffPassword = thisStaff.getPassword();
+                staffEmail = request.getParameter("staffEmail");
+                status = Integer.parseInt(request.getParameter("status"));
+
+                Staff newStaff = new Staff(ID, staffName, staffUserName, staffPassword,staffEmail, status );
+                myStaffDAO.updateStaff(newStaff);
+
+                target = "StaffManageBookServlet?mode=viewBook";
+            }
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
-            
+
         }
     }
 

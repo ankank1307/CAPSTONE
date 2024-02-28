@@ -76,10 +76,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="EditStaffServlet?mode=viewStaff>
-                                <i class="fas fa-user"></i> PROFILE
+                            <a class="nav-link" href="StaffProfile.jsp">
+                                <i class="fas fa-user-plus"></i> PROFILE
                             </a>
                         </li>
+
 
                         <!--                        <li class="nav-item">
                                                     <a class="nav-link" href="Billing.jsp">

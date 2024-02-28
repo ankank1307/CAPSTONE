@@ -27,7 +27,7 @@
                 <br>
                 <div class="field-set">
                      
-                    <form action = "ForgetPasswordServlet" method="post">
+                    <form action = "ForgetPasswordServletStaff" method="post">
                         
                      
                         <span class="input-item">
