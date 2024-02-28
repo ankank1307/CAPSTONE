@@ -1,3 +1,4 @@
+<%@page import="dao.CartDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="dao.CustomerDAO"%>
@@ -39,11 +40,6 @@
 
     </head>
     <%
-        int cartCount = 0;
-        ArrayList<Cart> listCart = (ArrayList<Cart>) session.getAttribute("listCart");
-        if (listCart != null) {
-            cartCount = listCart.size();
-        }
 
         AuthorDAO myAuthorDAO = new AuthorDAO();
         ArrayList<Author> list = myAuthorDAO.getListAuthor();
@@ -63,7 +59,7 @@
         }
         BookDAO myBookDAO = new BookDAO();
     %>
-    
+
     <body>
         <% ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("newList"); %>
         <% System.out.print("hehehehhehe" + listBook.size()); %>
@@ -91,7 +87,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="right-element">
-                                <% Customer customer;
+                                <%
+                                    Customer customer = null;
+                                    int cartCount = 0;
                                     String txtAccount = "Login";
                                     String link = "UserLogin.jsp";
                                     String ss = (String) session.getAttribute("UserLogin");
@@ -101,7 +99,16 @@
                                         txtAccount = ss;
                                         link = "ManageUserLoginServlet?mode=viewProfile&customerID=";
                                         link += customer.getCustomer_id();
-                                    }%>
+                                        CartDAO myCartDao = new CartDAO();
+
+                                        ArrayList<Cart> listCart = myCartDao.getListCartByCustomerID(customer.getCustomer_id());
+                                        if (listCart != null) {
+                                            cartCount = listCart.size();
+                                        }
+                                    }
+
+
+                                %>
                                 <a href=<%=link%> class="user-account for-buy" ><i class="icon icon-user"></i><span> <%=txtAccount%></span></a>
 
                                 <a href="CartServlet?mode=viewCart" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart(<%=cartCount%>)</span></a>
@@ -200,13 +207,13 @@
                         <div class="main-slider pattern-overlay" style="padding: 0px;">
                             <div class="slider-item">
                                 <div class="banner-content">
-                                    <h2 class="banner-title"><%=listBook.get(20).getTitle()%></h2>
-                                    <p><%=listBook.get(20).getDescription()%></p>
+                                    <h2 class="banner-title"><%=listBook.get(listBook.size() - 1).getTitle()%></h2>
+                                    <p><%=listBook.get(listBook.size() - 1).getDescription()%></p>
                                     <div class="btn-wrap">
-                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(20).getBook_id()%>" class="btn btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
+                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(listBook.size() - 1).getBook_id()%>" class="btn btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
                                     </div>
                                 </div><!--banner-content--> 
-                                <img src="bookImages/<%=listBook.get(20).getBook_id()%>.jpg" alt="banner" class="banner-image">
+                                <img src="bookImages/<%=listBook.get(listBook.size() - 1).getBook_id()%>.jpg" alt="banner" class="banner-image">
                             </div><!--slider-item-->
 
                             <div class="slider-item">
