@@ -242,14 +242,12 @@
                 }
             </script>
             <script>
-                // Function to hide the success message after 5 seconds
                 function hideSuccessMessage() {
                     setTimeout(function () {
                         document.getElementById('successMessage').style.display = 'none';
                     }, 3000); // 5000 milliseconds = 5 seconds
                 }
 
-                // Call the function to hide the success message
                 hideSuccessMessage();
             </script>
 
