@@ -72,7 +72,7 @@
                                             Login
                                         </button>
                                     </div>
-                                    <a href="ForgetPassword.jsp"> Forget Password? </a>
+                                    <a href="ForgetPasswordStaff.jsp"> Forget Password? </a>
                                 </form>
                             </div>
                         </div>

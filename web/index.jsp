@@ -364,7 +364,7 @@
                                         <div class="author-name"><%=listBook.get(15).getAuthor_name()%></div>
                                         <h3 class="item-title"><%=listBook.get(15).getTitle()%></h3>
                                         <p><%=listBook.get(15).getDescription()%></p>
-                                        <div class="item-price"><%=listBook.get(15).getPrice()%> VND</div>
+                                        <div class="item-price"><%= listBook.get(15).getPrice() %> VND</div>
                                         <div class="btn-wrap">
                                             <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(15).getBook_id()%>" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
                                         </div>

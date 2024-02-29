@@ -92,18 +92,16 @@
                                 <i class="fas fa-user"></i> CUSTOMER
                             </a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
                                <i class="fas fa-user-plus"></i> STAFF
                             </a>
                         </li>
-
-                        <!--                        <li class="nav-item">
-                                                    <a class="nav-link" href="Billing.jsp">
-                                                        <i class="fas fa-money-bill-wave"></i> 
-                                                    </a>
-                                                </li>-->
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageStaffServlet?mode=viewDiscount">
+                               <i class="fas fa-user-plus"></i> DISCOUNT
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">

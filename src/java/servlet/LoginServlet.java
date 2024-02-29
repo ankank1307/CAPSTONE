@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import manager.EncryptPassword;
 
 /**
  *
@@ -48,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 
         String mode = request.getParameter("mode");
         String target = "home.jsp";
+        StaffDAO myStaffDAO = new StaffDAO();
         if (mode.equals("loginAdmin")) {
             ArrayList<Admin> list = new ArrayList<>();
             AdminDAO adminDao = new AdminDAO();
@@ -78,7 +80,7 @@ public class LoginServlet extends HttpServlet {
             for (int i = 0; i < listStaff.size(); i++) {
                 if (userNameForm.equals(listStaff.get(i).getUsername()) && passwordForm.equals(listStaff.get(i).getPassword())) {
                     target = "StaffManageServlet?mode=StaffViewBook";
-                    session.setAttribute("staffLogin", listStaff.get(i).getStaff_name());
+                    session.setAttribute("staffLogin", listStaff.get(i));
                     break;
                 } else {
                     target = "staffLogin.jsp";
@@ -87,6 +89,44 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         }
+        
+        if (mode.equals("enterOTP")) {
+                int valueOTP = Integer.parseInt(request.getParameter("otpCode"));
+                String email = (String) session.getAttribute("email");
+                Staff staff = myStaffDAO.getStaffByEmail(email);
+                request.setAttribute("staff", staff);
+                int value = (int) session.getAttribute("otp");
+
+                if (valueOTP == value) {
+                    target = "ChangePasswordStaff.jsp";
+                    request.setAttribute("email", email);
+                } else {
+                    target = "EnterValidateCodeStaff.jsp";
+                    String mess = "Enter the wrong code";
+                    request.setAttribute("mess", mess);
+                }
+
+            }
+        
+        if (mode.equals("changePasswordStaff")) {
+                int staffID = Integer.parseInt(request.getParameter("staffID"));
+                Staff staff = myStaffDAO.getStaffByID(staffID);
+                String newPass = request.getParameter("newPass");
+                String cfPass = request.getParameter("cfPass");
+                if (newPass.equals(cfPass)) {
+                    myStaffDAO.updatePassword(staff, cfPass);
+                    String mess = "Password Updated";
+                    request.setAttribute("mess", mess);
+                    System.out.println(mess);
+                    target = "staffLogin.jsp";
+                } else {
+                    String mess = "Password does not match!";
+                    request.setAttribute("mess", mess);
+                    System.out.println(mess);
+                    target = "ResetPassword.jsp";
+
+                }
+            }
 
         RequestDispatcher rd = request.getRequestDispatcher(target);
         rd.forward(request, response);     

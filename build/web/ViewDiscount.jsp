@@ -4,6 +4,8 @@
     Author     : phuon
 --%>
 
+<%@page import="entity.Discount"%>
+<%@page import="servlet.Json.VoucherOfCustomerJson"%>
 <%@page import="entity.Staff"%>
 <%@page import="entity.Customer"%>
 <%@page import="java.util.ArrayList"%>
@@ -88,7 +90,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="ManageStaffServlet?mode=viewStaff">
+                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
                                 <i class="fas fa-user-plus"></i> STAFF
                             </a>
                         </li>
@@ -127,19 +129,21 @@
                                 <span class="close" onclick="searchToggle(this, event);"></span>
                             </div>
                         </form>
-                        <a href="AddStaff.jsp" style="margin-top: 30px" class="btn btn-primary btn-block text-uppercase mb-3">Add new Staff</a>
+                        <a href="AddDiscount.jsp" style="margin-top: 30px" class="btn btn-primary btn-block text-uppercase mb-3">Add new discount</a>
 
                         <div class="tm-product-table-container" style="margin-top: 25px">
                             <%
-                                ArrayList<Staff> listStaff = (ArrayList<Staff>) request.getAttribute("listStaff");
+                                ArrayList<Discount> listDiscount = (ArrayList<Discount>) request.getAttribute("listDiscount");
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID </th>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Percent</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">End-date</th>
+                                        <th scope="col">Description</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">&nbsp;</th>
                                         <th scope="col">&nbsp;</th>
@@ -147,21 +151,29 @@
                                 </thead>
                                 <tbody>
 
-                                    <% for (int i = 0; i < listStaff.size(); i++) {%>
-                                    <tr class="rowCustomer<%=listStaff.get(i).getStaff_status()%>">
-
-                                        <td><%=listStaff.get(i).getStaff_id()%></td>
-                                        <td><%=listStaff.get(i).getUsername()%></td>
-                                        <td><%=listStaff.get(i).getStaff_name()%></td>
-                                        <td><%=listStaff.get(i).getEmail()%></td>
-                                        <td><%=listStaff.get(i).getStaff_status()%></td>
-<!--                                        <td><img src="dishImages/<%%>" style="max-width: 100%;width: 115px;height: 115px;" alt="loading" loading="lazy"> </td>-->
+                                    <% for (int i = 0; i < listDiscount.size(); i++) {%>
+                                    <tr class="rowCustomer<%=listDiscount.get(i).getStatus()%>">
+                                        <td><%=listDiscount.get(i).getVoucher_id()%></td>
+                                        <td><%=listDiscount.get(i).getCode()%></td>
+                                        <td><%=listDiscount.get(i).getPercent() %>%</td>
+                                        <td><%=listDiscount.get(i).getQuantity() %></td>
+                                        <td><%=listDiscount.get(i).getEndDate() %></td>
+                                        <td><%=listDiscount.get(i).getDescription() %></td>
+                                        <% 
+                                            String status = "";
+                                            if (listDiscount.get(i).getStatus()==1){
+                                                status = "Available";
+                                            }else{
+                                                status = "Out of date";
+                                            }
+                                        %>
+                                        <td><%=status %></td>
                                         <td>
-                                            <a href="ManageStaffServlet?mode=disableStaff&staffID=<%=listStaff.get(i).getStaff_id()%>" class="tm-product-delete-link"/>
+                                            <a href="ManageStaffServlet?mode=disableStaff&staffID=<%=listDiscount.get(i).getVoucher_id()%>" class="tm-product-delete-link"/>
                                             <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                         </td>
                                         <td>
-                                            <a href="EditStaffServlet?mode=viewStaff&staffID=<%=listStaff.get(i).getStaff_id()%>" class="tm-product-delete-link">
+                                            <a href="EditDiscountServlet?mode=viewDiscount&discountID=<%=listDiscount.get(i).getVoucher_id()%>" class="tm-product-delete-link">
                                                 <i class="fas fa-pen"></i>                                           
                                             </a>
 

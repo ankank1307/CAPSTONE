@@ -49,6 +49,7 @@ public class ManageDiscountServlet extends HttpServlet {
 //                myDiscountDAO.disableDiscount(code);
                 target = "ManageDiscountServlet?mode=viewDiscount";
             }
+             
             
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);

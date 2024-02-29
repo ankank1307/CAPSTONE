@@ -1,8 +1,4 @@
-<%-- 
-    Document   : UserLogin
-    Created on : Nov 9, 2022, 2:32:02 AM
-    Author     : phuon
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
