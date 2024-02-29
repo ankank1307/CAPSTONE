@@ -1,4 +1,5 @@
 
+<%@page import="entity.Staff"%>
 <%@page import="entity.Order"%>
 <%@page import="entity.Book"%>
 <%@page import="java.util.ArrayList"%>
@@ -65,7 +66,8 @@
         listStatus.add("Rejected");
     %>
 
-    <body id="reportsPage">
+    <body id="reportsPage
+          <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
@@ -103,7 +105,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="StaffManageServlet?mode= StaffViewProfile">
+                             <a class="nav-link" href="StaffProfile.jsp">
                                 <i class="fas fa-user-plus"></i> PROFILE
                             </a>
                         </li>
@@ -112,7 +114,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                <%=session.getAttribute("staffLogin")%>, <b>Logout</b>
+                                <%=staff.getStaff_name()%>, <b>Logout</b>
                             </a>
                         </li>
                     </ul>

@@ -1,4 +1,5 @@
 
+<%@page import="entity.Staff"%>
 <%@page import="entity.Book"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entity.Book"%>
@@ -36,6 +37,7 @@
     </head>
 
     <body id="reportsPage">
+        <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
@@ -92,7 +94,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                <%=session.getAttribute("staffLogin")%>, <b>Logout</b>
+                                <%=staff.getStaff_name()%>, <b>Logout</b>
                             </a>
                         </li>
                     </ul>
