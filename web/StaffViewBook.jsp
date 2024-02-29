@@ -1,5 +1,6 @@
 
 <%@page import="entity.Staff"%>
+<%@page import="entity.Cart"%>
 <%@page import="entity.Book"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entity.Book"%>
@@ -37,7 +38,6 @@
     </head>
 
     <body id="reportsPage">
-        <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
@@ -78,11 +78,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="StaffProfile.jsp">
-                                <i class="fas fa-user-plus"></i> PROFILE
+                            <a class="nav-link" href="">
+                                <i class="fas fa-user"></i> PROFILE
                             </a>
                         </li>
-
 
                         <!--                        <li class="nav-item">
                                                     <a class="nav-link" href="Billing.jsp">
@@ -94,7 +93,9 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                <%=staff.getStaff_name()%>, <b>Logout</b>
+                                <% Staff staff = (Staff)session.getAttribute("staffLogin");
+                                String name = staff.getStaff_name(); %>
+                                <%=name %>, <b>Logout</b>
                             </a>
                         </li>
                     </ul>
@@ -103,7 +104,7 @@
         </nav>
         <div class="container mt-5">
             <div class="row tm-content-row">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
                     <div class="tm-bg-primary-dark tm-block tm-block-products">
                         <form>
                             <div class="search-wrapper">
@@ -124,7 +125,17 @@
 
                             <%
                                 ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("listBook");
+                                Integer billCountObj = (Integer) request.getAttribute("billCount");
+                                int billCount = (billCountObj != null) ? billCountObj.intValue() : 0;
+                                ArrayList<Cart> listBill = null;
+                                if (billCount != 0) {
+                                    listBill = (ArrayList<Cart>) session.getAttribute("listBill");
+                                }
+
+                                System.out.println("listBillofStaff" + billCount);
+
                             %>
+
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>
 
@@ -132,13 +143,9 @@
 
                                         <th scope="col">ID </th>
                                         <th scope="col">Title</th>
-                                        <th scope="col">Author ID</th>
-                                        <th scope="col">Genre ID</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Price</th> 
-                                        <th scope="col">Year of Release</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Image</th>
+
                                         <th scope="col">&nbsp;</th>
                                         <th scope="col">&nbsp;</th>
 
@@ -151,25 +158,20 @@
 
                                         <td><%=listBook.get(i).getBook_id()%></td>
                                         <td><%=listBook.get(i).getTitle()%></td>
-                                        <td><%=listBook.get(i).getAuthor_id()%> </td>
 
-                                        <td><%=listBook.get(i).getGenre_id()%></td>
                                         <td><%=listBook.get(i).getQuantity()%> </td>
                                         <td><%=listBook.get(i).getPrice()%> </td>
-                                        <td><%=listBook.get(i).getYor()%> </td>
-                                        <td><%=listBook.get(i).getBook_status()%> </td>
-                                        <td><img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 115px;height: 115px;" alt="loading"> </td>
-
                                         <td>
-                                            <a href="AddToBill.jsp " class="tm-product-delete-link"/>
+                                            <a href="StaffManageOrderServlet?mode=StaffAddToBill&bookID=<%=listBook.get(i).getBook_id()%>" class="tm-product-delete-link"/>
                                             <i class="fas fa-cart-plus"></i>
-
                                         </td>
                                         <td>
-                                            <a href="StaffManageBookServlet?mode=viewBook&bookID=<%=listBook.get(i).getBook_id()%>" class="tm-product-delete-link">
+                                            <a href="" class="tm-product-delete-link">
                                                 <i class="fas fa-pen"></i>                                           
                                             </a>
+
                                         </td>
+
                                     </tr>  
                                     <% }%>                                                                      
                                 </tbody>
@@ -182,18 +184,58 @@
                                                 </button>-->
                     </div>
                 </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+                        <h2 class="tm-block-title">BILL</h2>
+                        <div class="tm-product-table-container">
+                            <table class="table table-hover tm-table-small tm-product-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID </th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th> 
+                                        <th scope="col">SubTotal</th>
+                                        <th scope="col">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% int total = 0; %>
+                                    <% for (int i = 0; i < listBill.size(); i++) {
+                                            int subTotal = listBill.get(i).getQuantity() * listBill.get(i).getPrice();
+                                            total += subTotal;
+                                    %>
+                                    <tr class="rowBook<%=listBook.get(i).getBook_status()%>">
+                                        <td><%=listBill.get(i).getBookID()%></td>
+                                        <td><%=listBill.get(i).getTitle()%></td>
+                                        <td> <a href="StaffManageOrderServlet?mode=downQuantity&itemID=<%=listBill.get(i).getBookID()%>">- </a><%=listBill.get(i).getQuantity()%> <a href="StaffManageOrderServlet?mode=upQuantity&itemID=<%=listBill.get(i).getBookID()%>">+</a> </td>
+                                        <td><%=listBill.get(i).getPrice()%> </td>
+                                        <td>
+                                            <%=subTotal%>
+                                        </td>
+                                        <td>
+                                            <a href="StaffManageOrderServlet?mode=DeleteItem&itemID=<%=listBill.get(i).getBookID()%>" class="tm-product-delete-link">
+                                                <i class="fas fa-trash-alt"></i>                                           
+                                            </a>
+                                        </td>
+                                    </tr>  
+                                    <% }%>                                                                      
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="StaffManageOrderServlet?mode=makeOrder&total=<%=total%>"> <button class="btn btn-primary btn-block text-uppercase mb-3">
+                                Cash payment
+                            </button> </a>
+                         <a href="StaffManageOrderServlet?mode=makeOrder&total=<%=total%>"> <button class="btn btn-primary btn-block text-uppercase mb-3">
+                               Online payment
+                            </button> </a>
+                        
+                    </div>
+                </div>           
             </div>
         </div>
 
-        <!--            <footer class="tm-footer row tm-mt-small">
-                        <div class="col-12 font-weight-light">
-                            <p class="text-center text-white mb-0 px-4 small">
-                                Copyright &copy; <b>2018</b> All rights reserved. 
-        
-                                Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
-                            </p>
-                        </div>
-                    </footer>-->
+
 
         <script src="js/jquery-3.3.1.min.js"></script>
         <!-- https://jquery.com/download/ -->
@@ -221,5 +263,6 @@
                                         }
                                     }
         </script>
+
     </body>
 </html>

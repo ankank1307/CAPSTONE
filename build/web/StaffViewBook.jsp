@@ -1,5 +1,4 @@
 
-<%@page import="entity.Staff"%>
 <%@page import="entity.Book"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entity.Book"%>
@@ -37,7 +36,6 @@
     </head>
 
     <body id="reportsPage">
-        <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
@@ -57,7 +55,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
-
+                        
 
                         <li class="nav-item">
                             <a class="nav-link active" href="StaffManageServlet?mode=StaffViewBook">
@@ -66,7 +64,7 @@
                         </li>
 
 
-
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="StaffManageServlet?mode=StaffViewOrder">
                                 <i class="far fa-file-alt"></i> ORDER
@@ -78,11 +76,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="StaffProfile.jsp">
-                                <i class="fas fa-user-plus"></i> PROFILE
+                            <a class="nav-link" href="">
+                                <i class="fas fa-user"></i> PROFILE
                             </a>
                         </li>
-
 
                         <!--                        <li class="nav-item">
                                                     <a class="nav-link" href="Billing.jsp">
@@ -94,7 +91,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                <%=staff.getStaff_name()%>, <b>Logout</b>
+                                <%=session.getAttribute("staffLogin") %>, <b>Logout</b>
                             </a>
                         </li>
                     </ul>
@@ -114,11 +111,11 @@
                                         <input type="hidden" name="mode" value="search">
                                     </form>
 
-                                    <button type="submit" class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+                                     <button type="submit" class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
                                 </div>
                                 <span class="close" onclick="searchToggle(this, event);"></span>
                             </div>
-
+         
                         </form>
                         <div class="tm-product-table-container " style="margin-top: 25px">
 
@@ -147,36 +144,38 @@
                                 <tbody>
 
                                     <% for (int i = 0; i < listBook.size(); i++) {%>
-                                    <tr class="rowBook<%=listBook.get(i).getBook_status()%>">
+                                    <tr class="rowBook<%=listBook.get(i).getBook_status() %>">
 
                                         <td><%=listBook.get(i).getBook_id()%></td>
                                         <td><%=listBook.get(i).getTitle()%></td>
-                                        <td><%=listBook.get(i).getAuthor_id()%> </td>
+                                        <td><%=listBook.get(i).getAuthor_id() %> </td>
 
                                         <td><%=listBook.get(i).getGenre_id()%></td>
-                                        <td><%=listBook.get(i).getQuantity()%> </td>
-                                        <td><%=listBook.get(i).getPrice()%> </td>
-                                        <td><%=listBook.get(i).getYor()%> </td>
-                                        <td><%=listBook.get(i).getBook_status()%> </td>
+                                        <td><%=listBook.get(i).getQuantity() %> </td>
+                                        <td><%=listBook.get(i).getPrice() %> </td>
+                                        <td><%=listBook.get(i).getYor() %> </td>
+                                        <td><%=listBook.get(i).getBook_status() %> </td>
                                         <td><img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 115px;height: 115px;" alt="loading"> </td>
 
                                         <td>
                                             <a href="AddToBill.jsp " class="tm-product-delete-link"/>
-                                            <i class="fas fa-cart-plus"></i>
+                                          <i class="fas fa-cart-plus"></i>
 
                                         </td>
                                         <td>
-                                            <a href="StaffManageBookServlet?mode=viewBook&bookID=<%=listBook.get(i).getBook_id()%>" class="tm-product-delete-link">
+                                            <a href="" class="tm-product-delete-link">
                                                 <i class="fas fa-pen"></i>                                           
                                             </a>
+
                                         </td>
+
                                     </tr>  
                                     <% }%>                                                                      
                                 </tbody>
                             </table>
                         </div><!--
                         <!-- table container -->
-
+                        
                         <!--                        <button class="btn btn-primary btn-block text-uppercase">
                                                     Delete selected products
                                                 </button>-->
@@ -221,5 +220,6 @@
                                         }
                                     }
         </script>
+
     </body>
 </html>
