@@ -4,7 +4,6 @@
     Author     : BLC
 --%>
 
-<%@page import="dao.CartDAO"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
@@ -49,7 +48,7 @@
         <script src="js/modernizr.js"></script>
 
     </head>
-    
+    <% ArrayList<Cart> listCart = (ArrayList<Cart>) session.getAttribute("listCart"); %>
     <% Date currentDate = new Date();%>
     <%
         AuthorDAO myAuthorDAO = new AuthorDAO();
@@ -113,29 +112,19 @@
 
                         <div class="col-md-6">
                             <div class="right-element">
-                                <% 
-                                    Customer customer;
-                                    int cartCount = 0;
+                                <% Customer customer;
                                     String txtAccount = "Login";
                                     String link = "UserLogin.jsp";
                                     String ss = (String) session.getAttribute("UserLogin");
-                                    ArrayList<Cart> listCart = new ArrayList<>();
                                     if (ss != null) {
                                         customer = (Customer) session.getAttribute("tempCustomer");
                                         txtAccount = ss;
                                         link = "ManageUserLoginServlet?mode=viewProfile&customerID=";
                                         link += customer.getCustomer_id();
-                                        CartDAO myCartDao = new CartDAO();
-
-                                        listCart = myCartDao.getListCartByCustomerID(customer.getCustomer_id());
-                                        System.out.println(listCart.size());
-                                        if (listCart != null) {
-                                            cartCount = listCart.size();
-                                        }
                                     }%>
                                 <a href=<%=link%> class="user-account for-buy" ><i class="icon icon-user"></i><span> <%=txtAccount%></span></a>
 
-                                <a href="CartServlet?mode=viewCart" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart(<%=cartCount %>)</span></a>
+                                <a href="CartServlet?mode=viewCart" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart(<%=listCart.size()%>)</span></a>
 
 
                                 <div class="action-menu">

@@ -191,14 +191,14 @@ public class CustomerDAO {
             String query = "UPDATE customer SET username = ?, password = ?, name = ?, phone_number= ?, address = ?, email = ?,total_spent = ?, customer_status=? WHERE customer_id = ?";
             PreparedStatement pst = con.prepareStatement(query);
 
-            pst.setInt(9, customer.getCustomer_id());
+            pst.setInt(8, customer.getCustomer_id());
             pst.setString(1, customer.getUsername());
             pst.setString(2, customer.getPassword());
             pst.setString(3, customer.getName());
             pst.setString(4, customer.getPhone_number());
             pst.setString(5, customer.getAddress());
             pst.setString(6, customer.getEmail());
-            pst.setInt(7, customer.getTotal_spent());
+            pst.setInt(7, customer.getCustomer_status());
             pst.setInt(8, customer.getCustomer_status());
 
             pst.executeUpdate();

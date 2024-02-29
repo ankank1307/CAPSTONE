@@ -10,13 +10,11 @@ import entity.Book;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import javax.mail.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,7 +37,6 @@ public class UserActivityServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             BookDAO myBookDAO = new BookDAO();
-            HttpSession mySession = request.getSession();
           String mode = request.getParameter("mode");
           String target = "home.jsp";
             if(mode.equals("userViewBook")){
@@ -51,7 +48,6 @@ public class UserActivityServlet extends HttpServlet {
                        newList.add(listBook.get(i));
                    }
                }
-               
                request.setAttribute("newList", newList);
                target = "index.jsp";
            }

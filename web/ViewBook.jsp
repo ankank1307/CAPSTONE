@@ -33,53 +33,14 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <!-- https://getbootstrap.com/ -->
         <link rel="stylesheet" href="css/templatemo-style.css">
-
+         
         <!--
             Product Admin CSS Template
             https://templatemo.com/tm-524-product-admin
         -->
         <link rel="stylesheet" href="css/search_button.css" />
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
-        <style>
-            .dropbtn {
-                background-color: #04AA6D;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-            }
 
-            .dropdown {
-                position: relative;
-                display: inline-block;
-            }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #567086;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-            }
-
-            .dropdown-content a {
-                color: white;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-
-            
-
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-
-            .dropdown:hover .dropbtn {
-                background-color: #3e8e41;
-            }
-        </style>
     </head>
 
     <body id="reportsPage">
@@ -121,39 +82,30 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <div class="dropdown ">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-file-alt"></i> 
-                                <span>
-                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
-                                </span>
-                            </a>
-
-                            <div class="dropdown-content">
-                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">WEEKLY REPORT</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">DAILY REPORT</a>
-
-                            </div>
-                        </div>
-                        <div class="dropdown">
-                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
-                                <i class="fas fa-user"></i> 
-                                <span>
-                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
-                                </span>
-                            </a>
-
-                            <div class="dropdown-content">
-                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
-                            </div>
-                        </div>
                         <li class="nav-item">
-                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
-                               <i class="fas fa-money-check"></i> VOUCHERS
+                            <a class="nav-link" href="ManageOrderServlet?mode=viewOrder">
+                                <i class="far fa-file-alt"></i> ORDER
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageCustomerServlet?mode=viewCustomer">
+                                <i class="fas fa-user"></i> CUSTOMER
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
+                                <i class="fas fa-user-plus"></i> STAFF
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                                <i class="fas fa-user-plus"></i> VOUCHERS
+                            </a>
+                        </li>
+                        
+
+
+
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -221,21 +173,13 @@
                                         <td><%=listBook.get(i).getQuantity()%> </td>
                                         <td><%=listBook.get(i).getPrice()%> </td>
                                         <td><%=listBook.get(i).getYor()%> </td>
-                                        <%
-                                            String status = "";
-                                            if (listBook.get(i).getBook_status() == 0) {
-                                                status = "Out of stock";
-                                            } else {
-                                                status = "Available";
-                                            }
-
-                                        %>
-                                        <td><%=status%> </td>
+                                        <td><%=listBook.get(i).getBook_status()%> </td>
                                         <td><img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 115px;height: 115px;" alt="loading"> </td>
 
                                         <td>
                                             <a href="ManageBookServlet?mode=disableBook&bookID=<%= listBook.get(i).getBook_id()%>" class="tm-product-delete-link"/>
                                             <i class="far fa-trash-alt tm-product-delete-icon"></i>
+
                                         </td>
                                         <td>
                                             <a href="EditBookServlet?mode=viewBook&bookID=<%= listBook.get(i).getBook_id()%>" class="tm-product-delete-link">

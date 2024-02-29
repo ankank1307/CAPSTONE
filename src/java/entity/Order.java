@@ -18,7 +18,6 @@ public class Order {
     private String shipping_status;
     private int order_status;
     private String review_status;
-    private int staff_id;
 
     public Order(int order_id, int customer_id, String order_date, int total, String shipping_status, int order_status, String reivew_status) {
         this.order_id = order_id;
@@ -36,15 +35,6 @@ public class Order {
         this.order_status = order_status;
     }
 
-    public Order(String order_date, int total, String shipping_status, int order_status, String review_status, int staff_id) {
-        this.order_date = order_date;
-        this.total = total;
-        this.shipping_status = shipping_status;
-        this.order_status = order_status;
-        this.review_status = review_status;
-        this.staff_id = staff_id;
-    }
-    
   
     
     
@@ -114,13 +104,4 @@ public class Order {
     public void setOrder_status(int order_status) {
         this.order_status = order_status;
     }
-
-    public int getStaff_id() {
-        return staff_id;
-    }
-
-    public void setStaff_id(int staff_id) {
-        this.staff_id = staff_id;
-    }
-    
 }
