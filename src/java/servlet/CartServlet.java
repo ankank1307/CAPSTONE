@@ -110,34 +110,33 @@ public class CartServlet extends HttpServlet {
                 ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 int id = Integer.parseInt(request.getParameter("bookID"));
 
-                int index = isExisting(id, listCart,customer.getCustomer_id());
+                int index = isExisting(id, listCart, customer.getCustomer_id());
 
                 int curQuantity = listCart.get(index).getQuantity();
                 if (curQuantity == 1) {
                     myCartDAO.DeleteCartItem(id, customer.getCustomer_id());
                 } else {
-                    int quantity = curQuantity -1;
+                    int quantity = curQuantity - 1;
                     Cart cart = new Cart(id, quantity, customer.getCustomer_id());
                     myCartDAO.updateQuantity(cart);
                 }
 
-                
                 target = "Cart.jsp";
                 RequestDispatcher rd = request.getRequestDispatcher(target);
                 rd.forward(request, response);
 
             }
             if (mode.equals("upQuantity")) {
-                 CartDAO myCartDAO = new CartDAO();
+                CartDAO myCartDAO = new CartDAO();
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
                 ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 int id = Integer.parseInt(request.getParameter("bookID"));
 
-                int index = isExisting(id, listCart,customer.getCustomer_id());
+                int index = isExisting(id, listCart, customer.getCustomer_id());
 
                 int curQuantity = listCart.get(index).getQuantity();
-                
-                int quantity = curQuantity+1;
+
+                int quantity = curQuantity + 1;
                 Cart cart = new Cart(id, quantity, customer.getCustomer_id());
                 myCartDAO.updateQuantity(cart);
                 target = "Cart.jsp";
@@ -162,45 +161,57 @@ public class CartServlet extends HttpServlet {
             }
 
             if (mode.equals("checkout")) {
-                ArrayList<Cart> listOrder = (ArrayList<Cart>) session.getAttribute("listCart");
+                System.out.println("Mode: "+ mode);
+                String way = request.getParameter("method");
                 int total = Integer.parseInt(request.getParameter("cartTotal"));
+                if(way.equals("VNPay")){
+                    request.setAttribute("cartTotal", total);
+                    target = "VNPayAjax";
+                    RequestDispatcher rd = request.getRequestDispatcher(target);
+                    rd.forward(request, response);
+                }else{
+                ArrayList<Cart> listOrder = (ArrayList<Cart>) session.getAttribute("listCart");
+                
+                
 
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
 
                 String date = java.time.LocalDate.now().toString();
-                Order newOrder = new Order(customer.getCustomer_id(), date, total, "Pending", 1, "Reivew");
+              
+                    Order newOrder = new Order(customer.getCustomer_id(), date, total, "Pending", 1, "Reivew");
+                    int orderID = myOrderDAO.saveOrdersCustomer(newOrder);
+                    if (orderID != 0) {
+                        for (Cart cart : listOrder) {
+                            Book book = myBookDAO.getBookByID(cart.getBookID());
 
-                int orderID = myOrderDAO.saveOrdersCustomer(newOrder);
-                if (orderID != 0) {
-                    for (Cart cart : listOrder) {
-                        Book book = myBookDAO.getBookByID(cart.getBookID());
+                            int quantityOfBooks = book.getQuantity();
+                            int quantityOfBuy = cart.getQuantity();
+                            if (quantityOfBooks > 0 && quantityOfBuy < quantityOfBooks) {
+                                OrderDetail orderDetail = new OrderDetail(orderID, cart.getBookID(), quantityOfBuy, book.getPrice());
+                                myOrderDetailDAO.insertOrderDetail(orderDetail);
 
-                        int quantityOfBooks = book.getQuantity();
-                        int quantityOfBuy = cart.getQuantity();
-                        if (quantityOfBooks > 0 && quantityOfBuy < quantityOfBooks) {
-                            OrderDetail orderDetail = new OrderDetail(orderID, cart.getBookID(), quantityOfBuy, book.getPrice());
-                            myOrderDetailDAO.insertOrderDetail(orderDetail);
+                                int restQuantity = quantityOfBooks - quantityOfBuy;
+                                book.setQuantity(restQuantity);
+                                myBookDAO.updateBook(book);
 
-                            int restQuantity = quantityOfBooks - quantityOfBuy;
-                            book.setQuantity(restQuantity);
-                            myBookDAO.updateBook(book);
-
-                        } else {
-                            myOrderDAO.removeOrderByID(orderID);
-                            out.println("<script type=\"text/javascript\">");
-                            out.println("location='CartServlet?mode=viewCart';");
-                            out.println("alert('Out of stock!');");
-                            out.println("</script>");
-                            break;
+                            } else {
+                                myOrderDAO.removeOrderByID(orderID);
+                                out.println("<script type=\"text/javascript\">");
+                                out.println("location='CartServlet?mode=viewCart';");
+                                out.println("alert('Out of stock!');");
+                                out.println("</script>");
+                                break;
+                            }
                         }
+                        request.setAttribute("message", "Payment Success");
+                        session.removeAttribute("listCart");
+                        session.setAttribute("tempCustomer", customer);
+                        request.getRequestDispatcher("ManageUserLoginServlet?mode=viewProfile&customerID=" + customer.getCustomer_id()).forward(request, response);
                     }
-                    request.setAttribute("message", "Payment Success");
-                    session.removeAttribute("listCart");
-                    session.setAttribute("tempCustomer", customer);
-                    request.getRequestDispatcher("ManageUserLoginServlet?mode=viewProfile&customerID=" + customer.getCustomer_id()).forward(request, response);
-                }
 
+                }
             }
+            
 //            RequestDispatcher rd = request.getRequestDispatcher(target);
 //            rd.forward(request, response);
         }

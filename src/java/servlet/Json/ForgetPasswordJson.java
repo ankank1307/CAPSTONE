@@ -151,7 +151,7 @@ static HashMap<Integer, List<OTPCode>> map = new HashMap<>();
             props.put("mail.smtp.starttls.enable", "true");
             Session session = Session.getInstance(props, new javax.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("phuonganhnguyenthi728@gmail.com", "jdttyugzmimzagwy");// Put your email
+                    return new PasswordAuthentication("phuonganhnguyenthi728@gmail.com", "czyhzymybtalaaau");// Put your email
                     // id and
                     // password here
                 }
@@ -178,7 +178,7 @@ static HashMap<Integer, List<OTPCode>> map = new HashMap<>();
             System.out.println("Sent value: " + otpvalue);
 //            RequestDispatcher dispatcher = request.getRequestDispatcher("SentOTPServlet");
 //            dispatcher.forward(request, response);
-            doGet(request, response);
+           doGet(request, response);
 
         }
     }

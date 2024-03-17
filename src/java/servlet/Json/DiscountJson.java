@@ -98,12 +98,17 @@ public class DiscountJson extends HttpServlet {
         int customer_id = requestDataJson.getInt("customer_id");
         int voucher_id = requestDataJson.getInt("voucher_id");
         myDiscountDAO.insertCustomerVoucher(voucher_id, customer_id);
+        Discount discount = myDiscountDAO.getDiscountByID(voucher_id);
+        int quantity = discount.getQuantity()-1;
+        myDiscountDAO.updateVoucherQuantity(voucher_id,quantity );
         JSONObject responseJson = new JSONObject();
         responseJson.put("customer_id", customer_id);
         System.out.println(responseJson.toString());
         response.getWriter().print(responseJson.toString());
         response.getWriter().flush();
     }
+    
+    
 
     /**
      * Returns a short description of the servlet.

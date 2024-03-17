@@ -83,7 +83,7 @@ public class OrderJson extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("application/json");
+        response.setContentType("application/json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
         StringBuilder sb = new StringBuilder();
         OrderDAO myorderDAO = new OrderDAO();

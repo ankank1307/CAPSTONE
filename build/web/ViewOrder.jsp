@@ -61,6 +61,44 @@
             a.button4:hover{
                 border-color: rgba(255,255,255,1);
             }
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #567086;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-Yz5FyPzvSe6VxywFN+VGFnZZta3+kbq0U1lH6Ox6+tLJwe8AvllziHpQz24Og7hElKLcJFp7fmj1N7HaoyvWlA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-BtG4F1i0E9g9E9cT62tuo6nYlrCHp4FTuGj4t1yA+mz0G1L48fv2HiO0pv5WNZcKaB8rS+RiisVY8zI3pIsU5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -165,7 +203,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link " href="ManageBookServlet?mode=viewBook">
+                            <a class="nav-link" href="ManageBookServlet?mode=viewBook">
                                 <i class="fas fa-book"></i> BOOKS
                             </a>
                         </li>
@@ -176,19 +214,37 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="ManageOrderServlet?mode=viewOrder">
-                                <i class="far fa-file-alt"></i> ORDER & REPORTS
+                        <div class="dropdown">
+                            <a class="nav-link active" href="ManageStaffServlet?mode=viewStaff">
+                                <i class="fas fa-file-alt"></i> 
+                                <span>
+                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageCustomerServlet?mode=viewCustomer">
-                                <i class="fas fa-user"></i> CUSTOMER
-                            </a>
-                        </li>
-                        <li class="nav-item">
+
+                            <div class="dropdown-content">
+                                <a href="ManageStaffServlet?mode=viewStaff">ORDER</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">WEEKLY REPORT</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">DAILY REPORT</a>
+
+                            </div>
+                        </div>
+                        <div class="dropdown">
                             <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
-                                <i class="fas fa-user-plus"></i> STAFF
+                                <i class="fas fa-user"></i> 
+                                <span>
+                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
+                            </a>
+
+                            <div class="dropdown-content">
+                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
+                            </div>
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                               <i class="fas fa-money-check"></i> VOUCHERS
                             </a>
                         </li>
                     </ul>
@@ -197,9 +253,7 @@
                             <a class="nav-link d-block" href='adminLogin.jsp'>
                                 Admin, <b>Logout</b>
                             </a>
-
                         </li>
-
                     </ul>
                 </div>
             </div>
