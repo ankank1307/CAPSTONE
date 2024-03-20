@@ -49,7 +49,7 @@
         <script src="js/modernizr.js"></script>
 
     </head>
-    
+
     <% Date currentDate = new Date();%>
     <%
         AuthorDAO myAuthorDAO = new AuthorDAO();
@@ -79,7 +79,7 @@
         ArrayList<Discount> validDiscounts = new ArrayList<>();
         for (Discount discount : listDiscount) {
             if (discount.getQuantity() != 0 && discount.getEndDate() != null) {
-                if (discount.getQuantity()>= 1 && discount.getEndDate().compareTo(currentDate.toString()) >= 0) {
+                if (discount.getQuantity() >= 1 && discount.getEndDate().compareTo(currentDate.toString()) >= 0) {
                     validDiscounts.add(discount);
                 }
             }
@@ -113,7 +113,7 @@
 
                         <div class="col-md-6">
                             <div class="right-element">
-                                <% 
+                                <%
                                     Customer customer;
                                     int cartCount = 0;
                                     String txtAccount = "Login";
@@ -135,7 +135,7 @@
                                     }%>
                                 <a href=<%=link%> class="user-account for-buy" ><i class="icon icon-user"></i><span> <%=txtAccount%></span></a>
 
-                                <a href="CartServlet?mode=viewCart" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart(<%=cartCount %>)</span></a>
+                                <a href="CartServlet?mode=viewCart" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart(<%=cartCount%>)</span></a>
 
 
                                 <div class="action-menu">
@@ -312,9 +312,14 @@
                                 </div>
                             </div>
                             <form action="CartServlet?mode=checkout" method="post">
-                                <input type="hidden" name="cartTotal" value="<%=total%>">
-                                <a href="CartServlet?mode=checkout"><button type="submit" class="btn">PLACE ORDER</button> </a>
+                                <select name="method">
+                                    <option value="COD">COD</option>>
+                                    <option value="VNPay">VN Pay</option>
+                                </select>
+                                <input type="hidden" name="cartTotal" value="<%=total%>"
+                                <a><button type="submit" class="btn">PLACE ORDER</button></a>
                             </form>
+                          
                         </div>
                     </div>
                     </section>

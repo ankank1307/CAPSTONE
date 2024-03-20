@@ -189,8 +189,13 @@
         <servlet-class>servlet.StaffManageBookServlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>StaffEditProfile</servlet-name>
         <servlet-class>servlet.StaffEditProfileServlet</servlet-class>
+=======
+        <servlet-name>VNPayAjax</servlet-name>
+        <servlet-class>servlet.VNPayAjax</servlet-class>
+>>>>>>> ankank
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -389,8 +394,13 @@
         <url-pattern>/StaffManageBookServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>StaffEditProfile</servlet-name>
         <url-pattern>/StaffEditProfile</url-pattern>
+=======
+        <servlet-name>VNPayAjax</servlet-name>
+        <url-pattern>/VNPayAjax</url-pattern>
+>>>>>>> ankank
     </servlet-mapping>
     <session-config>
         <session-timeout>
