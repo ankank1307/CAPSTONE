@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * @author phuon
  */
 public class StaffDAO {
+
     public ArrayList<Staff> getStaff() {
         try {
 
@@ -33,7 +34,7 @@ public class StaffDAO {
                 String pass = rs.getString("password");
                 String email = rs.getString("email");
                 int staff_status = rs.getInt("staff_status");
-        
+
                 Staff staff = new Staff(staff_id, staff_name, uName, pass, email, staff_status);
                 listStaff.add(staff);
             }
@@ -42,7 +43,8 @@ public class StaffDAO {
         }
         return null;
     }
-      public void insertStaff(Staff staff) {
+
+    public void insertStaff(Staff staff) {
         try {
             Connection con = DBContext.getConnection();
             PreparedStatement pst = con.prepareStatement("INSERT INTO staff( staff_name, username, password, email, staff_status) VALUE(?,?,?,?,?)");
@@ -59,7 +61,7 @@ public class StaffDAO {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     public void updateStaff(Staff staff) {
         try {
             Connection con = DBContext.getConnection();
@@ -83,7 +85,7 @@ public class StaffDAO {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     public Staff getStaffByID(int id) {
         Staff staff = null;
         try {
@@ -110,7 +112,7 @@ public class StaffDAO {
         }
         return staff;
     }
-    
+
     public void disableStaff(int id) {
 
         try {
@@ -137,4 +139,51 @@ public class StaffDAO {
             System.out.println(ex.getMessage());
         }
     }
+
+    public Staff getStaffByEmail(String email) {
+        Staff staff = null;
+        try {
+            Connection con = DBContext.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM staff WHERE email = ?");
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                staff = new Staff(rs.getInt("staff_id"),
+                        rs.getString("staff_name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getInt("staff_status")
+                );
+            }
+            con.close();
+            pst.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return staff;
+    }
+
+    public void updatePassword(Staff staff, String newPassword) {
+        try {
+            Connection con = DBContext.getConnection();
+
+            String query = "UPDATE staff SET password = ? WHERE staff_id = ?";
+            PreparedStatement pst = con.prepareStatement(query);
+
+            pst.setString(1, newPassword);
+            pst.setInt(2, staff.getStaff_id());
+            pst.executeUpdate();
+
+            pst.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
 }

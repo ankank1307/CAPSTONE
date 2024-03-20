@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -45,7 +46,10 @@ public class StaffManageServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String mode = request.getParameter("mode");
             BookDAO bookDAO = new BookDAO();
+            StaffDAO myStaffDAO = new StaffDAO();
             String target = "";
+            HttpSession mySession = request.getSession();
+           
             if(mode.equals("StaffViewBook")){
                 ArrayList<Book>listBook = new ArrayList<>();
                 listBook= bookDAO.getListBook();
@@ -69,6 +73,33 @@ public class StaffManageServlet extends HttpServlet {
                 target = "StaffViewCustomer.jsp";
                 request.setAttribute("listCustomer", listCustomer);
             }
+            if (mode.equals("StaffUpdatePassword")) {
+                
+
+//                target = "StaffViewCustomer.jsp";
+//                request.setAttribute("listCustomer", listCustomer);
+            }
+            
+            if (mode.equals("StaffUpdateProfile")) {
+                int ID, status;
+                String staffName, staffUserName, staffEmail, staffPassword;
+                Staff staff = (Staff) mySession.getAttribute("staffLogin");
+                ID = staff.getStaff_id();
+                staffName = request.getParameter("staffName");
+                System.out.print(staffName);
+                staffUserName = request.getParameter("staffUserName");
+                staffPassword = staff.getPassword();
+                staffEmail = request.getParameter("staffEmail");
+                status = staff.getStaff_status();
+
+                Staff newStaff = new Staff(ID, staffName, staffUserName, staffPassword,staffEmail, status );
+                myStaffDAO.updateStaff(newStaff);
+
+                target = "StaffProfile.jsp";
+                request.setAttribute("updateSuccess", true);
+                mySession.setAttribute("staffLogin", newStaff);
+            }
+            
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
             

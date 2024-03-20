@@ -68,6 +68,10 @@
         <servlet-name>ForgetPasswordServlet</servlet-name>
         <servlet-class>servlet.ForgetPasswordServlet</servlet-class>
     </servlet>
+        <servlet>
+        <servlet-name>ForgetPasswordServletStaff</servlet-name>
+        <servlet-class>servlet.ForgetPasswordServletStaff</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>ShopServlet</servlet-name>
         <servlet-class>servlet.ShopServlet</servlet-class>
@@ -176,6 +180,18 @@
         <servlet-name>EditDiscountServlet</servlet-name>
         <servlet-class>servlet.EditDiscountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StaffManageOrderServlet</servlet-name>
+        <servlet-class>servlet.StaffManageOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffManageBookServlet</servlet-name>
+        <servlet-class>servlet.StaffManageBookServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffEditProfile</servlet-name>
+        <servlet-class>servlet.StaffEditProfileServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -251,6 +267,10 @@
     <servlet-mapping>
         <servlet-name>ForgetPasswordServlet</servlet-name>
         <url-pattern>/ForgetPasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgetPasswordServletStaff</servlet-name>
+        <url-pattern>/ForgetPasswordServletStaff</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>
@@ -359,6 +379,18 @@
     <servlet-mapping>
         <servlet-name>EditDiscountServlet</servlet-name>
         <url-pattern>/EditDiscountServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffManageOrderServlet</servlet-name>
+        <url-pattern>/StaffManageOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffManageBookServlet</servlet-name>
+        <url-pattern>/StaffManageBookServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffEditProfile</servlet-name>
+        <url-pattern>/StaffEditProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

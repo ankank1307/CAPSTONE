@@ -4,6 +4,7 @@
     Author     : phuon
 --%>
 
+<%@page import="entity.Staff"%>
 <%@page import="entity.Genre"%>
 <%@page import="entity.Author"%>
 <%@page import="java.util.ArrayList"%>
@@ -42,6 +43,7 @@
     </head>
     <% ArrayList<Author> listAuthor = (ArrayList<Author>) request.getAttribute("listAuthor"); %>
     <% ArrayList<Genre> listGenre = (ArrayList<Genre>) request.getAttribute("listGenre");%>
+    <% Staff editStaff = (Staff)request.getAttribute("tempStaff"); %>
 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
@@ -121,49 +123,55 @@
                     <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
                         <div class="row">
                             <div class="col-12">
-                                <h2 class="tm-block-title d-inline-block">EDIT PROFILE</h2>
+                                <h2 class="tm-block-title d-inline-block">EDIT STAFF</h2>
                             </div>
                         </div>
                         <div class="row tm-edit-product-row">
                             <div class="col-xl-6 col-lg-6 col-md-10" id="add">
-                                <form action="AddStaffServlet" method="post" class="tm-edit-product-form" enctype="multipart/form-data" >
-
+                                <form action="EditStaffServlet" method="post" class="tm-edit-product-form" >
+                                    <input type="hidden" name="mode" value="editStaff">   
+                                    <div class="form-group mb-3">
+                                        <label  for="name" >ID </label>
+                                        <input id="name" name="staffID" type="number"class="form-control validate" readonly="" value="<%=editStaff.getStaff_id() %>" />
+                                    </div> 
 
                                     <div class="form-group mb-3">
                                         <label  for="name" >Name </label>
-                                        <input id="name" name="name" type="text"class="form-control validate" value="" required=""/>
-                                    </div>
+                                        <input id="name" name="authorName" type="text"class="form-control validate" required="" value="<%=editStaff.getStaff_name() %>"/>
+                                    </div> 
+                                    
                                     <div class="form-group mb-3">
-                                        <label  for="name" >Username </label>
-                                        <input id="name" name="username" value=""type="text"class="form-control validate" required=""/>
+                                        <label  for="name" >User Name </label>
+                                        <input id="name" name="staffUserName" type="text"class="form-control validate" required="" value="<%=editStaff.getUsername() %>"/>
                                     </div>
-
-
+                                    
+                                    
+                                    <!--
+                                                                        
+                                                                        <div class="form-group mb-3">
+                                                                            <label  for="name" >Year of Release </label>
+                                                                            <input
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                id="name" name="YOR" type="number" min = "1200" max="2022" maxlength="4"  pattern="\d*" class="form-control validate" required=""/>
+                                                                        </div>
+                                                                                                                                                                                                        
+                                    -->
                                     <!--                                    <div class="custom-file mt-3 mb-3">
                                                                             <input  name = "image" id="fileInput" type="file"  />
                                                                         </div>-->
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                                 <div class="form-group mb-3">
-                                    <label  for="name" >Password </label>
-                                    <input id="name" name="password" value="" type="text"class="form-control validate" required=""/>
-                                </div> 
-                                <div class="form-group mb-3">
-                                    <label  for="name" >Email </label>
-                                    <input id="name" name="email" value="" type="text"class="form-control validate" required=""/>
-                                </div>
+                                        <label  for="name" >Email </label>
+                                        <input id="name" name="staffEmail" type="text"class="form-control validate" required="" value="<%=editStaff.getEmail() %>"/>
+                                    </div>
 
+                                    <div class="form-group mb-3">
+                                        <label  for="name" >Status</label>
+                                        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" readonly="" value="<%=editStaff.getStaff_status() %>"/>
+                                    </div>
 
-
-                                <!--                                <div class="custom-file mt-3 mb-3">
-                                                                    <input id="fileInput" type="file" name="image" style="display: none" accept=".png, .jpg, .jpeg, .gif"  />
-                                                                    <input
-                                                                        type="button"
-                                                                        class="btn btn-primary btn-block mx-auto"
-                                                                        value="UPLOAD PRODUCT IMAGE"
-                                                                        onclick="document.getElementById('fileInput').click();"
-                                                                        />
-                                                                </div>-->
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary btn-block text-uppercase">UPDATE</button>
