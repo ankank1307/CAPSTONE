@@ -170,10 +170,7 @@ public class CartServlet extends HttpServlet {
                     RequestDispatcher rd = request.getRequestDispatcher(target);
                     rd.forward(request, response);
                 }else{
-                ArrayList<Cart> listOrder = (ArrayList<Cart>) session.getAttribute("listCart");
-                
-                
-
+                ArrayList<Cart> listOrder = (ArrayList<Cart>) session.getAttribute("listCart");                          
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
 
                 String date = java.time.LocalDate.now().toString();
