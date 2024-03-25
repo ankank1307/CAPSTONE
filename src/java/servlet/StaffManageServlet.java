@@ -47,21 +47,20 @@ public class StaffManageServlet extends HttpServlet {
             String mode = request.getParameter("mode");
             BookDAO bookDAO = new BookDAO();
             StaffDAO myStaffDAO = new StaffDAO();
-            String target = "";
             HttpSession mySession = request.getSession();
-           
-            if(mode.equals("StaffViewBook")){
-                ArrayList<Book>listBook = new ArrayList<>();
-                listBook= bookDAO.getListBook();
-                
+            String target = "";
+            if (mode.equals("StaffViewBook")) {
+                ArrayList<Book> listBook = new ArrayList<>();
+                listBook = bookDAO.getListBook();
+
                 target = "StaffViewBook.jsp";
                 request.setAttribute("listBook", listBook);
             }
-            if(mode.equals("StaffViewOrder")){
+            if (mode.equals("StaffViewOrder")) {
                 OrderDAO myOrderDAO = new OrderDAO();
                 ArrayList<Order> listOrder = new ArrayList<>();
                 listOrder = myOrderDAO.getListOrder();
-                
+
                 target = "StaffViewOrder.jsp";
                 request.setAttribute("listOrder", listOrder);
             }
@@ -73,13 +72,13 @@ public class StaffManageServlet extends HttpServlet {
                 target = "StaffViewCustomer.jsp";
                 request.setAttribute("listCustomer", listCustomer);
             }
+            if (mode.equals("StaffViewProfile")) {
+                
+            }
             if (mode.equals("StaffUpdatePassword")) {
                 
-
-//                target = "StaffViewCustomer.jsp";
-//                request.setAttribute("listCustomer", listCustomer);
             }
-            
+
             if (mode.equals("StaffUpdateProfile")) {
                 int ID, status;
                 String staffName, staffUserName, staffEmail, staffPassword;
@@ -92,17 +91,16 @@ public class StaffManageServlet extends HttpServlet {
                 staffEmail = request.getParameter("staffEmail");
                 status = staff.getStaff_status();
 
-                Staff newStaff = new Staff(ID, staffName, staffUserName, staffPassword,staffEmail, status );
+                Staff newStaff = new Staff(ID, staffName, staffUserName, staffPassword, staffEmail, status);
                 myStaffDAO.updateStaff(newStaff);
 
                 target = "StaffProfile.jsp";
                 request.setAttribute("updateSuccess", true);
                 mySession.setAttribute("staffLogin", newStaff);
             }
-            
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
-            
+
         }
     }
 

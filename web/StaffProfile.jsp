@@ -101,7 +101,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="StaffProfile.jsp">
-                                <i class="fas fa-user-plus"></i> PROFILE
+                                <i class="fas fa-user"></i> PROFILE
                             </a>
                         </li>
 

@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * @author phuon
  */
 public class StaffDAO {
-
     public ArrayList<Staff> getStaff() {
         try {
 
@@ -34,7 +33,7 @@ public class StaffDAO {
                 String pass = rs.getString("password");
                 String email = rs.getString("email");
                 int staff_status = rs.getInt("staff_status");
-
+        
                 Staff staff = new Staff(staff_id, staff_name, uName, pass, email, staff_status);
                 listStaff.add(staff);
             }
@@ -43,8 +42,7 @@ public class StaffDAO {
         }
         return null;
     }
-
-    public void insertStaff(Staff staff) {
+      public void insertStaff(Staff staff) {
         try {
             Connection con = DBContext.getConnection();
             PreparedStatement pst = con.prepareStatement("INSERT INTO staff( staff_name, username, password, email, staff_status) VALUE(?,?,?,?,?)");
@@ -61,7 +59,7 @@ public class StaffDAO {
             System.out.println(ex.getMessage());
         }
     }
-
+    
     public void updateStaff(Staff staff) {
         try {
             Connection con = DBContext.getConnection();
@@ -85,7 +83,7 @@ public class StaffDAO {
             System.out.println(ex.getMessage());
         }
     }
-
+    
     public Staff getStaffByID(int id) {
         Staff staff = null;
         try {
@@ -112,7 +110,7 @@ public class StaffDAO {
         }
         return staff;
     }
-
+    
     public void disableStaff(int id) {
 
         try {
@@ -139,7 +137,6 @@ public class StaffDAO {
             System.out.println(ex.getMessage());
         }
     }
-
     public Staff getStaffByEmail(String email) {
         Staff staff = null;
         try {

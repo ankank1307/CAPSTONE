@@ -68,7 +68,7 @@
         <servlet-name>ForgetPasswordServlet</servlet-name>
         <servlet-class>servlet.ForgetPasswordServlet</servlet-class>
     </servlet>
-        <servlet>
+    <servlet>
         <servlet-name>ForgetPasswordServletStaff</servlet-name>
         <servlet-class>servlet.ForgetPasswordServletStaff</servlet-class>
     </servlet>
@@ -189,14 +189,14 @@
         <servlet-class>servlet.StaffManageBookServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>StaffEditProfile</servlet-name>
         <servlet-class>servlet.StaffEditProfileServlet</servlet-class>
-=======
+    </servlet>
+    <servlet>
         <servlet-name>VNPayAjax</servlet-name>
         <servlet-class>servlet.VNPayAjax</servlet-class>
->>>>>>> ankank
     </servlet>
+
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -394,14 +394,16 @@
         <url-pattern>/StaffManageBookServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
+
         <servlet-name>StaffEditProfile</servlet-name>
         <url-pattern>/StaffEditProfile</url-pattern>
-=======
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>VNPayAjax</servlet-name>
         <url-pattern>/VNPayAjax</url-pattern>
->>>>>>> ankank
     </servlet-mapping>
+    
+
     <session-config>
         <session-timeout>
             30
