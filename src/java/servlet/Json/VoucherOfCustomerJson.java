@@ -7,13 +7,17 @@ package servlet.Json;
 import com.google.gson.Gson;
 import dao.DiscountDAO;
 import entity.CustomerVoucher;
+import entity.Discount;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 
 /**
  *
@@ -69,7 +73,24 @@ public class VoucherOfCustomerJson extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("application/json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        StringBuilder sb = new StringBuilder();
+        DiscountDAO myDiscountDAO = new DiscountDAO();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        reader.close();
+        JSONObject requestDataJson = new JSONObject(sb.toString());
+        int voucher_id = requestDataJson.getInt("voucher_id");
+        int customer_id = requestDataJson.getInt("customer_id");
+        myDiscountDAO.removeCustomerVoucher(customer_id, voucher_id);
+        myDiscountDAO.updateUsedVoucher(customer_id, voucher_id);
+        JSONObject responseJson = new JSONObject();
+        System.out.println(responseJson.toString());
+        response.getWriter().print(responseJson.toString());
+        response.getWriter().flush();
     }
 
     /**

@@ -1,37 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package servlet;
 
-import configPkg.ConfigInfo;
-import dao.AuthorDAO;
 import dao.BookDAO;
-import dao.GenreDAO;
-import entity.Author;
 import entity.Book;
-import entity.Genre;
+import entity.Cart;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import manager.BookManager;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author phuon
  */
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-        maxFileSize = 1024 * 1024 * 10, // 10 MB
-        maxRequestSize = 1024 * 1024 * 100)// 100 MB
 public class StaffManageBookServlet extends HttpServlet {
 
     /**
@@ -46,60 +35,26 @@ public class StaffManageBookServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            BookManager myBookManager = new BookManager();
-            BookDAO myBookDAO = new BookDAO();
-            String mode = request.getParameter("mode");
-            String target = "home.jsp";
-
-            if (mode.equals("viewBook")) {
-                int id = Integer.parseInt(request.getParameter("bookID"));
-                Book tempBook = myBookDAO.getBookByID(id);
-                ArrayList<Author> listAuthor = new ArrayList<>();
-                AuthorDAO authorDao = new AuthorDAO();
-                listAuthor = authorDao.getListAuthor();
-
-                ArrayList<Genre> listGenre = new ArrayList<>();
-                GenreDAO genreDAO = new GenreDAO();
-                listGenre = genreDAO.getListGenre();
-                request.setAttribute("listAuthor", listAuthor);
-                request.setAttribute("listGenre", listGenre);
-                System.out.println(tempBook.getTitle());
-                request.setAttribute("tempBook", tempBook);
-
-                target = "StaffEditBook.jsp";
+        String mode = request.getParameter("mode");
+        BookDAO bookDAO = new BookDAO();
+        HttpSession ss = request.getSession();
+        String target = "";
+        if (mode.equals("StaffViewBook")) {
+            ArrayList<Book> listBook = new ArrayList<>();
+            listBook = bookDAO.getListBook();
+            int billCount = 0;
+            ArrayList<Cart> listBill = (ArrayList<Cart>) ss.getAttribute("listBill");
+            System.out.println("listBill" + listBill);
+            if (listBill != null) {
+                billCount = listBill.size();
             }
-
-            if (mode.equals("editBook")) {
-                int bookID, authorID, genreID, price, quantity, yor, status;
-                String title, description;
-
-                bookID = Integer.parseInt(request.getParameter("bookID"));
-                authorID = Integer.parseInt(request.getParameter("authorID"));
-                genreID = Integer.parseInt(request.getParameter("genreID"));
-                price = Integer.parseInt(request.getParameter("price"));
-                quantity = Integer.parseInt(request.getParameter("quantity"));
-                yor = Integer.parseInt(request.getParameter("YOR"));
-                status = Integer.parseInt(request.getParameter("status"));
-                title = request.getParameter("title");
-                description = request.getParameter("description");
-                String pictureName = bookID + ".jpg";
-                Part imgFilePart = request.getPart("image");
-                Book newBook = new Book(bookID, title, authorID, genreID, price, quantity, yor, description, status);
-
-                myBookManager.updateBook(newBook);
-                if (imgFilePart != null) {
-                    imgFilePart.write(ConfigInfo.getCtxRealPath() + "\\bookImages\\" + pictureName);
-                }
-                
-                target = "StaffManageServlet?mode=StaffViewBook";
-            }
-
-            RequestDispatcher rd = request.getRequestDispatcher(target);
-            rd.forward(request, response);
-
+            target = "StaffViewBook.jsp";
+            request.setAttribute("listBook", listBook);
+            request.setAttribute("billCount", billCount);
         }
+        
+        RequestDispatcher rd = request.getRequestDispatcher(target);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

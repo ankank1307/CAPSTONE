@@ -83,7 +83,7 @@ public class OrderJson extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("application/json");
+        response.setContentType("application/json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
         StringBuilder sb = new StringBuilder();
         OrderDAO myorderDAO = new OrderDAO();
@@ -100,7 +100,7 @@ public class OrderJson extends HttpServlet {
         int order_status = requestDataJson.getInt("order_status");
         String review_status = "Review";
         Order order = new Order(customer_id, date, total, shipping_status, order_status, review_status);
-        int order_id = myorderDAO.saveOrders(order);
+        int order_id = myorderDAO.saveOrdersCustomer(order);
         JSONObject responseJson = new JSONObject();
         responseJson.put("order_id", order_id);
         responseJson.put("customer_id", order.getCustomer_id());

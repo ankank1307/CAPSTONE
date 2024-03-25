@@ -178,7 +178,7 @@ static HashMap<Integer, List<OTPCode>> map = new HashMap<>();
             System.out.println("Sent value: " + otpvalue);
 //            RequestDispatcher dispatcher = request.getRequestDispatcher("SentOTPServlet");
 //            dispatcher.forward(request, response);
-            doGet(request, response);
+           doGet(request, response);
 
         }
     }

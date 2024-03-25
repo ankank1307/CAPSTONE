@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import manager.EncryptPassword;
 
 /**
  *
@@ -43,13 +42,12 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = "";
         String password = "";
-
+         StaffDAO myStaffDAO = new StaffDAO();
         String userNameForm = request.getParameter("username");
         String passwordForm = request.getParameter("password");
 
         String mode = request.getParameter("mode");
         String target = "home.jsp";
-        StaffDAO myStaffDAO = new StaffDAO();
         if (mode.equals("loginAdmin")) {
             ArrayList<Admin> list = new ArrayList<>();
             AdminDAO adminDao = new AdminDAO();
@@ -81,6 +79,7 @@ public class LoginServlet extends HttpServlet {
                 if (userNameForm.equals(listStaff.get(i).getUsername()) && passwordForm.equals(listStaff.get(i).getPassword())) {
                     target = "StaffManageServlet?mode=StaffViewBook";
                     session.setAttribute("staffLogin", listStaff.get(i));
+                    
                     break;
                 } else {
                     target = "staffLogin.jsp";
@@ -89,8 +88,7 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         }
-        
-        if (mode.equals("enterOTP")) {
+           if (mode.equals("enterOTP")) {
                 int valueOTP = Integer.parseInt(request.getParameter("otpCode"));
                 String email = (String) session.getAttribute("email");
                 Staff staff = myStaffDAO.getStaffByEmail(email);

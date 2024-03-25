@@ -40,13 +40,9 @@ public class ShopServlet extends HttpServlet {
             String target = "";
             if (mode.equals("viewShop")) {
                 
-                ArrayList<Book> listBook = myBookDAO.getListBook();
-                for (int i = 0; i < listBook.size(); i++) {
-                    if (listBook.get(i).getBook_status() == 0) {
-                        listBook.remove(i);
-                    }
-                }
+                ArrayList<Book> listBook = myBookDAO.getListBookByStatus();
                 
+                System.out.println("book size"+listBook.size());
                 request.setAttribute("listBook", listBook);
                 target = "Shop.jsp";
             }

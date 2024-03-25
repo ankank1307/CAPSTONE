@@ -19,10 +19,37 @@ public class BookDAO {
     public ArrayList<Book> getListBook() {
 
         ArrayList<Book> listBook = new ArrayList<>();
-
         try {
             Connection con = DBContext.getConnection();
             String query = "SELECT * FROM books;";
+            Statement st = con.prepareStatement(query);
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+
+                Book book = new Book(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getString(8),
+                        rs.getInt(9));
+                listBook.add(book);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return listBook;
+    }
+    public ArrayList<Book> getListBookByStatus() {
+
+        ArrayList<Book> listBook = new ArrayList<>();
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "SELECT * FROM books where book_status =1;";
             Statement st = con.prepareStatement(query);
             ResultSet rs = st.executeQuery(query);
 

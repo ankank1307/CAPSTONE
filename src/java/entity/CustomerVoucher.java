@@ -16,8 +16,9 @@ public class CustomerVoucher {
     private String end_date;
     private int status;
     private String description;
+    private int used;
 
-    public CustomerVoucher(int customer_id,int voucher_id, String code, int percent, String end_date, int status, String description) {
+    public CustomerVoucher(int customer_id,int voucher_id, String code, int percent, String end_date, int status, String description, int used) {
         this.voucher_id = voucher_id;
         this.customer_id = customer_id;
         this.code = code;
@@ -25,6 +26,7 @@ public class CustomerVoucher {
         this.end_date = end_date;
         this.status = status;
         this.description = description;
+        this.used = used;
     }
 
     public int getVoucher_id() {
@@ -43,6 +45,15 @@ public class CustomerVoucher {
     public void setPercent(int percent) {
         this.percent = percent;
     }
+
+    public int getUsed() {
+        return used;
+    }
+
+    public void setUsed(int used) {
+        this.used = used;
+    }
+    
 
   
 
