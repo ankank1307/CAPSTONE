@@ -153,6 +153,12 @@ public class CartServlet extends HttpServlet {
             if (mode.equals("checkout")) {
                 ArrayList<Cart> listOrder = (ArrayList<Cart>) session.getAttribute("listCart");
                 int total = Integer.parseInt(request.getParameter("cartTotal"));
+                String selectedDiscountPercent = request.getParameter("selectedDiscount");
+                if (selectedDiscountPercent != null && !selectedDiscountPercent.isEmpty() && !selectedDiscountPercent.equals("None")) {
+                    double discountPercent = Double.parseDouble(selectedDiscountPercent);
+                    double discountAmount = (discountPercent / 100) * total;
+                    total -= discountAmount;
+                }
 
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
 

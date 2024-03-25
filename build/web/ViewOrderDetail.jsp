@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="dao.BookDAO"%>
 <%@page import="entity.OrderDetail"%>
 <%@page import="java.util.ArrayList"%>
@@ -61,6 +63,9 @@
 
     <%
         BookDAO myBookDAO = new BookDAO();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
     %>
     <body>
 
@@ -91,7 +96,7 @@
 
                         <td><%=myBookDAO.getBookByID(listOrderDetail.get(i).getBook_id()).getTitle()%></td>
                         <td><%=listOrderDetail.get(i).getQuantity()%></td>
-                        <td><%=listOrderDetail.get(i).getPrice()%></td>
+                        <td><%=currencyFormat.format(listOrderDetail.get(i).getPrice())%></td>
 
                     </tr> 
 

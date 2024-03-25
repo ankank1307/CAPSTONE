@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="dao.GenreDAO"%>
 <%@page import="entity.Genre"%>
 <%@page import="entity.Author"%>
@@ -66,6 +68,9 @@
                 listGenre.add(list_genre.get(i));
             }
         }
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
 
     %>
 
@@ -78,7 +83,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="social-links">
-                                <ul>
+<!--                                <ul>
                                     <li>
                                         <a href="#"><i class="icon icon-facebook"></i></a>
                                     </li>
@@ -91,7 +96,7 @@
                                     <li>
                                         <a href="#"><i class="icon icon-behance-square"></i></a>
                                     </li>
-                                </ul>
+                                </ul>-->
                             </div><!--social-links-->
                         </div>
                         <div class="col-md-6">
@@ -222,7 +227,7 @@
                                     <h3><%=listBook.get(i).getTitle()%></h3>
                                     <p><%=myAuthorDAO.getAuthorByID(listBook.get(i).getAuthor_id()).getAuthor_name()%></p>
                                     <p><%=myGenreDAO.getGenreByID(listBook.get(i).getGenre_id()).getGenre()%></p>
-                                    <div class="item-price"><%=listBook.get(i).getPrice()%> VND</div>
+                                    <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
                                 </figcaption>
                                 <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>"><button type="button" class="add-to-cart" data-product-tile="add-to-caok.get(i).getBook_id() %>"rt">Add to Cart</button></a>
                             </a>
@@ -360,7 +365,7 @@
 
                                 <div class="col-md-6">
                                     <div class="social-links align-right">
-                                        <ul>
+<!--                                        <ul>
                                             <li>
                                                 <a href="#"><i class="icon icon-facebook"></i></a>
                                             </li>
@@ -373,7 +378,7 @@
                                             <li>
                                                 <a href="#"><i class="icon icon-behance-square"></i></a>
                                             </li>
-                                        </ul>
+                                        </ul>-->
                                     </div>
                                 </div>
 
