@@ -3,12 +3,57 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java_Project_OOP/Capstone/web/StaffViewOrder.jsp</file>
-            <file>file:/D:/Java_Project_OOP/Capstone/web/StaffProfile.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/InitServlet.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewBookByAuthor.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewGenre.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/Contact.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/VNPayAjax.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewBook.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/dao/CartDAO.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewBookByGenre.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/dao/GenreDAO.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/EditUserProfile.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/DailyReport.jsp</file>
             <file>file:/D:/Java_Project_OOP/Capstone/web/StaffEditBook.jsp</file>
-            <file>file:/D:/Java_Project_OOP/Capstone/web/StaffViewBook.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/EditAuthor.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewStaff.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewOrderDetailUser.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/dao/OrderDAO.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/StaffViewOrder.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/Cart.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/entity/CustomerVoucher.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/EditGenre.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddAuthor.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/EditStaff.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/index.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddDiscount.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/Shop.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/StaffProfile.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/dao/BookDAO.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddStaff.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewBookDetail.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/EditBook.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/ShopServlet.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/CartServlet.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddToBill.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/home.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewOrder.jsp</file>
             <file>file:/D:/Java_Project_OOP/Capstone/web/StaffViewCustomer.jsp</file>
             <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/LoginServlet.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/UserActivityServlet.java</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewCustomer.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewOrderDetail.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/vnpay_return.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/EditDiscount.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewAuthor.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/UserProfile.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddGenre.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/StaffViewBook.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/ViewDiscount.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddBook.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/js/tooplate-scripts.js</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/web/AddCustomer.jsp</file>
+            <file>file:/D:/Java_Project_OOP/Capstone/src/java/servlet/ViewReportServlet.java</file>
         </group>
     </open-files>
 </project-private>

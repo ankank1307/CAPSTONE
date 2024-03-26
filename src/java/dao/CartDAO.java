@@ -77,6 +77,24 @@ public class CartDAO {
             System.out.println(ex.getMessage());
         }
     }
+     public void DeleteCartItemByCustomerID(int customer_id) {
+        try {
+            Connection con = DBContext.getConnection();
+
+            String query = "delete from cart where customer_id = ?;";
+            PreparedStatement pst = con.prepareStatement(query);
+
+            
+            pst.setInt(1, customer_id);
+            pst.executeUpdate();
+
+            pst.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
     public ArrayList<Cart> getListCart() {
 

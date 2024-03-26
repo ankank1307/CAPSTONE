@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 
             }
             if (userNameForm.equals(username) && passwordForm.equals(password)) {
-                target = "ManageBookServlet?mode=viewBook";
+                target = "home.jsp";
                 session.setAttribute("adminLogin", username);
             } else {
                 target = "adminLogin.jsp";

@@ -4,6 +4,7 @@
     Author     : BLC
 --%>
 
+<%@page import="dao.CartDAO"%>
 <%@page import="entity.Genre"%>
 <%@page import="dao.GenreDAO"%>
 <%@page import="entity.Author"%>
@@ -16,7 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Contact</title>
+        <title>Contact</title> 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,11 +38,7 @@
 
     </head>
     <%
-        int cartCount = 0;
-        ArrayList<Cart> listCart = (ArrayList<Cart>) session.getAttribute("listCart");
-        if (listCart != null) {
-            cartCount = listCart.size();
-        }
+   
 
         AuthorDAO myAuthorDAO = new AuthorDAO();
         ArrayList<Author> list = myAuthorDAO.getListAuthor();
@@ -54,7 +51,7 @@
         GenreDAO myGenreDAO = new GenreDAO();
         ArrayList<Genre> list_genre = myGenreDAO.getListGenre();
         ArrayList<Genre> listGenre = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list_genre.size(); i++) {
             if (list_genre.get(i).getGenre_status() == 1) {
                 listGenre.add(list_genre.get(i));
             }
@@ -88,13 +85,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="right-element">
-                                <% Customer customer;
+                                 <% Customer customer;
+                                    int cartCount = 0;
+                                   CartDAO myCartDAO = new CartDAO();
+                                    
                                     String txtAccount = "Login";
                                     String link = "UserLogin.jsp";
                                     String ss = (String) session.getAttribute("UserLogin");
 
                                     if (ss != null) {
                                         customer = (Customer) session.getAttribute("tempCustomer");
+                                        ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
+                                        cartCount = listCart.size();
                                         txtAccount = ss;
                                         link = "ManageUserLoginServlet?mode=viewProfile&customerID=";
                                         link += customer.getCustomer_id();

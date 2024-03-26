@@ -1,4 +1,7 @@
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page import="entity.Book"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entity.Book"%>
@@ -8,7 +11,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <ti
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.2.0/css/all.min.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="css/customstyle.css" />
         <!-- https://fontawesome.com/ -->
@@ -21,6 +23,7 @@
         -->
         <link rel="stylesheet" href="css/search_button.css" />
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
+        <title>Book Management</title>
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:400,700"
@@ -70,8 +73,6 @@
                 display: block;
             }
 
-            
-
             .dropdown:hover .dropdown-content {
                 display: block;
             }
@@ -81,7 +82,7 @@
             }
         </style>
     </head>
-
+ 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
@@ -128,16 +129,17 @@
                                     REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
                                 </span>
                             </a>
-
                             <div class="dropdown-content">
                                 <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">WEEKLY REPORT</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">DAILY REPORT</a>
-
+                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <% String date = java.time.LocalDate.now().toString(); 
+                                    System.out.println(date);
+                                %>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0 %>&endDate=<%=date %>">DAILY REPORT</a>
                             </div>
                         </div>
                         <div class="dropdown">
-                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
+                            <a class="nav-link" href="">
                                 <i class="fas fa-user"></i> 
                                 <span>
                                     USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
@@ -151,7 +153,7 @@
                         </div>
                         <li class="nav-item">
                             <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
-                               <i class="fas fa-money-check"></i> VOUCHERS
+                                <i class="fas fa-money-check"></i> VOUCHERS
                             </a>
                         </li>
                     </ul>

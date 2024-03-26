@@ -5,8 +5,12 @@
  */
 package servlet;
 
+import dao.AuthorDAO;
 import dao.BookDAO;
+import dao.GenreDAO;
+import entity.Author;
 import entity.Book;
+import entity.Genre;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -39,6 +43,8 @@ public class UserActivityServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             BookDAO myBookDAO = new BookDAO();
+            AuthorDAO myAuthorDAO = new AuthorDAO();
+            GenreDAO myGenreDAO = new GenreDAO();
             HttpSession mySession = request.getSession();
           String mode = request.getParameter("mode");
           String target = "home.jsp";
@@ -51,8 +57,13 @@ public class UserActivityServlet extends HttpServlet {
                        newList.add(listBook.get(i));
                    }
                }
-               
+               ArrayList<Author> authors = new ArrayList<>();
+               authors = myAuthorDAO.getListAuthor();
+               ArrayList<Genre> genres = new ArrayList<>();
+               genres = myGenreDAO.getListGenreByStatus();
                request.setAttribute("newList", newList);
+               request.setAttribute("authors", authors);
+               request.setAttribute("genres", genres);
                target = "index.jsp";
            }
             RequestDispatcher rd = request.getRequestDispatcher(target);

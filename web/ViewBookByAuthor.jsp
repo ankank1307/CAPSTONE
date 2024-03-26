@@ -4,6 +4,7 @@
     Author     : BLC
 --%>
 
+<%@page import="dao.CartDAO"%>
 <%@page import="dao.GenreDAO"%>
 <%@page import="entity.Genre"%>
 <%@page import="entity.Author"%>
@@ -50,11 +51,7 @@
     %>
 
     <%
-        int cartCount = 0;
-        ArrayList<Cart> listCart = (ArrayList<Cart>) session.getAttribute("listCart");
-        if (listCart != null) {
-            cartCount = listCart.size();
-        }
+       
 
         AuthorDAO myAuthorDAO = new AuthorDAO();
         ArrayList<Author> list = myAuthorDAO.getListAuthor();
@@ -67,7 +64,7 @@
         GenreDAO myGenreDAO = new GenreDAO();
         ArrayList<Genre> list_genre = myGenreDAO.getListGenre();
         ArrayList<Genre> listGenre = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list_genre.size(); i++) {
             if (list_genre.get(i).getGenre_status() == 1) {
                 listGenre.add(list_genre.get(i));
             }
@@ -103,12 +100,17 @@
                         <div class="col-md-6">
                             <div class="right-element">
                                 <% Customer customer;
+                                    int cartCount = 0;
+                                   CartDAO myCartDAO = new CartDAO();
+                                    
                                     String txtAccount = "Login";
                                     String link = "UserLogin.jsp";
                                     String ss = (String) session.getAttribute("UserLogin");
 
                                     if (ss != null) {
                                         customer = (Customer) session.getAttribute("tempCustomer");
+                                        ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
+                                        cartCount = listCart.size();
                                         txtAccount = ss;
                                         link = "ManageUserLoginServlet?mode=viewProfile&customerID=";
                                         link += customer.getCustomer_id();

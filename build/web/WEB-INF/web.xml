@@ -196,7 +196,10 @@
         <servlet-name>VNPayAjax</servlet-name>
         <servlet-class>servlet.VNPayAjax</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>ViewReportServlet</servlet-name>
+        <servlet-class>servlet.ViewReportServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -394,7 +397,6 @@
         <url-pattern>/StaffManageBookServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>StaffEditProfile</servlet-name>
         <url-pattern>/StaffEditProfile</url-pattern>
     </servlet-mapping>
@@ -402,8 +404,10 @@
         <servlet-name>VNPayAjax</servlet-name>
         <url-pattern>/VNPayAjax</url-pattern>
     </servlet-mapping>
-    
-
+    <servlet-mapping>
+        <servlet-name>ViewReportServlet</servlet-name>
+        <url-pattern>/ViewReportServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

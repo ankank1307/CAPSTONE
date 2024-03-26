@@ -29,8 +29,46 @@
             Product Admin CSS Template
             https://templatemo.com/tm-524-product-admin
         -->
-    </head>
+   <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
 
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #567086;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+        </style>
+    </head>
+ 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
@@ -59,7 +97,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="ManageBookServlet?mode=viewBook">
+                            <a class="nav-link " href="ManageBookServlet?mode=viewBook">
                                 <i class="fas fa-book"></i> BOOKS
                             </a>
                         </li>
@@ -70,26 +108,44 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageOrderServlet?mode=viewOrder">
-                                <i class="far fa-file-alt"></i> ORDER
+                        <div class="dropdown ">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-file-alt"></i> 
+                                <span>
+                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageCustomerServlet?mode=viewCustomer">
-                                <i class="fas fa-user"></i> CUSTOMER
+                            <div class="dropdown-content">
+                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
+                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <% String date = java.time.LocalDate.now().toString(); 
+                                    System.out.println(date);
+                                %>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0 %>&endDate=<%=date %>">DAILY REPORT</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-user"></i> 
+                                <span>
+                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                        <!--                        <li class="nav-item">
-                                                    <a class="nav-link" href="Billing.jsp">
-                                                        <i class="fas fa-money-bill-wave"></i> 
-                                                    </a>
-                                                </li>-->
 
+                            <div class="dropdown-content">
+                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
+                            </div>
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                                <i class="fas fa-money-check"></i> VOUCHERS
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link d-block" href='LoginServlet?mode=logout'>
+                            <a class="nav-link d-block" href='adminLogin.jsp'>
                                 Admin, <b>Logout</b>
                             </a>
                         </li>

@@ -4,6 +4,7 @@
     Author     : phuon
 --%>
 
+<%@page import="entity.Staff"%>
 <%@page import="entity.Order"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.ArrayList"%>
@@ -65,7 +66,7 @@
         listStatus.add("Completed");
         listStatus.add("Rejected");
     %>
-
+    <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
@@ -86,7 +87,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
-                     <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link " href="StaffManageServlet?mode=StaffViewBook">
                                 <i class="fas fa-book"></i> BOOKS
                             </a>
@@ -111,7 +112,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                Staff, <b>Logout</b>
+                                 <%=staff.getStaff_name()%>, <b>Logout</b>
                             </a>
 
                         </li>
@@ -128,7 +129,7 @@
                             <div class="search-wrapper">
 
                                 <div class="input-holder">
-                                   <form action="ManageOrderServlet" method="post">
+                                    <form action="ManageOrderServlet" method="post">
                                         <input type="text" class="search-input" placeholder="Type to search" name="searchInput" />
                                         <input type="hidden" name="mode" value="search">
                                     </form>

@@ -35,17 +35,44 @@
         <link rel="stylesheet" href="css/search_button.css" />
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
         <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
 
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
 
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #567086;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
 
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
 
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
         </style>
     </head>
-    <% Book editBook = (Book)request.getAttribute("tempBook"); %>
-    <% ArrayList<Author> listAuthor = (ArrayList<Author>)request.getAttribute("listAuthor"); %>
-    <% ArrayList<Genre> listGenre = (ArrayList<Genre>)request.getAttribute("listGenre"); %>
-
-
 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
@@ -86,32 +113,44 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageOrderServlet?mode=viewOrder">
-                                <i class="far fa-file-alt"></i> ORDER
+                        <div class="dropdown ">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-file-alt"></i> 
+                                <span>
+                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageCustomerServlet?mode=viewCustomer">
-                                <i class="fas fa-user"></i> CUSTOMER
+                            <div class="dropdown-content">
+                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
+                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <% String date = java.time.LocalDate.now().toString();
+                                    System.out.println(date);
+                                %>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0%>&endDate=<%=date%>">DAILY REPORT</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-user"></i> 
+                                <span>
+                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
-                               <i class="fas fa-user-plus"></i> STAFF
-                            </a>
-                        </li>
 
-                        <!--                        <li class="nav-item">
-                                                    <a class="nav-link" href="Billing.jsp">
-                                                        <i class="fas fa-money-bill-wave"></i> 
-                                                    </a>
-                                                </li>-->
-
+                            <div class="dropdown-content">
+                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
+                            </div>
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                                <i class="fas fa-money-check"></i> VOUCHERS
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link d-block" href='LoginServlet?mode=logout'>
+                            <a class="nav-link d-block" href='adminLogin.jsp'>
                                 Admin, <b>Logout</b>
                             </a>
                         </li>
@@ -119,6 +158,9 @@
                 </div>
             </div>
         </nav>
+        <% Book editBook = (Book) request.getAttribute("tempBook"); %>
+        <% ArrayList<Author> listAuthor = (ArrayList<Author>) request.getAttribute("listAuthor"); %>
+        <% ArrayList<Genre> listGenre = (ArrayList<Genre>) request.getAttribute("listGenre");%>
         <div class="container tm-mt-big tm-mb-big">
             <div class="row">
                 <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
@@ -139,52 +181,50 @@
 
                                     <div class="form-group mb-3">
                                         <label  for="name" >Book Title </label>
-                                        <input id="name" name="title" type="text"class="form-control validate" value="<%=editBook.getTitle() %>" required=""/>
+                                        <input id="name" name="title" type="text"class="form-control validate" value="<%=editBook.getTitle()%>" required=""/>
                                     </div> 
 
-                                   <div class="form-group mb-3">
+                                    <div class="form-group mb-3">
                                         <label  for="name" >Author </label>
                                         <select class="custom-select tm-select-accounts"
                                                 id="category" name = "authorID">
-                                            <% 
-                                                
-                                                for(int i = 0; i < listAuthor.size();i++){
-                                                    String selected="";
-                                                    selected="";
-                                                if (listAuthor.get(i).getAuthor_id() == editBook.getAuthor_id())
-                                                {
-                                                    selected="selected";
-                                                }
-                                            
+                                            <%
+
+                                                for (int i = 0; i < listAuthor.size(); i++) {
+                                                    String selected = "";
+                                                    selected = "";
+                                                    if (listAuthor.get(i).getAuthor_id() == editBook.getAuthor_id()) {
+                                                        selected = "selected";
+                                                    }
+
                                             %>
-                                           
-                                            <option <%=selected %> value ="<%=listAuthor.get(i).getAuthor_id() %>" > <%=listAuthor.get(i).getAuthor_name() %> </option>
-                                            <% } %>
-                                        </select>
-                                    </div>
-                                        
-                                      <div class="form-group mb-3">
-                                        <label  for="name" >Genre </label>
-                                        <select class="custom-select tm-select-accounts"
-                                                id="category" name = "genreID">
-                                            <% 
-                                                
-                                                for(int i = 0; i < listGenre.size();i++){
-                                                    String selected="";
-                                                    selected="";
-                                                if (listGenre.get(i).getGenre_id() == editBook.getGenre_id())
-                                                {
-                                                    selected="selected";
-                                                }
-                                            
-                                            %>
-                                           
-                                            <option <%=selected %> value ="<%=listGenre.get(i).getGenre_id() %>" > <%=listGenre.get(i).getGenre() %> </option>
+
+                                            <option <%=selected%> value ="<%=listAuthor.get(i).getAuthor_id()%>" > <%=listAuthor.get(i).getAuthor_name()%> </option>
                                             <% } %>
                                         </select>
                                     </div>
 
-                                    
+                                    <div class="form-group mb-3">
+                                        <label  for="name" >Genre </label>
+                                        <select class="custom-select tm-select-accounts"
+                                                id="category" name = "genreID">
+                                            <%
+
+                                                for (int i = 0; i < listGenre.size(); i++) {
+                                                    String selected = "";
+                                                    selected = "";
+                                                    if (listGenre.get(i).getGenre_id() == editBook.getGenre_id()) {
+                                                        selected = "selected";
+                                                    }
+
+                                            %>
+
+                                            <option <%=selected%> value ="<%=listGenre.get(i).getGenre_id()%>" > <%=listGenre.get(i).getGenre()%> </option>
+                                            <% }%>
+                                        </select>
+                                    </div>
+
+
 
 
 
@@ -192,7 +232,7 @@
                                         <label  for="name" >Year of Release </label>
                                         <input
                                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                            id="name" name="YOR" type="number" min = "1200" max="2022" maxlength="4"  pattern="\d*" class="form-control validate" value="<%=editBook.getYor() %>" required=""/>
+                                            id="name" name="YOR" type="number" min = "1200" max="2022" maxlength="4"  pattern="\d*" class="form-control validate" value="<%=editBook.getYor()%>" required=""/>
                                     </div>
 
 
@@ -204,11 +244,11 @@
                                 <div class="row">
                                     <div class="form-group mb-3 col-xs-12 col-sm-6">
                                         <label for="expire_date"> Price </label>
-                                        <input id="expire_date" name="price" type="number" value="<%=editBook.getPrice() %>" class="form-control validate" data-large-mode="true"/>
+                                        <input id="expire_date" name="price" type="number" value="<%=editBook.getPrice()%>" class="form-control validate" data-large-mode="true"/>
                                     </div>
                                     <div class="form-group mb-3 col-xs-12 col-sm-6">
                                         <label for="stock">Quantity</label> 
-                                        <input id="name" name="quantity" type="number" class="form-control validate" value="<%=editBook.getQuantity() %>" required=""/>
+                                        <input id="name" name="quantity" type="number" class="form-control validate" value="<%=editBook.getQuantity()%>" required=""/>
 
                                     </div>
 
@@ -217,11 +257,11 @@
                                     <label  for="name" >Status</label>
                                     <input
                                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                        id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" value="<%=editBook.getBook_status() %>" readonly=""/>
+                                        id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" value="<%=editBook.getBook_status()%>" readonly=""/>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label  for="name" >Description </label>
-                                    <textarea class="form-control validate tm-small" rows="5" name="description" required="" ><%=editBook.getDescription() %></textarea>
+                                    <textarea class="form-control validate tm-small" rows="5" name="description" required="" ><%=editBook.getDescription()%></textarea>
                                 </div>
 
 
@@ -262,7 +302,7 @@
         <!-- https://getbootstrap.com/ -->
         <script>
                                             $(function () {
-                                                $("#expire_date"). ;
+                                                $("#expire_date").;
                                             });
         </script>
     </body>
