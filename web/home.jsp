@@ -73,7 +73,6 @@
                                 <div class="form-group">
                                     <div class="form-group mt-4">                                        
                                         <a href="ManageBookServlet?mode=viewBook">BookStore Management</a>
-
                                     </div>
                                 </div>
 

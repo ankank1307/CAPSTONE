@@ -51,6 +51,117 @@ public class OrderDAO {
         return listOrder;
     }
 
+    public int getRevenueByDate(String startDate, String endDate) {
+        int total = 0;
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "";
+            PreparedStatement pst;
+            if (!startDate.equals("0") && !endDate.equals("0")) {
+                query = "select sum(total) from orders where order_date between ? and ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, startDate);
+                pst.setString(2, endDate);
+            } else {
+                query = "select sum(total) from orders where order_date= ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, endDate);
+            }
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1); // Retrieve the total revenue
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return total;
+    }
+
+    public int getOrdersByDate(String startDate, String endDate) {
+        int total = 0;
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "";
+            PreparedStatement pst;
+            if (!startDate.equals("0") && !endDate.equals("0")) {
+                query = "SELECT COUNT(order_id) AS numberOfOrder FROM orders where order_date between ? and ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, startDate);
+                pst.setString(2, endDate);
+            } else {
+                query = "SELECT COUNT(order_id) AS numberOfOrder FROM orders where order_date = ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, endDate);
+            }
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1); // Retrieve the total revenue
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return total;
+    }
+    
+     public int getCustomersByDate(String startDate, String endDate) {
+        int total = 0;
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "";
+            PreparedStatement pst;
+            if (!startDate.equals("0") && !endDate.equals("0")) {
+                query = "SELECT COUNT(distinct customer_id) AS numberOfOrder FROM orders where order_date between ? and ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, startDate);
+                pst.setString(2, endDate);
+            } else {
+                query = "SELECT COUNT(distinct customer_id) AS numberOfOrder FROM orders where order_date = ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, endDate);
+            }
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1); // Retrieve the total revenue
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return total;
+    }
+       public int getSaleBookByDate(String startDate, String endDate) {
+        int total = 0;
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "";
+            PreparedStatement pst;
+            if (!startDate.equals("0") && !endDate.equals("0")) {
+                query = "select count(quantity) as total from orders inner join orderdetail on orders.order_id = orderdetail.order_id where order_date between ? and ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, startDate);
+                pst.setString(2, endDate);
+            } else {
+                query = "select count(quantity) as total from orders inner join orderdetail on orders.order_id = orderdetail.order_id where order_date = ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, endDate);
+            }
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1); // Retrieve the total revenue
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return total;
+    }
+
     public ArrayList<Order> getListOrderByDate(String startDate, String endDate) {
         ArrayList<Order> listOrder = new ArrayList<>();
 
@@ -88,46 +199,46 @@ public class OrderDAO {
             Connection con = DBContext.getConnection();
             String query = "SELECT * FROM orders WHERE MONTH(order_date) = ? and YEAR(order_date) = ? and shipping_status in ('Completed','Done')";
             PreparedStatement pst = con.prepareStatement(query);
-            
+
             for (int i = 1; i <= 12; i++) {
                 Map<Object, Object> map = new HashMap<>();
-                if (i==1) {
+                if (i == 1) {
                     map.put("label", "January");
                 }
-                if (i==2) {
+                if (i == 2) {
                     map.put("label", "February");
                 }
-                if (i==3) {
+                if (i == 3) {
                     map.put("label", "March");
                 }
-                if (i==4) {
+                if (i == 4) {
                     map.put("label", "April");
                 }
-                if (i==5) {
+                if (i == 5) {
                     map.put("label", "May");
                 }
-                if (i==6) {
+                if (i == 6) {
                     map.put("label", "June");
                 }
-                if (i==7) {
+                if (i == 7) {
                     map.put("label", "July");
                 }
-                if (i==8) {
+                if (i == 8) {
                     map.put("label", "August");
                 }
-                if (i==9) {
+                if (i == 9) {
                     map.put("label", "September");
                 }
-                if (i==10) {
+                if (i == 10) {
                     map.put("label", "October");
                 }
-                if (i==11) {
+                if (i == 11) {
                     map.put("label", "November");
                 }
-                if (i==12) {
+                if (i == 12) {
                     map.put("label", "December");
                 }
-                
+
                 pst.setInt(1, i);
                 pst.setInt(2, year);
                 ResultSet rs = pst.executeQuery();
@@ -184,7 +295,7 @@ public class OrderDAO {
         return listOrder;
     }
 
-    public int saveOrdersCustomer(Order order) {
+    public int saveOrdersByCustomer(Order order) {
         int newID = 0;
         try {
             String sqlstm = "INSERT INTO orders(customer_id, order_date, total , shipping_status, order_status, review_status) VALUE(?,?,?,?,?,?)";
@@ -217,6 +328,7 @@ public class OrderDAO {
         }
         return newID;
     }
+
     public int saveOrdersStaff(Order order) {
         int newID = 0;
         try {
@@ -225,7 +337,6 @@ public class OrderDAO {
             Connection con = DBContext.getConnection();
             PreparedStatement pst = con.prepareStatement(sqlstm, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            
             pst.setString(1, order.getOrder_date());
             pst.setInt(2, order.getTotal());
             pst.setString(3, order.getShipping_status());

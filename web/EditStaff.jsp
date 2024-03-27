@@ -28,12 +28,45 @@
         <!-- https://getbootstrap.com/ -->
         <link rel="stylesheet" href="css/templatemo-style.css">
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
-        <!--
-            Product Admin CSS Template
-            https://templatemo.com/tm-524-product-admin
-        -->
+        <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #567086;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+        </style>
     </head>
-    <% Staff editStaff = (Staff)request.getAttribute("tempStaff"); %>
 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
@@ -56,14 +89,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" href="ManageAuthorServlet?mode=viewAuthor">
+                            <a class="nav-link" href="ManageAuthorServlet?mode=viewAuthor">
                                 <i class="fas fa-user-tie"></i> AUTHORS
-                                
+                                <span class="sr-only">(current)</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="ManageBookServlet?mode=viewBook">
+                            <a class="nav-link " href="ManageBookServlet?mode=viewBook">
                                 <i class="fas fa-book"></i> BOOKS
                             </a>
                         </li>
@@ -74,32 +107,44 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageOrderServlet?mode=viewOrder">
-                                <i class="far fa-file-alt"></i> ORDER
+                        <div class="dropdown ">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-file-alt"></i> 
+                                <span>
+                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageCustomerServlet?mode=viewCustomer">
-                                <i class="fas fa-user"></i> CUSTOMER
+                            <div class="dropdown-content">
+                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
+                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <% String date = java.time.LocalDate.now().toString();
+                                    System.out.println(date);
+                                %>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0%>&endDate=<%=date%>">DAILY REPORT</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link  active" href="">
+                                <i class="fas fa-user"></i> 
+                                <span>
+                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
-                               <i class="fas fa-user-plus"></i> STAFF
-                               <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <!--                        <li class="nav-item">
-                                                    <a class="nav-link" href="Billing.jsp">
-                                                        <i class="fas fa-money-bill-wave"></i> 
-                                                    </a>
-                                                </li>-->
 
+                            <div class="dropdown-content">
+                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
+                            </div>
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                                <i class="fas fa-money-check"></i> VOUCHERS
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link d-block" href='LoginServlet?mode=logout'>
+                            <a class="nav-link d-block" href='adminLogin.jsp'>
                                 Admin, <b>Logout</b>
                             </a>
                         </li>
@@ -107,6 +152,7 @@
                 </div>
             </div>
         </nav>
+        <% Staff editStaff = (Staff) request.getAttribute("tempStaff");%>
         <div class="container tm-mt-big tm-mb-big">
             <div class="row">
                 <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
@@ -122,20 +168,20 @@
                                     <input type="hidden" name="mode" value="editStaff">   
                                     <div class="form-group mb-3">
                                         <label  for="name" >ID </label>
-                                        <input id="name" name="staffID" type="number"class="form-control validate" readonly="" value="<%=editStaff.getStaff_id() %>" />
+                                        <input id="name" name="staffID" type="number"class="form-control validate" readonly="" value="<%=editStaff.getStaff_id()%>" />
                                     </div> 
 
                                     <div class="form-group mb-3">
                                         <label  for="name" >Name </label>
-                                        <input id="name" name="authorName" type="text"class="form-control validate" required="" value="<%=editStaff.getStaff_name() %>"/>
+                                        <input id="name" name="authorName" type="text"class="form-control validate" required="" value="<%=editStaff.getStaff_name()%>"/>
                                     </div> 
-                                    
+
                                     <div class="form-group mb-3">
                                         <label  for="name" >User Name </label>
-                                        <input id="name" name="staffUserName" type="text"class="form-control validate" required="" value="<%=editStaff.getUsername() %>"/>
+                                        <input id="name" name="staffUserName" type="text"class="form-control validate" required="" value="<%=editStaff.getUsername()%>"/>
                                     </div>
-                                    
-                                    
+
+
                                     <!--
                                                                         
                                                                         <div class="form-group mb-3">
@@ -152,15 +198,15 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                                 <div class="form-group mb-3">
-                                        <label  for="name" >Email </label>
-                                        <input id="name" name="staffEmail" type="text"class="form-control validate" required="" value="<%=editStaff.getEmail() %>"/>
-                                    </div>
+                                    <label  for="name" >Email </label>
+                                    <input id="name" name="staffEmail" type="text"class="form-control validate" required="" value="<%=editStaff.getEmail()%>"/>
+                                </div>
 
-                                    <div class="form-group mb-3">
-                                        <label  for="name" >Status</label>
-                                        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                               id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" readonly="" value="<%=editStaff.getStaff_status() %>"/>
-                                    </div>
+                                <div class="form-group mb-3">
+                                    <label  for="name" >Status</label>
+                                    <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" readonly="" value="<%=editStaff.getStaff_status()%>"/>
+                                </div>
 
                             </div>
                             <div class="col-12">
@@ -181,9 +227,9 @@
         <script src="js/bootstrap.min.js"></script>
         <!-- https://getbootstrap.com/ -->
         <script>
-                                            $(function () {
-                                                $("#expire_date").datepicker();
-                                            });
+            $(function () {
+                $("#expire_date").datepicker();
+            });
         </script> 
     </body>
 </html>

@@ -85,6 +85,7 @@
                 </div> 
                 <div class="form-group">
                     <label >Tình trạng giao dịch:</label>
+                    
                     <label>
                         <%
                             if (signValue.equals(vnp_SecureHash)) {
@@ -99,6 +100,7 @@
                             }
                         %></label>
                 </div> 
+                <a href="UserActivityServlet?mode=userViewBook">Back</a>
             </div>
             <p>
                 &nbsp;

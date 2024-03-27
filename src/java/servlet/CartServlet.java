@@ -50,6 +50,7 @@ public class CartServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             BookDAO myBookDAO = new BookDAO();
             OrderDAO myOrderDAO = new OrderDAO();
+            CartDAO myCartDAO = new CartDAO();
             OrderDetailDAO myOrderDetailDAO = new OrderDetailDAO();
             String mode = request.getParameter("mode");
             String target = "Cart.jsp";
@@ -69,8 +70,7 @@ public class CartServlet extends HttpServlet {
                 rd.forward(request, response);
             }
 
-            if (mode.equals("addToCart")) {
-                CartDAO myCartDAO = new CartDAO();
+            if (mode.equals("addToCart")) {              
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
                 if (customer != null) {
                     ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
@@ -105,7 +105,6 @@ public class CartServlet extends HttpServlet {
                 rd.forward(request, response);
             }
             if (mode.equals("downQuantity")) {
-                CartDAO myCartDAO = new CartDAO();
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
                 ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 int id = Integer.parseInt(request.getParameter("bookID"));
@@ -127,7 +126,7 @@ public class CartServlet extends HttpServlet {
 
             }
             if (mode.equals("upQuantity")) {
-                CartDAO myCartDAO = new CartDAO();
+                
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
                 ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 int id = Integer.parseInt(request.getParameter("bookID"));
@@ -142,15 +141,15 @@ public class CartServlet extends HttpServlet {
                 target = "Cart.jsp";
                 RequestDispatcher rd = request.getRequestDispatcher(target);
                 rd.forward(request, response);
-
             }
-            if (mode.equals("deleteItem")) {
-                ArrayList<Cart> listCart = (ArrayList<Cart>) session.getAttribute("listCart");
+            if (mode.equals("deleteItem")) {  
+                Customer customer = (Customer) session.getAttribute("tempCustomer");
+                ArrayList<Cart> listCart = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 int id = Integer.parseInt(request.getParameter("bookID"));
 
                 for (int i = 0; i < listCart.size(); i++) {
                     if (id == listCart.get(i).getBookID()) {
-                        listCart.remove(i);
+                       myCartDAO.DeleteCartItem(id, customer.getCustomer_id());
                         break;
                     }
                 }
@@ -178,16 +177,13 @@ public class CartServlet extends HttpServlet {
                     RequestDispatcher rd = request.getRequestDispatcher(target);
                     rd.forward(request, response);
                 }else{
-                ArrayList<Cart> listOrder = (ArrayList<Cart>) session.getAttribute("listCart");
-                
-                
-
+                                         
                 Customer customer = (Customer) session.getAttribute("tempCustomer");
-
+                ArrayList<Cart> listOrder = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 String date = java.time.LocalDate.now().toString();
               
                     Order newOrder = new Order(customer.getCustomer_id(), date, total, "Pending", 1, "Reivew");
-                    int orderID = myOrderDAO.saveOrdersCustomer(newOrder);
+                    int orderID = myOrderDAO.saveOrdersByCustomer(newOrder);
                     if (orderID != 0) {
                         for (Cart cart : listOrder) {
                             Book book = myBookDAO.getBookByID(cart.getBookID());
@@ -211,6 +207,7 @@ public class CartServlet extends HttpServlet {
                                 break;
                             }
                         }
+                        myCartDAO.DeleteCartItemByCustomerID(customer.getCustomer_id());
                         request.setAttribute("message", "Payment Success");
                         session.removeAttribute("listCart");
                         session.setAttribute("tempCustomer", customer);

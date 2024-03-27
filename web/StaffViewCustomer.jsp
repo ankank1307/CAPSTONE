@@ -4,6 +4,7 @@
     Author     : phuon
 --%>
 
+<%@page import="entity.Staff"%>
 <%@page import="entity.Customer"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.ArrayList"%>
@@ -36,7 +37,7 @@
         <link rel="stylesheet" href="css/search_button.css" />
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
     </head>
-
+     <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
@@ -81,7 +82,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='LoginServlet?mode=logout'>
-                                Admin, <b>Logout</b>
+                                 <%=staff.getStaff_name()%>, <b>Logout</b>
                             </a>
                         </li>
 

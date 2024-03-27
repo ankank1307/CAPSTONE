@@ -42,6 +42,29 @@ public class GenreDAO {
         }
         return listGenre;
     }
+    public ArrayList<Genre> getListGenreByStatus() {
+
+        ArrayList<Genre> listGenre = new ArrayList<>();
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "SELECT * FROM genre where genre_status = 1;";
+            Statement st = con.prepareStatement(query);
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                Genre genre = new Genre(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4)
+                );
+                listGenre.add(genre);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return listGenre;
+    }
 
     public void insertGenre(Genre genre) {
         try {

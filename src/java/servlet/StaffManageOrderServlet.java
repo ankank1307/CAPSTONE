@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -83,6 +84,7 @@ public class StaffManageOrderServlet extends HttpServlet {
                 ss.setAttribute("listBill", listBill);
                 target = "StaffManageBookServlet?mode=StaffViewBook";
             }
+           
             if (mode.equals("upQuantity")) {
                 int itemID = Integer.parseInt(request.getParameter("itemID"));
                 ArrayList<Cart> listBill = (ArrayList< Cart>) ss.getAttribute("listBill");

@@ -218,7 +218,7 @@
         GenreDAO myGenreDAO = new GenreDAO();
         ArrayList<Genre> list_genre = myGenreDAO.getListGenre();
         ArrayList<Genre> listGenre = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list_genre.size(); i++) {
             if (list_genre.get(i).getGenre_status() == 1) {
                 listGenre.add(list_genre.get(i));
             }

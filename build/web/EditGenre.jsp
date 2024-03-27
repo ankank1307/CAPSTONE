@@ -30,14 +30,51 @@
             https://templatemo.com/tm-524-product-admin
         -->
         <link rel="shortcut icon" type="image/x-icon" href="images/book.ico"/>
+        <style>
+            .dropbtn {
+                background-color: #04AA6D;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #567086;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+            }
+        </style>
     </head>
-    <% Genre editGenre = (Genre) request.getAttribute("tempGenre"); %>
 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
-                <a class="navbar-brand" href="home.jsp>
-                   <h1 class="tm-site-title mb-0">Product Admin</h1>
+                <a class="navbar-brand" href="home.jsp">
+                    <h1 class="tm-site-title mb-0">Product Admin</h1>
                 </a>
                 <button
                     class="navbar-toggler ml-auto mr-0"
@@ -72,31 +109,44 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageOrderServlet?mode=viewOrder">
-                                <i class="far fa-file-alt"></i> ORDER
+                        <div class="dropdown ">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-file-alt"></i> 
+                                <span>
+                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageCustomerServlet?mode=viewCustomer">
-                                <i class="fas fa-user"></i> CUSTOMER
+                            <div class="dropdown-content">
+                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
+                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <% String date = java.time.LocalDate.now().toString();
+                                    System.out.println(date);
+                                %>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0%>&endDate=<%=date%>">DAILY REPORT</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link" href="">
+                                <i class="fas fa-user"></i> 
+                                <span>
+                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
+                                </span>
                             </a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
-                               <i class="fas fa-user-plus"></i> STAFF
-                            </a>
-                        </li>
-                        <!--                        <li class="nav-item">
-                                                    <a class="nav-link" href="Billing.jsp">
-                                                        <i class="fas fa-money-bill-wave"></i> 
-                                                    </a>
-                                                </li>-->
 
+                            <div class="dropdown-content">
+                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
+                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
+                            </div>
+                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
+                                <i class="fas fa-money-check"></i> VOUCHERS
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link d-block" href='LoginServlet?mode=logout'>
+                            <a class="nav-link d-block" href='adminLogin.jsp'>
                                 Admin, <b>Logout</b>
                             </a>
                         </li>
@@ -104,6 +154,7 @@
                 </div>
             </div>
         </nav>
+        <% Genre editGenre = (Genre) request.getAttribute("tempGenre");%>
         <div class="container tm-mt-big tm-mb-big">
             <div class="row">
                 <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
@@ -119,12 +170,12 @@
                                     <input type="hidden" name="mode" value="editGenre"> 
                                     <div class="form-group mb-3">
                                         <label  for="name" >ID </label>
-                                        <input id="name" name="genreID" type="number"class="form-control validate" value="<%=editGenre.getGenre_id() %>" readonly="" />
+                                        <input id="name" name="genreID" type="number"class="form-control validate" value="<%=editGenre.getGenre_id()%>" readonly="" />
                                     </div> 
 
                                     <div class="form-group mb-3">
                                         <label  for="name" >Genre </label>
-                                        <input id="name" name="genre" type="text"class="form-control validate" value="<%=editGenre.getGenre() %>" required=""/>
+                                        <input id="name" name="genre" type="text"class="form-control validate" value="<%=editGenre.getGenre()%>" required=""/>
                                     </div> 
 
                                     <!--                                    <div class="form-group mb-3">
@@ -136,7 +187,7 @@
                                     <div class="form-group mb-3">
                                         <label  for="name" >Status </label>
                                         <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                               id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" value="<%=editGenre.getGenre_status() %>" readonly=""/>
+                                               id="name" name="status" type="number" min = "0" max="1" maxlength="1"  pattern="\d*" class="form-control validate" value="<%=editGenre.getGenre_status()%>" readonly=""/>
                                     </div>
                                     <!--
                                                                         
@@ -166,7 +217,7 @@
                                                              </div>-->
                                 <div class="form-group mb-3">
                                     <label  for="name" >Genre Description </label>
-                                    <textarea class="form-control validate tm-small" rows="5" name="description" required="" ><%=editGenre.getDescription() %></textarea>
+                                    <textarea class="form-control validate tm-small" rows="5" name="description" required="" ><%=editGenre.getDescription()%></textarea>
                                 </div>   
                                 <!--                                <div class="custom-file mt-3 mb-3">
                                                                   <input id="fileInput" type="file" style="display:none;" accept=".png, .jpg, .jpeg, .gif" />

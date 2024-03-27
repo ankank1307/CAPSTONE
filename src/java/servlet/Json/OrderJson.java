@@ -100,7 +100,7 @@ public class OrderJson extends HttpServlet {
         int order_status = requestDataJson.getInt("order_status");
         String review_status = "Review";
         Order order = new Order(customer_id, date, total, shipping_status, order_status, review_status);
-        int order_id = myorderDAO.saveOrdersCustomer(order);
+        int order_id = myorderDAO.saveOrdersByCustomer(order);
         JSONObject responseJson = new JSONObject();
         responseJson.put("order_id", order_id);
         responseJson.put("customer_id", order.getCustomer_id());

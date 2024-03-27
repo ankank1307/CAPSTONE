@@ -115,65 +115,6 @@
         listStatus.add("Rejected");
         listStatus.add("Done");
     %>
-    <%
-        Gson gsonObj = new Gson();
-        Map<Object, Object> map = null;
-
-        List<Map<Object, Object>> list = (List<Map<Object, Object>>) request.getAttribute("listRevenueByMonth");
-
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "January");
-//        map.put("y", 12000000);
-//        map.put("exploded", true);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "February");
-//        map.put("y", 1200000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "March");
-//        map.put("y", 3000000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "April");
-//        map.put("y", 4500000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "May");
-//        map.put("y", 4300000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "June");
-//        map.put("y", 6000000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "July");
-//        map.put("y", 8000000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "August");
-//        map.put("y", 130000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "September");
-//        map.put("y", 5400000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "October");
-//        map.put("y", 3800000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "November");
-//        map.put("y", 1300000);
-//        list.add(map);
-//        map = new HashMap<Object, Object>();
-//        map.put("label", "December");
-//        map.put("y", 0);
-//        list.add(map);
-        String dataPoints = gsonObj.toJson(list);
-        System.out.println(dataPoints);
-
-    %>
 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
@@ -203,7 +144,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="ManageBookServlet?mode=viewBook">
+                            <a class="nav-link " href="ManageBookServlet?mode=viewBook">
                                 <i class="fas fa-book"></i> BOOKS
                             </a>
                         </li>
@@ -214,23 +155,24 @@
                                 <i class="fas fa-money-bill-wave"></i> GENRE
                             </a>
                         </li>
-                        <div class="dropdown">
-                            <a class="nav-link active" href="ManageStaffServlet?mode=viewStaff">
+                        <div class="dropdown ">
+                            <a class="nav-link  active" href="">
                                 <i class="fas fa-file-alt"></i> 
                                 <span>
                                     REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
                                 </span>
                             </a>
-
                             <div class="dropdown-content">
-                                <a href="ManageStaffServlet?mode=viewStaff">ORDER</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">WEEKLY REPORT</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">DAILY REPORT</a>
-
+                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
+                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <% String date = java.time.LocalDate.now().toString(); 
+                                    System.out.println(date);
+                                %>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0 %>&endDate=<%=date %>">DAILY REPORT</a>
                             </div>
                         </div>
                         <div class="dropdown">
-                            <a class="nav-link" href="ManageStaffServlet?mode=viewStaff">
+                            <a class="nav-link" href="">
                                 <i class="fas fa-user"></i> 
                                 <span>
                                     USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
@@ -244,7 +186,7 @@
                         </div>
                         <li class="nav-item">
                             <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
-                               <i class="fas fa-money-check"></i> VOUCHERS
+                                <i class="fas fa-money-check"></i> VOUCHERS
                             </a>
                         </li>
                     </ul>
@@ -371,33 +313,8 @@
                     </div>
                 </div>
             </div>
-            <form action="ManageOrderServlet?mode=generateChart" method="POST">
-                <div class="row mt-3" style="margin-bottom: 20px">
-
-                    <div class="col-md-4">
-
-
-                        <label for="yearDropdown" style="color: white; size: 14px">Select Year</label>
-                        <select class="form-control" id="yearDropdown" name="selectedYear" style="padding: 10px 10px; background-color: #435c70">
-                            <%
-                                int currentYear = java.time.Year.now().getValue();
-                                int selectedYear = (int) request.getAttribute("selectedYear");
-
-                                for (int year = 2022; year <= currentYear; year++) {
-                                    String selected = (year == selectedYear) ? "selected" : "";
-                            %>
-                            <option <%=selected%> ><%= year%></option>
-                            <% } %>
-                        </select>
-
-                    </div>
-                    <div class="col-md-4">
-                        <label>&nbsp;</label>
-                        <button class="btn btn-primary btn-block" onclick="generateReport()">Generate Report</button>
-                    </div>
-
-                </div></form>
-            <div id="chartContainer"  style="height: 370px; width: 100%;" ></div>
+            
+           
         </div>
 
 
@@ -429,29 +346,6 @@
                                     container.find('.search-input').val('');
                                 }
                             }
-        </script>
-        <script type="text/javascript">
-
-            window.onload = function () {
-                var selectedYear = $("#yearDropdown").val();
-                var chart = new CanvasJS.Chart("chartContainer", {
-                    theme: "light2",
-                    animationEnabled: true,
-                    exportFileName: "Revenue of BookSaw",
-                    exportEnabled: true,
-                    title: {
-                        text: "Revenue of BookSaw in " + selectedYear,
-                    },
-                    data: [{
-                            type: "column",
-                            indexLabel: " {y}đ",
-                            dataPoints: <%out.print(dataPoints);%>
-                        }]
-                });
-                chart.render();
-            };
-
-
         </script>
         <script>
             // Add the following script for the button click event
