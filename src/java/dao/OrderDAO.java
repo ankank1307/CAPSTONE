@@ -71,6 +71,7 @@ public class OrderDAO {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 total = rs.getInt(1); // Retrieve the total revenue
+                System.out.println(total);
             }
 
         } catch (SQLException ex) {

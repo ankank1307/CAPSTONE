@@ -67,6 +67,7 @@
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 // Set the currency symbol to "VND" if necessary
         currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0); 
     %>
     <body>
         <% ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("newList"); %>

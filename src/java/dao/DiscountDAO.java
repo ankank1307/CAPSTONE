@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -229,6 +231,49 @@ public class DiscountDAO {
             System.out.println(ex.getMessage());
         }
         
+    }
+     
+     public void checkAndDeleteExpiredDiscounts() {
+        try {
+            Connection con = DBContext.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT voucher_id, end_date FROM discount");
+            
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            
+            while (rs.next()) {
+                int voucherId = rs.getInt("voucher_id");
+                String endDateStr = rs.getString("end_date");
+                LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+                
+                if (currentDate.isAfter(endDate)) {
+                    // If current date is after the end date, delete the discount
+                    deleteDiscountById(voucherId);
+                    System.out.println("Discount with voucher_id " + voucherId + " has expired and has been deleted.");
+                }
+            }
+            
+            rs.close();
+            st.close();
+            con.close();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    private void deleteDiscountById(int voucherId) {
+        try {
+            Connection con = DBContext.getConnection();
+            PreparedStatement pst = con.prepareStatement("DELETE FROM discount WHERE voucher_id = ?");
+            pst.setInt(1, voucherId);
+            pst.executeUpdate();
+            pst.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     
 }

@@ -66,6 +66,8 @@ public class InitServlet extends HttpServlet {
             //Set path to ConfigInfo, DAO can get the real path from ConfigInfo
             ConfigInfo.setCtxRealPath(ctxFullPath);
            // request.setAttribute("listCustomer", listCustomer);
+           DiscountDAO myDisDAO = new DiscountDAO();
+           myDisDAO.checkAndDeleteExpiredDiscounts();
             String target = "UserActivityServlet?mode=userViewBook";
             RequestDispatcher reqDispatch = request.getRequestDispatcher(target);
             reqDispatch.forward(request, response);
