@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Book;
 import entity.OrderDetail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,7 +46,7 @@ public class OrderDetailDAO {
         }
         return listOrder;
     }
-    
+
     public ArrayList<OrderDetail> getListOrderDetail_1() {
         ArrayList<OrderDetail> listOrderDetail = new ArrayList<>();
 
@@ -63,7 +64,7 @@ public class OrderDetailDAO {
                         rs.getInt(3),
                         rs.getInt(4),
                         rs.getString(15)
-                        );
+                );
                 listOrderDetail.add(orderDetail);
             }
 
@@ -73,7 +74,7 @@ public class OrderDetailDAO {
 
         return listOrderDetail;
     }
-    
+
     public ArrayList<OrderDetail> getListOrderDetailByOrder(int orderID) {
         ArrayList<OrderDetail> listOrderDetail = new ArrayList<>();
         try {
@@ -96,11 +97,10 @@ public class OrderDetailDAO {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
-        
-    return listOrderDetail;
-}
-    
+
+        return listOrderDetail;
+    }
+
     public void insertOrderDetail(OrderDetail orderDetail) {
         try {
             Connection con = DBContext.getConnection();
@@ -111,7 +111,6 @@ public class OrderDetailDAO {
             pst.setInt(3, orderDetail.getQuantity());
             pst.setInt(4, orderDetail.getPrice());
 
-
             pst.executeUpdate();
 
             pst.close();
@@ -121,5 +120,29 @@ public class OrderDetailDAO {
             System.out.println(ex.getMessage());
 
         }
+    }
+
+    public Book getBestSellingBook() {
+        int bestSellingBookId = 1002; // Default value if no best-selling book found
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "SELECT book_id FROM orderdetail GROUP BY book_id ORDER BY COUNT(*) DESC LIMIT 1";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            if (rs.next()) {
+                bestSellingBookId = rs.getInt(1);
+            }
+
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        BookDAO myBookDAO = new BookDAO();
+        Book bestSellingBook = myBookDAO.getBestSellingBook(bestSellingBookId);
+        return bestSellingBook;
     }
 }

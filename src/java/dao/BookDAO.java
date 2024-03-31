@@ -44,6 +44,7 @@ public class BookDAO {
         }
         return listBook;
     }
+
     public ArrayList<Book> getListBookByStatus() {
 
         ArrayList<Book> listBook = new ArrayList<>();
@@ -72,6 +73,7 @@ public class BookDAO {
         }
         return listBook;
     }
+
     public ArrayList<Book> getListBook_1() {
         ArrayList<Book> listBook = new ArrayList<>();
 
@@ -239,7 +241,6 @@ public class BookDAO {
         }
         return newID;
     }
-   
 
     public void updateBook(Book book) {
         try {
@@ -267,6 +268,7 @@ public class BookDAO {
             System.out.println(ex.getMessage());
         }
     }
+
     public void updateQuantity(Book book) {
         try {
             Connection con = DBContext.getConnection();
@@ -343,4 +345,33 @@ public class BookDAO {
 
     }
 
+    public Book getBestSellingBook(int id) {
+        Book book = null;
+        try {
+            Connection con = DBContext.getConnection();
+            PreparedStatement pst = con.prepareStatement("select * from books inner join authors on books.author_id = authors.author_id inner join genre on books.genre_id = genre.genre_id inner join picture on books.book_id = picture.book_id where books.book_id = ?");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                book = new Book(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getString(11),
+                        rs.getString(15),
+                        rs.getString(19));
+            }
+            con.close();
+            pst.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return book;
+    }
 }

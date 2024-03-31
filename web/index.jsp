@@ -1,4 +1,5 @@
 
+<%@page import="dao.OrderDetailDAO"%>
 <%@page import="java.util.Currency"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Comparator"%>
@@ -67,7 +68,11 @@
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 // Set the currency symbol to "VND" if necessary
         currencyFormat.setCurrency(Currency.getInstance("VND"));
-        currencyFormat.setMaximumFractionDigits(0); 
+        currencyFormat.setMaximumFractionDigits(0);
+
+        OrderDetailDAO myOrderDetail = new OrderDetailDAO();
+        Book bestSellingBook = myOrderDetail.getBestSellingBook();
+
     %>
     <body>
         <% ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("newList"); %>
@@ -313,588 +318,589 @@
                             </div>		
                         </div>
                     </div>
-                    </section>
+                    </section
+
                     <section id="best-selling" class="leaf-pattern-overlay">
-            <div class="corner-pattern-overlay"></div>
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-8 col-md-offset-2">
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(15).getBook_id()%>">
-                                    <figure class="products-thumb">
-                                        <img src="bookImages/<%=listBook.get(15).getBook_id()%>.jpg" alt="book" class="single-image">
-                                    </figure>
-                                </a>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="product-entry">
-                                    <h2 class="section-title divider">Best Selling Book</h2>
-
-                                    <div class="products-content">
-                                        <div class="author-name"><%=listBook.get(15).getAuthor_name()%></div>
-                                        <h3 class="item-title"><%=listBook.get(15).getTitle()%></h3>
-                                        <p><%=listBook.get(15).getDescription()%></p>
-                                        <div class="item-price"><%= currencyFormat.format(listBook.get(15).getPrice())%></div>
-                                        <div class="btn-wrap">
-                                            <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(15).getBook_id()%>" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- / row -->
-
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-<section id="popular-books" class="bookshelf">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="section-header align-center">
-                    <div class="title">
-                        <span>Some quality items</span>
-                    </div>
-                    <h2 class="section-title">Popular Books</h2>
-                </div>
-
-                <ul class="tabs">
-                    <li data-tab-target="#all-genre" class="active tab">All Genre</li>
-                    <li data-tab-target="#action" class="tab">Action and Adventure</li>
-                    <li data-tab-target="#classics" class="tab">Classics</li>
-                    <li data-tab-target="#comic" class="tab">Comic</li>
-                    <li data-tab-target="#detective" class="tab">Detective</li>
-                    <li data-tab-target="#children" class="tab">Children's literature</li>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="all-genre" data-tab-content class="active">
-                        <div class="row">
-                            <%
-                                for (int i = 0; i < listBook.size(); i++) {
-                                    if (i == 4) {
-                                        break;
-                                    }
-                            %>
-
-                            <div class="col-md-3" >
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listBook.get(i).getTitle()%></h3>
-                                            <p><%=listBook.get(i).getAuthor_name()%></p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div> 
-                            <%}%>
-                        </div>
-                        <div class="row">
-                            <%
-                                for (int i = 4; i < listBook.size(); i++) {
-                                    if (i == 8) {
-                                        break;
-                                    }
-                            %>
-
-                            <div class="col-md-3" >
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listBook.get(i).getTitle()%></h3>
-                                            <p><%=listBook.get(i).getAuthor_name()%></p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div> 
-                            <%}%>
-                        </div>
-                    </div>
-
-                    <div id="action" data-tab-content>
-                        <div class="row">
-                            <%
-                                ArrayList<Book> listAction = myBookDAO.getListBookByGenre(1001);
-                                for (int i = 0; i < listAction.size(); i++) {
-                                    if (i == 4) {
-                                        break;
-                                    }
-                            %>
-                            <div class="col-md-3">
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listAction.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listAction.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listAction.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listAction.get(i).getTitle()%></h3>
-                                            <p><%=myAuthorDAO.getAuthorByID(listAction.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-
-                    <div id="classics" data-tab-content>
-                        <div class="row">
-                            <%
-                                ArrayList<Book> listClassics = myBookDAO.getListBookByGenre(1002);
-                                for (int i = 0; i < listClassics.size(); i++) {
-                                    if (i == 4) {
-                                        break;
-                                    }
-                            %>
-                            <div class="col-md-3">
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listClassics.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listClassics.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listClassics.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listClassics.get(i).getTitle()%></h3>
-                                            <p><%=myAuthorDAO.getAuthorByID(listClassics.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-
-                    <div id="comic" data-tab-content>
-                        <div class="row">
-                            <%
-                                ArrayList<Book> listComic = myBookDAO.getListBookByGenre(1003);
-                                for (int i = 0; i < listComic.size(); i++) {
-                                    if (i == 4) {
-                                        break;
-                                    }
-                            %>
-                            <div class="col-md-3">
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listComic.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listComic.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listComic.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listComic.get(i).getTitle()%></h3>
-                                            <p><%=myAuthorDAO.getAuthorByID(listComic.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-
-                    <div id="detective" data-tab-content>
-                        <div class="row">
-                            <%
-                                ArrayList<Book> listDetective = myBookDAO.getListBookByGenre(1004);
-                                for (int i = 0; i < listDetective.size(); i++) {
-                                    if (i == 4) {
-                                        break;
-                                    }
-                            %>
-                            <div class="col-md-3">
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listDetective.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listDetective.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listDetective.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listDetective.get(i).getTitle()%></h3>
-                                            <p><%=myAuthorDAO.getAuthorByID(listDetective.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-
-                    <div id="children" data-tab-content>
-                        <div class="row">
-                            <%
-                                ArrayList<Book> listchildren = myBookDAO.getListBookByGenre(1005);
-                                for (int i = 0; i < listchildren.size(); i++) {
-                                    if (i == 4) {
-                                        break;
-                                    }
-                            %>
-                            <div class="col-md-3">
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listchildren.get(i).getBook_id()%>">
-                                    <figure class="product-style">
-                                        <img src="bookImages/<%=listchildren.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                                        <a href="CartServlet?mode=addToCart&bookID=<%=listchildren.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                                        <figcaption>
-                                            <h3><%=listchildren.get(i).getTitle()%></h3>
-                                            <p><%=myAuthorDAO.getAuthorByID(listchildren.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                            </div>
-                            <%}%>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div><!--inner-tabs-->
-
-        </div>
-    </div>
-</section>
-
-<section id="quotation" class="align-center">
-    <div class="inner-content">
-        <h2 class="section-title divider">Quote of the day</h2>
-        <blockquote data-aos="fade-up">
-            <q>The more that you read, the more things you will know. The more that you learn, the more places you'll go.</q>
-            <div class="author-name">Dr. Seuss</div>			
-        </blockquote>
-    </div>		
-</section>
-
-<section id="special-offer" class="bookshelf">
-
-    <div class="section-header align-center">
-        <div class="title">
-            <span>Grab your opportunity</span>
-        </div>
-        <h2 class="section-title">Books with offer</h2>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="inner-content">	
-                <div class="product-list" data-aos="fade-up">
-                    <div class="grid product-grid">
-                        <%
-                            for (int i = 0; i < listBook.size(); i++) {
-                                if (i == 5) {
-                                    break;
-                                }
-
-                        %>
-
-                        <figure class="product-style">
-                            <img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
-                            <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
-                            <figcaption>
-                                <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>" style="text-decoration: none">
-                                    <h3><%=listBook.get(i).getTitle()%></h3></a>
-                                <p><%=listBook.get(i).getAuthor_name()%></p>
-                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
-                            </figcaption>
-                        </figure>
-
-                        <%}%>
-
-                        <!--                                <figure class="product-style">
-                                                            <img src="images/product-item6.jpg" alt="Books" class="product-item">
-                                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-                                                            <figcaption>
-                                                                <h3>Great travel at desert</h3>
-                                                                <p>Sanchit Howdy</p>
-                                                                <div class="item-price">
-                                                                    <span class="prev-price">$ 30.00</span>$ 38.00</div>
-                                                            </figcaption>
-                                                        </figure>
-                        
-                                                        <figure class="product-style">
-                                                            <img src="images/product-item7.jpg" alt="Books" class="product-item">
-                                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-                                                            <figcaption>
-                                                                <h3>The lady beauty Scarlett</h3>
-                                                                <p>Arthur Doyle</p>
-                                                                <div class="item-price">
-                                                                    <span class="prev-price">$ 35.00</span>$ 45.00</div>
-                                                            </figcaption>
-                                                        </figure>
-                        
-                                                        <figure class="product-style">
-                                                            <img src="images/product-item8.jpg" alt="Books" class="product-item">
-                                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-                                                            <figcaption>
-                                                                <h3>Once upon a time</h3>
-                                                                <p>Klien Marry</p>
-                                                                <div class="item-price">
-                                                                    <span class="prev-price">$ 25.00</span>$ 35.00</div>
-                                                            </figcaption>
-                                                        </figure>
-                        
-                                                        <figure class="product-style">
-                                                            <img src="images/product-item2.jpg" alt="Books" class="product-item">
-                                                            <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
-                                                            <figcaption>
-                                                                <h3>Simple way of piece life</h3>
-                                                                <p>Armor Ramsey</p>
-                                                                <div class="item-price">$ 40.00</div>
-                                                            </figcaption>
-                                                        </figure>					-->
-                    </div><!--grid-->
-                </div>
-            </div><!--inner-content-->
-        </div>
-    </div>
-</section>
-
-<!--                    <section id="subscribe">
+                        <div class="corner-pattern-overlay"></div>
                         <div class="container">
                             <div class="row">
 
                                 <div class="col-md-8 col-md-offset-2">
+
                                     <div class="row">
 
                                         <div class="col-md-6">
-
-                                            <div class="title-element">
-                                                <h2 class="section-title divider">Subscribe to get newest books</h2>
-                                            </div>
-
+                                            <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=bestSellingBook.getBook_id()%>">
+                                                <figure class="products-thumb">
+                                                    <img src="bookImages/<%=bestSellingBook.getBook_id()%>.jpg" alt="book" class="single-image">
+                                                </figure>
+                                            </a>
                                         </div>
+
                                         <div class="col-md-6">
+                                            <div class="product-entry">
+                                                <h2 class="section-title divider">Best Selling Book</h2>
 
-                                            <div class="subscribe-content" data-aos="fade-up">
-                                                <p>You'll receive a confirmation and tracking number when your order is placed, and our in-house customer service team will be standing by if you have issues or returns.</p>
-                                                <form id="form">
-                                                    <input type="text" name="email" placeholder="Enter your email addresss here">
-                                                    <button class="btn-subscribe">
-                                                        <span>send</span> 
-                                                        <i class="icon icon-send"></i>
-                                                    </button>
-                                                </form>
+                                                <div class="products-content">
+                                                    <div class="author-name"><%=bestSellingBook.getAuthor_name()%></div>
+                                                    <h3 class="item-title"><%=bestSellingBook.getTitle()%></h3>
+                                                    <p><%=bestSellingBook.getDescription()%></p>
+                                                    <div class="item-price"><%= currencyFormat.format(bestSellingBook.getPrice())%></div>
+                                                    <div class="btn-wrap">
+                                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=bestSellingBook.getBook_id()%>" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
+                                                    </div>
+                                                </div>
+
+
                                             </div>
-
                                         </div>
 
                                     </div>
+                                    <!-- / row -->
+
                                 </div>
 
                             </div>
                         </div>
-                    </section>-->
+                    </section>
 
+                    <section id="popular-books" class="bookshelf">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
 
+                                    <div class="section-header align-center">
+                                        <div class="title">
+                                            <span>Some quality items</span>
+                                        </div>
+                                        <h2 class="section-title">Popular Books</h2>
+                                    </div>
 
-<!--        <section id="download-app" class="leaf-pattern-overlay">
-            <div class="corner-pattern-overlay"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="row">
+                                    <ul class="tabs">
+                                        <li data-tab-target="#all-genre" class="active tab">All Genre</li>
+                                        <li data-tab-target="#action" class="tab">Action and Adventure</li>
+                                        <li data-tab-target="#classics" class="tab">Classics</li>
+                                        <li data-tab-target="#comic" class="tab">Comic</li>
+                                        <li data-tab-target="#detective" class="tab">Detective</li>
+                                        <li data-tab-target="#children" class="tab">Children's literature</li>
+                                    </ul>
 
-                            <div class="col-md-5">
-                                <figure>
-                                    <img src="images/device.png" alt="phone" class="single-image">
-                                </figure>
+                                    <div class="tab-content">
+                                        <div id="all-genre" data-tab-content class="active">
+                                            <div class="row">
+                                                <%
+                                                    for (int i = 0; i < listBook.size(); i++) {
+                                                        if (i == 4) {
+                                                            break;
+                                                        }
+                                                %>
+
+                                                <div class="col-md-3" >
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listBook.get(i).getTitle()%></h3>
+                                                                <p><%=listBook.get(i).getAuthor_name()%></p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div> 
+                                                <%}%>
+                                            </div>
+                                            <div class="row">
+                                                <%
+                                                    for (int i = 4; i < listBook.size(); i++) {
+                                                        if (i == 8) {
+                                                            break;
+                                                        }
+                                                %>
+
+                                                <div class="col-md-3" >
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listBook.get(i).getTitle()%></h3>
+                                                                <p><%=listBook.get(i).getAuthor_name()%></p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div> 
+                                                <%}%>
+                                            </div>
+                                        </div>
+
+                                        <div id="action" data-tab-content>
+                                            <div class="row">
+                                                <%
+                                                    ArrayList<Book> listAction = myBookDAO.getListBookByGenre(1001);
+                                                    for (int i = 0; i < listAction.size(); i++) {
+                                                        if (i == 4) {
+                                                            break;
+                                                        }
+                                                %>
+                                                <div class="col-md-3">
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listAction.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listAction.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listAction.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listAction.get(i).getTitle()%></h3>
+                                                                <p><%=myAuthorDAO.getAuthorByID(listAction.get(i).getAuthor_id()).getAuthor_name()%> </p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <%}%>
+                                            </div>
+                                        </div>
+
+                                        <div id="classics" data-tab-content>
+                                            <div class="row">
+                                                <%
+                                                    ArrayList<Book> listClassics = myBookDAO.getListBookByGenre(1002);
+                                                    for (int i = 0; i < listClassics.size(); i++) {
+                                                        if (i == 4) {
+                                                            break;
+                                                        }
+                                                %>
+                                                <div class="col-md-3">
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listClassics.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listClassics.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listClassics.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listClassics.get(i).getTitle()%></h3>
+                                                                <p><%=myAuthorDAO.getAuthorByID(listClassics.get(i).getAuthor_id()).getAuthor_name()%> </p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <%}%>
+                                            </div>
+                                        </div>
+
+                                        <div id="comic" data-tab-content>
+                                            <div class="row">
+                                                <%
+                                                    ArrayList<Book> listComic = myBookDAO.getListBookByGenre(1003);
+                                                    for (int i = 0; i < listComic.size(); i++) {
+                                                        if (i == 4) {
+                                                            break;
+                                                        }
+                                                %>
+                                                <div class="col-md-3">
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listComic.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listComic.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listComic.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listComic.get(i).getTitle()%></h3>
+                                                                <p><%=myAuthorDAO.getAuthorByID(listComic.get(i).getAuthor_id()).getAuthor_name()%> </p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <%}%>
+                                            </div>
+                                        </div>
+
+                                        <div id="detective" data-tab-content>
+                                            <div class="row">
+                                                <%
+                                                    ArrayList<Book> listDetective = myBookDAO.getListBookByGenre(1004);
+                                                    for (int i = 0; i < listDetective.size(); i++) {
+                                                        if (i == 4) {
+                                                            break;
+                                                        }
+                                                %>
+                                                <div class="col-md-3">
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listDetective.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listDetective.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listDetective.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listDetective.get(i).getTitle()%></h3>
+                                                                <p><%=myAuthorDAO.getAuthorByID(listDetective.get(i).getAuthor_id()).getAuthor_name()%> </p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <%}%>
+                                            </div>
+                                        </div>
+
+                                        <div id="children" data-tab-content>
+                                            <div class="row">
+                                                <%
+                                                    ArrayList<Book> listchildren = myBookDAO.getListBookByGenre(1005);
+                                                    for (int i = 0; i < listchildren.size(); i++) {
+                                                        if (i == 4) {
+                                                            break;
+                                                        }
+                                                %>
+                                                <div class="col-md-3">
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listchildren.get(i).getBook_id()%>">
+                                                        <figure class="product-style">
+                                                            <img src="bookImages/<%=listchildren.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                            <a href="CartServlet?mode=addToCart&bookID=<%=listchildren.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                            <figcaption>
+                                                                <h3><%=listchildren.get(i).getTitle()%></h3>
+                                                                <p><%=myAuthorDAO.getAuthorByID(listchildren.get(i).getAuthor_id()).getAuthor_name()%> </p>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <%}%>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div><!--inner-tabs-->
+
                             </div>
+                        </div>
+                    </section>
 
-                            <div class="col-md-7">
-                                <div class="app-info">
-                                    <h2 class="section-title divider">Download our app now !</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
-                                    <div class="google-app">
-                                        <img src="images/google-play.jpg" alt="google play">
-                                        <img src="images/app-store.jpg" alt="app store">
+                    <section id="quotation" class="align-center">
+                        <div class="inner-content">
+                            <h2 class="section-title divider">Quote of the day</h2>
+                            <blockquote data-aos="fade-up">
+                                <q>The more that you read, the more things you will know. The more that you learn, the more places you'll go.</q>
+                                <div class="author-name">Dr. Seuss</div>			
+                            </blockquote>
+                        </div>		
+                    </section>
+
+                    <section id="special-offer" class="bookshelf">
+
+                        <div class="section-header align-center">
+                            <div class="title">
+                                <span>Grab your opportunity</span>
+                            </div>
+                            <h2 class="section-title">Books with offer</h2>
+                        </div>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="inner-content">	
+                                    <div class="product-list" data-aos="fade-up">
+                                        <div class="grid product-grid">
+                                            <%
+                                                for (int i = 0; i < listBook.size(); i++) {
+                                                    if (i == 5) {
+                                                        break;
+                                                    }
+
+                                            %>
+
+                                            <figure class="product-style">
+                                                <img src="bookImages/<%=listBook.get(i).getBook_id()%>.jpg" alt="Books" class="product-item">
+                                                <a href="CartServlet?mode=addToCart&bookID=<%=listBook.get(i).getBook_id()%>" ><button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button></a>
+                                                <figcaption>
+                                                    <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>" style="text-decoration: none">
+                                                        <h3><%=listBook.get(i).getTitle()%></h3></a>
+                                                    <p><%=listBook.get(i).getAuthor_name()%></p>
+                                                    <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                </figcaption>
+                                            </figure>
+
+                                            <%}%>
+
+                                            <!--                                <figure class="product-style">
+                                                                                <img src="images/product-item6.jpg" alt="Books" class="product-item">
+                                                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+                                                                                <figcaption>
+                                                                                    <h3>Great travel at desert</h3>
+                                                                                    <p>Sanchit Howdy</p>
+                                                                                    <div class="item-price">
+                                                                                        <span class="prev-price">$ 30.00</span>$ 38.00</div>
+                                                                                </figcaption>
+                                                                            </figure>
+                                            
+                                                                            <figure class="product-style">
+                                                                                <img src="images/product-item7.jpg" alt="Books" class="product-item">
+                                                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+                                                                                <figcaption>
+                                                                                    <h3>The lady beauty Scarlett</h3>
+                                                                                    <p>Arthur Doyle</p>
+                                                                                    <div class="item-price">
+                                                                                        <span class="prev-price">$ 35.00</span>$ 45.00</div>
+                                                                                </figcaption>
+                                                                            </figure>
+                                            
+                                                                            <figure class="product-style">
+                                                                                <img src="images/product-item8.jpg" alt="Books" class="product-item">
+                                                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+                                                                                <figcaption>
+                                                                                    <h3>Once upon a time</h3>
+                                                                                    <p>Klien Marry</p>
+                                                                                    <div class="item-price">
+                                                                                        <span class="prev-price">$ 25.00</span>$ 35.00</div>
+                                                                                </figcaption>
+                                                                            </figure>
+                                            
+                                                                            <figure class="product-style">
+                                                                                <img src="images/product-item2.jpg" alt="Books" class="product-item">
+                                                                                <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to Cart</button>
+                                                                                <figcaption>
+                                                                                    <h3>Simple way of piece life</h3>
+                                                                                    <p>Armor Ramsey</p>
+                                                                                    <div class="item-price">$ 40.00</div>
+                                                                                </figcaption>
+                                                                            </figure>					-->
+                                        </div><!--grid-->
+                                    </div>
+                                </div><!--inner-content-->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--                    <section id="subscribe">
+                                            <div class="container">
+                                                <div class="row">
+                    
+                                                    <div class="col-md-8 col-md-offset-2">
+                                                        <div class="row">
+                    
+                                                            <div class="col-md-6">
+                    
+                                                                <div class="title-element">
+                                                                    <h2 class="section-title divider">Subscribe to get newest books</h2>
+                                                                </div>
+                    
+                                                            </div>
+                                                            <div class="col-md-6">
+                    
+                                                                <div class="subscribe-content" data-aos="fade-up">
+                                                                    <p>You'll receive a confirmation and tracking number when your order is placed, and our in-house customer service team will be standing by if you have issues or returns.</p>
+                                                                    <form id="form">
+                                                                        <input type="text" name="email" placeholder="Enter your email addresss here">
+                                                                        <button class="btn-subscribe">
+                                                                            <span>send</span> 
+                                                                            <i class="icon icon-send"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                    
+                                                            </div>
+                    
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </div>
+                                        </section>-->
+
+
+
+                    <!--        <section id="download-app" class="leaf-pattern-overlay">
+                                <div class="corner-pattern-overlay"></div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <div class="row">
+                    
+                                                <div class="col-md-5">
+                                                    <figure>
+                                                        <img src="images/device.png" alt="phone" class="single-image">
+                                                    </figure>
+                                                </div>
+                    
+                                                <div class="col-md-7">
+                                                    <div class="app-info">
+                                                        <h2 class="section-title divider">Download our app now !</h2>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
+                                                        <div class="google-app">
+                                                            <img src="images/google-play.jpg" alt="google play">
+                                                            <img src="images/app-store.jpg" alt="app store">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </section>-->
+
+                    <footer id="footer">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-md-4">
+
+                                    <div class="footer-item">
+                                        <div class="company-brand">
+                                            <img src="images/main-logo.png" alt="logo" class="footer-logo">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+
+                                    <div class="footer-menu">
+                                        <h5>About Us</h5>
+                                        <ul class="menu-list">
+                                            <li class="menu-item">
+                                                <a href="#">vision</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">articles </a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">careers</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">service terms</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">donate</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="footer-menu">
+                                        <h5>Discover</h5>
+                                        <ul class="menu-list">
+                                            <li class="menu-item">
+                                                <a href="#">Home</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Books</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Authors</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Subjects</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Advanced Search</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="footer-menu">
+                                        <h5>My account</h5>
+                                        <ul class="menu-list">
+                                            <li class="menu-item">
+                                                <a href="#">Sign In</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">View Cart</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">My Wishtlist</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Track My Order</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+
+                                    <div class="footer-menu">
+                                        <h5>Help</h5>
+                                        <ul class="menu-list">
+                                            <li class="menu-item">
+                                                <a href="#">Help center</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Report a problem</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Suggesting edits</a>
+                                            </li>
+                                            <li class="menu-item">
+                                                <a href="#">Contact us</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
                             </div>
+                            <!-- / row -->
 
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>-->
+                    </footer>
 
-<footer id="footer">
-    <div class="container">
-        <div class="row">
+                    <div id="footer-bottom">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
 
-            <div class="col-md-4">
+                                    <div class="copyright">
+                                        <div class="row">
 
-                <div class="footer-item">
-                    <div class="company-brand">
-                        <img src="images/main-logo.png" alt="logo" class="footer-logo">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
-                    </div>
-                </div>
+                                            <div class="col-md-6">
 
-            </div>
+                                            </div>
 
-            <div class="col-md-2">
+                                            <div class="col-md-6">
+                                                <div class="social-links align-right">
+                                                    <!--                                                    <ul>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-facebook"></i></a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-twitter"></i></a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-youtube-play"></i></a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-behance-square"></i></a>
+                                                                                                            </li>
+                                                                                                        </ul>-->
+                                                </div>
+                                            </div>
 
-                <div class="footer-menu">
-                    <h5>About Us</h5>
-                    <ul class="menu-list">
-                        <li class="menu-item">
-                            <a href="#">vision</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">articles </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">careers</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">service terms</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">donate</a>
-                        </li>
-                    </ul>
-                </div>
+                                        </div>
+                                    </div><!--grid-->
 
-            </div>
-            <div class="col-md-2">
-
-                <div class="footer-menu">
-                    <h5>Discover</h5>
-                    <ul class="menu-list">
-                        <li class="menu-item">
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Books</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Authors</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Subjects</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Advanced Search</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="col-md-2">
-
-                <div class="footer-menu">
-                    <h5>My account</h5>
-                    <ul class="menu-list">
-                        <li class="menu-item">
-                            <a href="#">Sign In</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">View Cart</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">My Wishtlist</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Track My Order</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="col-md-2">
-
-                <div class="footer-menu">
-                    <h5>Help</h5>
-                    <ul class="menu-list">
-                        <li class="menu-item">
-                            <a href="#">Help center</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Report a problem</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Suggesting edits</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#">Contact us</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-        </div>
-        <!-- / row -->
-
-    </div>
-</footer>
-
-<div id="footer-bottom">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="copyright">
-                    <div class="row">
-
-                        <div class="col-md-6">
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="social-links align-right">
-                                <!--                                                    <ul>
-                                                                                        <li>
-                                                                                            <a href="#"><i class="icon icon-facebook"></i></a>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <a href="#"><i class="icon icon-twitter"></i></a>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <a href="#"><i class="icon icon-youtube-play"></i></a>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <a href="#"><i class="icon icon-behance-square"></i></a>
-                                                                                        </li>
-                                                                                    </ul>-->
+                                </div><!--footer-bottom-content-->
                             </div>
                         </div>
-
                     </div>
-                </div><!--grid-->
+                    <script>
+                        function hide() {
+                            var litag = document.getElementsByClassName('user-account for-buy'), i;
 
-            </div><!--footer-bottom-content-->
-        </div>
-    </div>
-</div>
-<script>
-    function hide() {
-        var litag = document.getElementsByClassName('user-account for-buy'), i;
+                            for (i = 0; i < litag.length; i += 1) {
+                                if (session === null) {
+                                    litag[i].style.display = 'none';
+                                }
+                            }
 
-        for (i = 0; i < litag.length; i += 1) {
-            if (session === null) {
-                litag[i].style.display = 'none';
-            }
-        }
+                        }
 
-    }
+                    </script>
+                    <script src="js/jquery-1.11.0.min.js"></script>
+                    <script src="js/plugins.js"></script>
+                    <script src="js/script.js"></script>
 
-</script>
-<script src="js/jquery-1.11.0.min.js"></script>
-<script src="js/plugins.js"></script>
-<script src="js/script.js"></script>
-
-</body>
-</html>	
+                    </body>
+                    </html>	
