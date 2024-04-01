@@ -181,6 +181,7 @@
                         <div class="tm-product-table-container" style="margin-top: 25px">
                             <%
                                 ArrayList<Genre> listGenre = (ArrayList<Genre>) request.getAttribute("listGenre");
+                                listGenre.sort((o1, o2) -> Integer.compare(o2.getGenre_id(), o1.getGenre_id()));
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>

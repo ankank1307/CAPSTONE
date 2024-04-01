@@ -1,4 +1,5 @@
 
+<%@page import="dao.OrderDetailDAO"%>
 <%@page import="java.util.Currency"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Comparator"%>
@@ -67,6 +68,11 @@
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 // Set the currency symbol to "VND" if necessary
         currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0);
+
+        OrderDetailDAO myOrderDetail = new OrderDetailDAO();
+        Book bestSellingBook = myOrderDetail.getBestSellingBook();
+
     %>
     <body>
         <% ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("newList"); %>
@@ -76,20 +82,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="social-links">
-<!--                                <ul>
-                                    <li>
-                                        <a href="#"><i class="icon icon-facebook"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon icon-twitter"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon icon-youtube-play"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon icon-behance-square"></i></a>
-                                    </li>
-                                </ul>-->
+                                <!--                                <ul>
+                                                                    <li>
+                                                                        <a href="#"><i class="icon icon-facebook"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#"><i class="icon icon-twitter"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#"><i class="icon icon-youtube-play"></i></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#"><i class="icon icon-behance-square"></i></a>
+                                                                    </li>
+                                                                </ul>-->
                             </div><!--social-links-->
                         </div>
                         <div class="col-md-6">
@@ -206,7 +212,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-
                         <button class="prev slick-arrow">
                             <i class="icon icon-arrow-left"></i>
                         </button>
@@ -223,13 +228,13 @@
                             <div class="slider-item">
                                 <div class="banner-content">
 
-                                    <h2 class="banner-title"><%=listBook.get(listBook.size() - 1).getTitle()%></h2>
-                                    <p><%=listBook.get(listBook.size() - 1).getDescription()%></p>
+                                    <h2 class="banner-title"><%=book.getTitle()%></h2>
+                                    <p><%=book.getDescription()%></p>
                                     <div class="btn-wrap">
-                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(listBook.size() - 1).getBook_id()%>" class="btn btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
+                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=book.getBook_id()%>" class="btn btn-outline-accent btn-accent-arrow">Read More<i class="icon icon-ns-arrow-right"></i></a>
                                     </div>
                                 </div><!--banner-content--> 
-                                <img src="bookImages/<%=listBook.get(listBook.size() - 1).getBook_id()%>.jpg" alt="banner" class="banner-image">
+                                <img src="bookImages/<%=book.getBook_id()%>.jpg" alt="banner" class="banner-image">
 
                             </div><!--slider-item-->
                             <% }%>
@@ -313,17 +318,23 @@
                             </div>		
                         </div>
                     </div>
-                    </section>
+                    </section
 
+                    <section id="best-selling" class="leaf-pattern-overlay">
+                        <div class="corner-pattern-overlay"></div>
+                        <div class="container">
+                            <div class="row">
 
-                                    <div class="products-content">
-                                        <div class="author-name"><%=listBook.get(15).getAuthor_name()%></div>
-                                        <h3 class="item-title"><%=listBook.get(15).getTitle()%></h3>
-                                        <p><%=listBook.get(15).getDescription()%></p>
-                                        <div class="item-price"><%=listBook.get(15).getPrice()%> VND</div>
-                                        <div class="btn-wrap">
-                                            <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(15).getBook_id()%>" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
+                                <div class="col-md-8 col-md-offset-2">
 
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=bestSellingBook.getBook_id()%>">
+                                                <figure class="products-thumb">
+                                                    <img src="bookImages/<%=bestSellingBook.getBook_id()%>.jpg" alt="book" class="single-image">
+                                                </figure>
+                                            </a>
                                         </div>
 
                                         <div class="col-md-6">
@@ -331,18 +342,24 @@
                                                 <h2 class="section-title divider">Best Selling Book</h2>
 
                                                 <div class="products-content">
-                                                    <div class="author-name"><%=listBook.get(15).getAuthor_name()%></div>
-                                                    <h3 class="item-title"><%=listBook.get(15).getTitle()%></h3>
-                                                    <p><%=listBook.get(15).getDescription()%></p>
-                                                  <div class="item-price"><%= currencyFormat.format(listBook.get(15).getPrice())%></div>
+                                                    <div class="author-name"><%=bestSellingBook.getAuthor_name()%></div>
+                                                    <h3 class="item-title"><%=bestSellingBook.getTitle()%></h3>
+                                                    <p><%=bestSellingBook.getDescription()%></p>
+                                                    <div class="item-price"><%= currencyFormat.format(bestSellingBook.getPrice())%></div>
                                                     <div class="btn-wrap">
-                                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(15).getBook_id()%>" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
+                                                        <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=bestSellingBook.getBook_id()%>" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                         </div>
+
                                     </div>
+                                    <!-- / row -->
+
                                 </div>
+
                             </div>
                         </div>
                     </section>
@@ -386,7 +403,7 @@
                                                             <figcaption>
                                                                 <h3><%=listBook.get(i).getTitle()%></h3>
                                                                 <p><%=listBook.get(i).getAuthor_name()%></p>
-                                                              <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
                                                             </figcaption>
                                                         </figure>
                                                     </a>
@@ -513,7 +530,7 @@
                                                             <figcaption>
                                                                 <h3><%=listDetective.get(i).getTitle()%></h3>
                                                                 <p><%=myAuthorDAO.getAuthorByID(listDetective.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                                            <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
                                                             </figcaption>
                                                         </figure>
                                                     </a>
@@ -539,7 +556,7 @@
                                                             <figcaption>
                                                                 <h3><%=listchildren.get(i).getTitle()%></h3>
                                                                 <p><%=myAuthorDAO.getAuthorByID(listchildren.get(i).getAuthor_id()).getAuthor_name()%> </p>
-                                                               <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                                <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
                                                             </figcaption>
                                                         </figure>
                                                     </a>
@@ -595,7 +612,7 @@
                                                     <a href="ViewBookDetailServlet?mode=bookDetail&bookID=<%=listBook.get(i).getBook_id()%>" style="text-decoration: none">
                                                         <h3><%=listBook.get(i).getTitle()%></h3></a>
                                                     <p><%=listBook.get(i).getAuthor_name()%></p>
-                                                   <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
+                                                    <div class="item-price"><%= currencyFormat.format(listBook.get(i).getPrice())%></div>
                                                 </figcaption>
                                             </figure>
 
@@ -650,41 +667,41 @@
                         </div>
                     </section>
 
-<!--                    <section id="subscribe">
-                        <div class="container">
-                            <div class="row">
-
-                                <div class="col-md-8 col-md-offset-2">
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-
-                                            <div class="title-element">
-                                                <h2 class="section-title divider">Subscribe to get newest books</h2>
+                    <!--                    <section id="subscribe">
+                                            <div class="container">
+                                                <div class="row">
+                    
+                                                    <div class="col-md-8 col-md-offset-2">
+                                                        <div class="row">
+                    
+                                                            <div class="col-md-6">
+                    
+                                                                <div class="title-element">
+                                                                    <h2 class="section-title divider">Subscribe to get newest books</h2>
+                                                                </div>
+                    
+                                                            </div>
+                                                            <div class="col-md-6">
+                    
+                                                                <div class="subscribe-content" data-aos="fade-up">
+                                                                    <p>You'll receive a confirmation and tracking number when your order is placed, and our in-house customer service team will be standing by if you have issues or returns.</p>
+                                                                    <form id="form">
+                                                                        <input type="text" name="email" placeholder="Enter your email addresss here">
+                                                                        <button class="btn-subscribe">
+                                                                            <span>send</span> 
+                                                                            <i class="icon icon-send"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                    
+                                                            </div>
+                    
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
                                             </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-
-                                            <div class="subscribe-content" data-aos="fade-up">
-                                                <p>You'll receive a confirmation and tracking number when your order is placed, and our in-house customer service team will be standing by if you have issues or returns.</p>
-                                                <form id="form">
-                                                    <input type="text" name="email" placeholder="Enter your email addresss here">
-                                                    <button class="btn-subscribe">
-                                                        <span>send</span> 
-                                                        <i class="icon icon-send"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </section>-->
+                                        </section>-->
 
 
 
@@ -844,20 +861,20 @@
 
                                             <div class="col-md-6">
                                                 <div class="social-links align-right">
-<!--                                                    <ul>
-                                                        <li>
-                                                            <a href="#"><i class="icon icon-facebook"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="icon icon-twitter"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="icon icon-youtube-play"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="icon icon-behance-square"></i></a>
-                                                        </li>
-                                                    </ul>-->
+                                                    <!--                                                    <ul>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-facebook"></i></a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-twitter"></i></a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-youtube-play"></i></a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="#"><i class="icon icon-behance-square"></i></a>
+                                                                                                            </li>
+                                                                                                        </ul>-->
                                                 </div>
                                             </div>
 
