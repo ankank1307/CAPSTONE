@@ -182,6 +182,7 @@
                         <div class="tm-product-table-container" style="margin-top: 25px">
                             <%
                                 ArrayList<Staff> listStaff = (ArrayList<Staff>) request.getAttribute("listStaff");
+                                listStaff.sort((o1, o2) -> Integer.compare(o2.getStaff_id(), o1.getStaff_id()));
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>

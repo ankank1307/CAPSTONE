@@ -4,6 +4,8 @@
     Author     : phuon
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
@@ -105,6 +107,11 @@
     </head>
     <%
         ArrayList<Order> listOrder = (ArrayList<Order>) request.getAttribute("listOrder");
+        listOrder.sort((o1, o2) -> Integer.compare(o2.getOrder_id(), o1.getOrder_id()));
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0); 
     %>
     <%
         ArrayList<String> listStatus = new ArrayList<>();
@@ -245,7 +252,7 @@
                                         <td><%=listOrder.get(i).getCustomer_id()%></td>
                                         <td><%=listOrder.get(i).getOrder_date()%> </td>
 
-                                        <td><%=listOrder.get(i).getTotal()%></td>
+                                        <td><%= currencyFormat.format(listOrder.get(i).getTotal())%></td>
 
                                         <td>
                                             <!--                                           <select class="custom-select tm-select-accounts"

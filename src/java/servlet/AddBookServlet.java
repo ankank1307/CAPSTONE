@@ -44,7 +44,7 @@ public class AddBookServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
 
             BookManager myBookManager = new BookManager();
             PictureDAO myPictureDAO = new PictureDAO();
@@ -58,14 +58,15 @@ public class AddBookServlet extends HttpServlet {
             String description = request.getParameter("description");
             Part filePart = request.getPart("image");
             int status = 1;
-             
+
             Book newBook = new Book(title, authorID, genreID, price, quantity, yor, description, status);
-            int newId=myBookManager.addBook(newBook);
-            String pictureName = newId+".jpg";
+            int newId = myBookManager.addBook(newBook);
+            String pictureName = newId + ".jpg";
             ArrayList<Book> listBook = new ArrayList<>();
             listBook = myBookManager.getListBook();
-            
             filePart.write(ConfigInfo.getCtxRealPath() + "\\bookImages\\" + pictureName);
+            String imagePath = "D:\\Tomcat\\apache-tomcat-9\\webapps\\ROOT\\bookImages\\" + pictureName;
+            filePart.write(imagePath);
             String baseUrl = "http://booksaw.io.vn";
             String pictureUrl = baseUrl + "/bookImages/" + pictureName;
             Picture picture = new Picture(newId, pictureUrl);

@@ -67,7 +67,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="social-links">
-                                <ul>
+<!--                                <ul>
                                     <li>
                                         <a href="#"><i class="icon icon-facebook"></i></a>
                                     </li>
@@ -80,7 +80,7 @@
                                     <li>
                                         <a href="#"><i class="icon icon-behance-square"></i></a>
                                     </li>
-                                </ul>
+                                </ul>-->
                             </div><!--social-links-->
                         </div>
                         <div class="col-md-6">

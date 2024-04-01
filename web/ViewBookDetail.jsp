@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="entity.Genre"%>
 <%@page import="entity.Cart"%>
 <%@page import="java.util.ArrayList"%>
@@ -221,8 +223,10 @@
                 listGenre.add(list_genre.get(i));
             }
         }
-
-
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0); 
     %>
 
 
@@ -234,7 +238,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="social-links">
-                                <ul>
+<!--                                <ul>
                                     <li>
                                         <a href="#"><i class="icon icon-facebook"></i></a>
                                     </li>
@@ -247,7 +251,7 @@
                                     <li>
                                         <a href="#"><i class="icon icon-behance-square"></i></a>
                                     </li>
-                                </ul>
+                                </ul>-->
                             </div><!--social-links-->
                         </div>
                         <div class="col-md-6">
@@ -364,7 +368,7 @@
                             <p><span style="font-weight: bold">Author: </span><%=myAuthorDAO.getAuthorByID(book.getAuthor_id()).getAuthor_name()%></p>
                             <p><span style="font-weight: bold">Genre: </span><%=myGenreDAO.getGenreByID(book.getGenre_id()).getGenre()%></p>
                             <p><span style="font-weight: bold">Year of release: </span><%=book.getYor()%> </p>
-                            <span class="price colored"><span style="font-weight: bold">Price: </span><%=book.getPrice()%> VND</span>
+                            <span class="price colored"><span style="font-weight: bold">Price: </span><%=currencyFormat.format(book.getPrice())%></span>
                             <br>
                             <p>
                                 <%= book.getDescription()%>
@@ -374,49 +378,8 @@
                             <a href="CartServlet?mode=addToCart&bookID=<%=book.getBook_id()%>"> <button type="submit" name="add-to-cart" value="27545" class="button">Add to cart</button> </a>
 
                             <!--                            <button type="submit" name="buy-now" value="27545" class="button">Buy Now</button>-->
-                            <div class ="rating-section">
 
-                                <div class = "rate">
-                                    <h4>Add a comment</h4>
-                                    <form class="rating">
-                                        <label>
-                                            <input type="radio" name="stars" value="1" />
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="stars" value="2" />
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="stars" value="3" />
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>   
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="stars" value="4" />
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="stars" value="5" />
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
 
-                                </div>
-                                <div class = "comment">
-                                    <textarea  cols ="50" name="comment" ></textarea>
-                                </div>
-                            </div>
-                            <button>Send</button>
-                            </form>
                         </div>
                     </div>
 

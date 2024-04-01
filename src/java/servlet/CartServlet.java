@@ -163,6 +163,17 @@ public class CartServlet extends HttpServlet {
                 System.out.println("Mode: "+ mode);
                 String way = request.getParameter("method");
                 int total = Integer.parseInt(request.getParameter("cartTotal"));
+
+                String discount = request.getParameter("discount");
+                System.out.println(discount);
+                String selectedDiscountPercent = request.getParameter("selectedDiscount");
+               
+                if (selectedDiscountPercent != null && !selectedDiscountPercent.isEmpty() && !selectedDiscountPercent.equals("None")) {
+                    double discountPercent = Double.parseDouble(selectedDiscountPercent);
+                    double discountAmount = (discountPercent / 100) * total;
+                    total -= discountAmount;
+                }
+
                 if(way.equals("VNPay")){
                     request.setAttribute("cartTotal", total);
                     target = "VNPayAjax";

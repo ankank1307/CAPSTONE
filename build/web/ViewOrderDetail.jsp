@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="dao.BookDAO"%>
 <%@page import="entity.OrderDetail"%>
 <%@page import="java.util.ArrayList"%>
@@ -56,165 +58,51 @@
             a.button4:hover{
                 border-color: rgba(255,255,255,1);
             }
-            .dropbtn {
-                background-color: #04AA6D;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-            }
-
-            .dropdown {
-                position: relative;
-                display: inline-block;
-            }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #567086;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-            }
-
-            .dropdown-content a {
-                color: white;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-
-            .dropdown:hover .dropbtn {
-                background-color: #3e8e41;
-            }
         </style>
     </head>
 
     <%
         BookDAO myBookDAO = new BookDAO();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
     %>
     <body>
 
-        <nav class="navbar navbar-expand-xl">
-            <div class="container h-100">
-                <a class="navbar-brand" href="home.jsp">
-                    <h1 class="tm-site-title mb-0">Product Admin</h1>
-                </a>
-                <button
-                    class="navbar-toggler ml-auto mr-0"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                    >
-                    <i class="fas fa-bars tm-nav-icon"></i>
-                </button>
+        <div class="tm-product-table-container" style="margin-top: 25px">
+            <a class="button4" href="ManageOrderServlet?mode=viewOrder">Back                                        
+            </a>
+            <%
+                ArrayList<OrderDetail> listOrderDetail = (ArrayList<OrderDetail>) request.getAttribute("listOrderDetail");
+            %>
+            <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mx-auto h-100">
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageAuthorServlet?mode=viewAuthor">
-                                <i class="fas fa-user-tie"></i> AUTHORS
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link " href="ManageBookServlet?mode=viewBook">
-                                <i class="fas fa-book"></i> BOOKS
-                            </a>
-                        </li>
+                    <tr>
 
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageGenreServlet?mode=viewGenre">
-                                <i class="fas fa-money-bill-wave"></i> GENRE
-                            </a>
-                        </li>
-                        <div class="dropdown ">
-                            <a class="nav-link active" href="">
-                                <i class="fas fa-file-alt"></i> 
-                                <span>
-                                    REPORT<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
-                                </span>
-                            </a>
-                            <div class="dropdown-content">
-                                <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
-                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
-                                <% String date = java.time.LocalDate.now().toString();
-                                    System.out.println(date);
-                                %>
-                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0%>&endDate=<%=date%>">DAILY REPORT</a>
-                            </div>
-                        </div>
-                        <div class="dropdown">
-                            <a class="nav-link" href="">
-                                <i class="fas fa-user"></i> 
-                                <span>
-                                    USER<i class="fas fa-angle-down" style="padding-left: 5px;"></i>
-                                </span>
-                            </a>
+                        <th scope="col">Title</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
 
-                            <div class="dropdown-content">
-                                <a href="ManageStaffServlet?mode=viewStaff">STAFF</a>
-                                <a href="ManageCustomerServlet?mode=viewCustomer">CUSTOMER</a>
-                            </div>
-                        </div>
-                        <li class="nav-item">
-                            <a class="nav-link" href="ManageDiscountServlet?mode=viewDiscount">
-                                <i class="fas fa-money-check"></i> VOUCHERS
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link d-block" href='adminLogin.jsp'>
-                                Admin, <b>Logout</b>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div class="container mt-5">
-            <div class="row tm-content-row">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">                   
-                    <div clss="tm-bg-primary-dark tm-block tm-block-products">
-                        <div class="tm-product-table-container" style="margin-top: 25px">
-                            <a class="button4" href="ManageOrderServlet?mode=viewOrder">Back                                        
-                            </a>
-                            <%
-                                ArrayList<OrderDetail> listOrderDetail = (ArrayList<OrderDetail>) request.getAttribute("listOrderDetail");
-                            %>
-                            <table class="table table-hover tm-table-small tm-product-table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for (int i = 0; i < listOrderDetail.size(); i++) {%>
-                                    <tr>
-                                        <td><%=myBookDAO.getBookByID(listOrderDetail.get(i).getBook_id()).getTitle()%></td>
-                                        <td><%=listOrderDetail.get(i).getQuantity()%></td>
-                                        <td><%=listOrderDetail.get(i).getPrice()%></td>
-                                    </tr> 
-                                    <% }%>                                                                      
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <% for (int i = 0; i < listOrderDetail.size(); i++) {%>
+
+                    <tr>
+
+                        <td><%=myBookDAO.getBookByID(listOrderDetail.get(i).getBook_id()).getTitle()%></td>
+                        <td><%=listOrderDetail.get(i).getQuantity()%></td>
+                        <td><%=currencyFormat.format(listOrderDetail.get(i).getPrice())%></td>
+
+                    </tr> 
+
+                    <% }%>                                                                      
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

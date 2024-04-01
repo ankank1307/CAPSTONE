@@ -190,6 +190,7 @@
 
                             <%
                                 ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("listBook");
+                                listBook.sort((o1, o2) -> Integer.compare(o2.getBook_id(), o1.getBook_id()));
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>

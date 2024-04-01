@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="dao.BookDAO"%>
 <%@page import="entity.OrderDetail"%>
 <%@page import="java.util.ArrayList"%>
@@ -97,6 +99,10 @@
 
     <%
         BookDAO myBookDAO = new BookDAO();
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0); 
     %>
     <body>
 
@@ -192,10 +198,12 @@
                             </a>
                             <%
                                 ArrayList<OrderDetail> listOrderDetail = (ArrayList<OrderDetail>) request.getAttribute("listOrderDetail");
+                                
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>
                                     <tr>
+                                        <th scope="col">Image</th>
                                         <th scope="col">Title</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Price</th>
@@ -204,9 +212,10 @@
                                 <tbody>
                                     <% for (int i = 0; i < listOrderDetail.size(); i++) {%>
                                     <tr>
+                                        <td><img src="bookImages/<%=listOrderDetail.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 85px;height: 115px;" alt="loading"></td>
                                         <td><%=myBookDAO.getBookByID(listOrderDetail.get(i).getBook_id()).getTitle()%></td>
                                         <td><%=listOrderDetail.get(i).getQuantity()%></td>
-                                        <td><%=listOrderDetail.get(i).getPrice()%></td>
+                                        <td><%=currencyFormat.format(listOrderDetail.get(i).getPrice())%></td>
                                     </tr> 
                                     <% }%>                                                                      
                                 </tbody>
