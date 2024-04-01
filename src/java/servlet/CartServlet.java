@@ -174,7 +174,7 @@ public class CartServlet extends HttpServlet {
                 ArrayList<Cart> listOrder = myCartDAO.getListCartByCustomerID(customer.getCustomer_id());
                 String date = java.time.LocalDate.now().toString();
               
-                    Order newOrder = new Order(customer.getCustomer_id(), date, total, "Pending", 1, "Reivew");
+                    Order newOrder = new Order(customer.getCustomer_id(), date, total, "Pending", 1, "Review");
                     int orderID = myOrderDAO.saveOrdersByCustomer(newOrder);
                     if (orderID != 0) {
                         for (Cart cart : listOrder) {

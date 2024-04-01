@@ -66,7 +66,7 @@ public class AddBookServlet extends HttpServlet {
             listBook = myBookManager.getListBook();
             
             filePart.write(ConfigInfo.getCtxRealPath() + "\\bookImages\\" + pictureName);
-            String baseUrl = "http://localhost:8080/ProjectB_BookSaw";
+            String baseUrl = "http://booksaw.io.vn";
             String pictureUrl = baseUrl + "/bookImages/" + pictureName;
             Picture picture = new Picture(newId, pictureUrl);
             myPictureDAO.insertImage(picture);

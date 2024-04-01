@@ -200,6 +200,14 @@
         <servlet-name>ViewReportServlet</servlet-name>
         <servlet-class>servlet.ViewReportServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InitiatePaymentServlet</servlet-name>
+        <servlet-class>servlet.Json.InitiatePaymentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>testVNMobile</servlet-name>
+        <servlet-class>servlet.Json.testVNMobile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -408,9 +416,17 @@
         <servlet-name>ViewReportServlet</servlet-name>
         <url-pattern>/ViewReportServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InitiatePaymentServlet</servlet-name>
+        <url-pattern>/InitiatePaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>testVNMobile</servlet-name>
+        <url-pattern>/testVNMobile</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            60
         </session-timeout>
     </session-config>
     <servlet>

@@ -81,7 +81,7 @@ public class CartDAO {
         try {
             Connection con = DBContext.getConnection();
 
-            String query = "delete from cart where customer_id = ?;";
+            String query = "delete from cart where customer_id = ?";
             PreparedStatement pst = con.prepareStatement(query);
 
             
