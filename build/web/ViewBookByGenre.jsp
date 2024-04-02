@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="dao.CartDAO"%>
 <%@page import="dao.GenreDAO"%>
 <%@page import="entity.Genre"%>

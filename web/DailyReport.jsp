@@ -131,7 +131,8 @@
         System.out.println(dataPoints);
         List<Map<String, Object>> dataPointsList = gsonObj.fromJson(dataPoints, new TypeToken<List<Map<String, Object>>>() {
         }.getType());
-
+         List<String> dates = (List<String>)request.getAttribute("date");
+        List<Integer> revenueByDate = (List<Integer>) request.getAttribute("revenueByDate");
         List<Integer> yValues = new ArrayList<>();
         for (Map<String, Object> entry : dataPointsList) {
             if (entry.containsKey("y")) {
@@ -228,14 +229,15 @@
                 </div>
             </nav>
             <div class="container">
-              
+
                 <div style="margin-top:50px; margin-bottom: 10px; ">
                     <form action="ViewReportServlet">
+
                         <input type="hidden" value="dailyReport" name="mode">
                         <label class="text">From:</label>
-                        <input type="date" id="start" name="startDate" value="<%=date%>" max="<%=date%>"  />
+                        <input type="date" id="start" name="startDate" value="<%=date%>" max="<%=date%>" onchange="updateEndDate()" />
                         <label class="text">To:</label>
-                        <input type="date" id="start" name="endDate" value="<%=date%>" max="<%=date%>"  />
+                        <input type="date" id="end" name="endDate" value="<%=date%>" max="<%=date%>" />
                         <button>View</button>
                     </form>
                 </div>
@@ -276,6 +278,24 @@
             </div>
 
         </div>
+        <script>
+            function updateEndDate() {
+                var startDate = new Date(document.getElementById("start").value);
+                var maxEndDate = new Date(startDate);
+                maxEndDate.setDate(startDate.getDate() + 7);
+                var currentDate = new Date();
+                currentDate.setDate(currentDate.getDate() + 1); // Set current date to tomorrow
+
+                var endDateInput = document.getElementById("end");
+                endDateInput.min = startDate.toISOString().split('T')[0]; // Set minimum date to the selected "From" date
+                endDateInput.max = currentDate.toISOString().split('T')[0]; // Set maximum date to current date + 1 day
+
+                // If the current value of "To" date is not within the allowed range, reset it to the maximum allowed date
+                if (new Date(endDateInput.value) > maxEndDate || new Date(endDateInput.value) > currentDate) {
+                    endDateInput.value = maxEndDate.toISOString().split('T')[0];
+                }
+            }
+        </script>  
 
         <script src="js/jquery-3.3.1.min.js"></script>
         <!-- https://jquery.com/download/ -->
@@ -287,6 +307,7 @@
         <!-- https://getbootstrap.com/ -->
         <script src="js/tooplate-scripts.js"></script>
         <script>
+
             Chart.defaults.global.defaultFontColor = 'white';
             let ctxLine,
                     ctxBar,
@@ -329,11 +350,11 @@
                         configBar = {
                             type: "horizontalBar",
                             data: {
-                                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                                labels: <%=dates %>,
                                 datasets: [
                                     {
                                         label: "",
-                                        data: <%=yValues%>,
+                                        data: <%=revenueByDate %>,
                                         backgroundColor: [
                                             "#F7604D",
                                             "#4ED6B8",

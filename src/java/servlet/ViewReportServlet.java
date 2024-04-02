@@ -9,6 +9,7 @@ import entity.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -47,10 +48,16 @@ public class ViewReportServlet extends HttpServlet {
                 int totalOrders = myOrderDAO.getOrdersByDate(startDate, endDate);
                 int totalCustomer = myOrderDAO.getCustomersByDate(startDate, endDate);
                 int saleBook = myOrderDAO.getSaleBookByDate(startDate, endDate);
+                Map<String, Integer> map = myOrderDAO.getRevenueByDay(startDate, endDate);
+                List<String> date = new ArrayList<>(map.keySet());
+                List<Integer> revenue = new ArrayList<>(map.values());     
+                
                 List<Map<Object, Object>> listRevenueByMonth = new ArrayList<Map<Object, Object>>();
                 listRevenueByMonth = myOrderDAO.getRevenueByMonth(year);
                 target = "DailyReport.jsp";
                 request.setAttribute("totalRevenue", total);
+                request.setAttribute("date", date);
+                request.setAttribute("revenueByDate", revenue);
                 request.setAttribute("totalOrder", totalOrders);
                 request.setAttribute("totalCustomer", totalCustomer);
                 request.setAttribute("saleBook", saleBook);
