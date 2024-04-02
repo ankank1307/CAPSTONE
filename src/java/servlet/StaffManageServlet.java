@@ -72,12 +72,6 @@ public class StaffManageServlet extends HttpServlet {
                 target = "StaffViewCustomer.jsp";
                 request.setAttribute("listCustomer", listCustomer);
             }
-            if (mode.equals("StaffViewProfile")) {
-                
-            }
-            if (mode.equals("StaffUpdatePassword")) {
-                
-            }
 
             if (mode.equals("StaffUpdateProfile")) {
                 int ID, status;

@@ -405,7 +405,7 @@
                                                         <td><span><%=listOrder.get(i).getShipping_status()%></span></td>
                                                         <td><%=listOrder.get(i).getTotal()%></td>
                                                         <td><%=listOrder.get(i).getOrder_date()%></td>
-                                                        <td><a class="button4" href="ManageUserLoginServlet?mode=viewOrderDetailUser&orderID=<%=listOrder.get(i).getOrder_id()%>">View</td></a>
+                                                        <td><a class="button4" href="ManageUserLoginServlet?mode=viewOrderDetailUser&orderID=<%=listOrder.get(i).getOrder_id()%>">View</a></td>
                                                     </tr>
                                                     <% }
 

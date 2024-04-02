@@ -107,8 +107,8 @@ public class OrderDAO {
         }
         return total;
     }
-    
-     public int getCustomersByDate(String startDate, String endDate) {
+
+    public int getCustomersByDate(String startDate, String endDate) {
         int total = 0;
 
         try {
@@ -135,9 +135,9 @@ public class OrderDAO {
         }
         return total;
     }
-       public int getSaleBookByDate(String startDate, String endDate) {
-        int total = 0;
 
+    public int getSaleBookByDate(String startDate, String endDate) {
+        int total = 0;
         try {
             Connection con = DBContext.getConnection();
             String query = "";
@@ -266,6 +266,56 @@ public class OrderDAO {
             System.out.println(ex.getMessage());
         }
         return listRevenueByMonth;
+    }
+
+    public Map<String, Integer> getRevenueByDay(String startDate, String endDate) {
+        Map<String, Integer> listRevenueByDate = new HashMap<String, Integer>();
+
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "";
+            PreparedStatement pst;
+            if (!startDate.equals("0") && !endDate.equals("0")) {
+                query = "select * from orders where order_date between ? and ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, startDate);
+                pst.setString(2, endDate);
+            } else {
+                query = "select * from orders where order_date= ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, endDate);
+            }
+            ResultSet rs = pst.executeQuery();
+            Integer revenue = 0;
+            HashMap<String, Integer> map = new HashMap<>();
+            while (rs.next()) {
+                Order order = new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(8)
+                );
+                
+                if (!map.containsKey(rs.getString(3))) {
+                    revenue = order.getTotal();
+                    map.put(rs.getString(3), revenue);
+                    revenue = 0;
+                } else {
+                    revenue = map.get(rs.getString(3));
+                    revenue += order.getTotal();
+                    map.replace(rs.getString(3), revenue);
+                }
+
+            }
+
+            listRevenueByDate = map;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return listRevenueByDate;
     }
 
     public ArrayList<Order> getListOrderByCustomerID(int customerID) {
