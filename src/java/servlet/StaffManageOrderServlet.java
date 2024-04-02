@@ -144,8 +144,8 @@ public class StaffManageOrderServlet extends HttpServlet {
                         out.println("</script>");
                     }
                 }
+                target = "StaffManageServlet?mode=StaffViewOrder";
             }
-            target = "StaffManageBookServlet?mode=StaffViewBook";
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
         }

@@ -17,8 +17,9 @@ public class Order {
     private int total;
     private String shipping_status;
     private int order_status;
-    private String review_status;
     private int staff_id;
+    private String review_status;
+    
 
     public Order(int order_id, int customer_id, String order_date, int total, String shipping_status, int order_status, String reivew_status) {
         this.order_id = order_id;
@@ -29,6 +30,20 @@ public class Order {
         this.order_status = order_status;
         this.review_status = reivew_status;
     }
+
+    public Order(int order_id, int customer_id, String order_date, int total, String shipping_status, int order_status, int staff_id, String review_status) {
+        this.order_id = order_id;
+        this.customer_id = customer_id;
+        this.order_date = order_date;
+        this.total = total;
+        this.shipping_status = shipping_status;
+        this.order_status = order_status;
+        this.staff_id = staff_id;
+        this.review_status = review_status;
+        
+    }
+    
+    
 
     public Order(int customer_id, String order_date, int order_status) {
         this.customer_id = customer_id;

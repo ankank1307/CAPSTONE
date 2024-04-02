@@ -40,6 +40,7 @@ public class OrderDAO {
                         rs.getInt(4),
                         rs.getString(5),
                         rs.getInt(6),
+                        rs.getInt(7),
                         rs.getString(8)
                 );
                 listOrder.add(order);
@@ -462,28 +463,31 @@ public class OrderDAO {
     }
 
     public void updateOrder(Order order) {
-        try {
-            Connection con = DBContext.getConnection();
+    try {
+        Connection con = DBContext.getConnection();
 
-            String query = "UPDATE orders SET customer_id = ?, order_date = ?, total = ? , shipping_status = ?, order_status = ? WHERE order_id = ?";
-            PreparedStatement pst = con.prepareStatement(query);
+        String query = "UPDATE orders SET  order_date = ?, total = ?, shipping_status = ?, order_status = ?, review_status = ? WHERE order_id = ?";
+        PreparedStatement pst = con.prepareStatement(query);
 
-            pst.setInt(6, order.getOrder_id());
-            pst.setInt(1, order.getCustomer_id());
-            pst.setString(2, order.getOrder_date());
-            pst.setInt(3, order.getTotal());
-            pst.setString(4, order.getShipping_status());
-            pst.setInt(5, order.getOrder_status());
+//        pst.setInt(1, order.getCustomer_id());
+        pst.setString(1, order.getOrder_date());
+        pst.setInt(2, order.getTotal());
+        pst.setString(3, order.getShipping_status());
+        pst.setInt(4, order.getOrder_status());
+//        pst.setInt(6, order.getStaff_id());
+        pst.setString(5, order.getReview_status());
+        pst.setInt(6, order.getOrder_id());
 
-            pst.executeUpdate();
+        pst.executeUpdate();
 
-            pst.close();
-            con.close();
+        pst.close();
+        con.close();
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+}
+
 
     public ArrayList<Order> getListOrderSearching(String input) {
         ArrayList<Order> listOrder = new ArrayList<>();

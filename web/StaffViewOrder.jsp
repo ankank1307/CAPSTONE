@@ -4,6 +4,8 @@
     Author     : phuon
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="entity.Staff"%>
 <%@page import="entity.Order"%>
 <%@page import="java.util.ArrayList"%>
@@ -65,6 +67,10 @@
         listStatus.add("Out For Delivery");
         listStatus.add("Completed");
         listStatus.add("Rejected");
+
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0);
     %>
     <% Staff staff = (Staff) session.getAttribute("staffLogin");%>
     <body id="reportsPage">
@@ -112,7 +118,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                 <%=staff.getStaff_name()%>, <b>Logout</b>
+                                <%=staff.getStaff_name()%>, <b>Logout</b>
                             </a>
 
                         </li>
@@ -142,6 +148,7 @@
                         <div class="tm-product-table-container" style="margin-top: 25px">    
                             <%
                                 ArrayList<Order> listOrder = (ArrayList<Order>) request.getAttribute("listOrder");
+                                listOrder.sort(( o1,   o2) -> Integer.compare(o2.getOrder_id(), o1.getOrder_id()));
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>
@@ -150,6 +157,7 @@
 
                                         <th scope="col"> Order ID </th>
                                         <th scope="col">Customer ID</th>
+                                        <th scope="col">Staff ID</th>
                                         <th scope="col">Order date</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Shipping status</th>
@@ -166,9 +174,10 @@
 
                                         <td><%=listOrder.get(i).getOrder_id()%></td>
                                         <td><%=listOrder.get(i).getCustomer_id()%></td>
+                                        <td><%=listOrder.get(i).getStaff_id()%></td>
                                         <td><%=listOrder.get(i).getOrder_date()%> </td>
 
-                                        <td><%=listOrder.get(i).getTotal()%></td>
+                                        <td><%= currencyFormat.format(listOrder.get(i).getTotal())%></td>
 
                                         <td>
                                             <select class="custom-select tm-select-accounts"
