@@ -234,6 +234,7 @@
 
                                         <th scope="col"> Order ID </th>
                                         <th scope="col">Customer ID</th>
+                                        <th scope="col">Staff ID</th>
                                         <th scope="col">Order date</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Shipping status</th>
@@ -250,6 +251,7 @@
 
                                         <td><%=listOrder.get(i).getOrder_id()%></td>
                                         <td><%=listOrder.get(i).getCustomer_id()%></td>
+                                        <td><%=listOrder.get(i).getStaff_id()%></td>
                                         <td><%=listOrder.get(i).getOrder_date()%> </td>
 
                                         <td><%= currencyFormat.format(listOrder.get(i).getTotal())%></td>

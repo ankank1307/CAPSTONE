@@ -1,4 +1,6 @@
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.google.gson.Gson"%>
@@ -82,7 +84,11 @@
             }
         </style>
     </head>
- 
+    <%
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0);
+    %>
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
@@ -132,10 +138,10 @@
                             <div class="dropdown-content">
                                 <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
                                 <a href="DailyReport.jsp">WEEKLY REPORT</a>
-                                <% String date = java.time.LocalDate.now().toString(); 
+                                <% String date = java.time.LocalDate.now().toString();
                                     System.out.println(date);
                                 %>
-                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0 %>&endDate=<%=date %>">DAILY REPORT</a>
+                                <a href="ViewReportServlet?mode=dailyReport&startDate=<%=0%>&endDate=<%=date%>">DAILY REPORT</a>
                             </div>
                         </div>
                         <div class="dropdown">
@@ -190,7 +196,7 @@
 
                             <%
                                 ArrayList<Book> listBook = (ArrayList<Book>) request.getAttribute("listBook");
-                                listBook.sort((o1, o2) -> Integer.compare(o2.getBook_id(), o1.getBook_id()));
+                                listBook.sort(( o1,   o2) -> Integer.compare(o2.getBook_id(), o1.getBook_id()));
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>
@@ -222,7 +228,7 @@
 
                                         <td><%=listBook.get(i).getGenre_id()%></td>
                                         <td><%=listBook.get(i).getQuantity()%> </td>
-                                        <td><%=listBook.get(i).getPrice()%> </td>
+                                        <td><%= currencyFormat.format(listBook.get(i).getPrice())%> </td>
                                         <td><%=listBook.get(i).getYor()%> </td>
                                         <%
                                             String status = "";

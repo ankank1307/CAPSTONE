@@ -92,14 +92,8 @@ public class ManageOrderServlet extends HttpServlet {
 
                 myOrderDAO.updateOrder(order);
                 listOrder = myOrderDAO.getListOrder();
-                int year = Year.now().getValue();
-                listOrder = myOrderDAO.getListOrder();
-                List<Map<Object, Object>> listRevenueByMonth = new ArrayList<Map<Object, Object>>();
-                listRevenueByMonth = myOrderDAO.getRevenueByMonth(year);
                 target = "ViewOrder.jsp";
-                request.setAttribute("listRevenueByMonth", listRevenueByMonth);
                 request.setAttribute("listOrder", listOrder);
-                request.setAttribute("selectedYear", year);
             }
             if (mode.equals("search")) {
                 String input = request.getParameter("searchInput");

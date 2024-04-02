@@ -1,4 +1,6 @@
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="entity.Staff"%>
 <%@page import="entity.Cart"%>
 <%@page import="entity.Book"%>
@@ -36,6 +38,11 @@
 
         </style>
     </head>
+    <%
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0);
+    %>
 
     <body id="reportsPage">
         <nav class="navbar navbar-expand-xl">
@@ -93,9 +100,9 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link d-block" href='staffLogin.jsp'>
-                                <% Staff staff = (Staff)session.getAttribute("staffLogin");
-                                String name = staff.getStaff_name(); %>
-                                <%=name %>, <b>Logout</b>
+                                <% Staff staff = (Staff) session.getAttribute("staffLogin");
+                                    String name = staff.getStaff_name();%>
+                                <%=name%>, <b>Logout</b>
                             </a>
                         </li>
                     </ul>
@@ -160,7 +167,7 @@
                                         <td><%=listBook.get(i).getTitle()%></td>
 
                                         <td><%=listBook.get(i).getQuantity()%> </td>
-                                        <td><%=listBook.get(i).getPrice()%> </td>
+                                        <td><%= currencyFormat.format(listBook.get(i).getPrice())%> </td>
                                         <td>
                                             <a href="StaffManageOrderServlet?mode=StaffAddToBill&bookID=<%=listBook.get(i).getBook_id()%>" class="tm-product-delete-link"/>
                                             <i class="fas fa-cart-plus"></i>
@@ -209,7 +216,7 @@
                                         <td><%=listBill.get(i).getBookID()%></td>
                                         <td><%=listBill.get(i).getTitle()%></td>
                                         <td> <a href="StaffManageOrderServlet?mode=downQuantity&itemID=<%=listBill.get(i).getBookID()%>">- </a><%=listBill.get(i).getQuantity()%> <a href="StaffManageOrderServlet?mode=upQuantity&itemID=<%=listBill.get(i).getBookID()%>">+</a> </td>
-                                        <td><%=listBill.get(i).getPrice()%> </td>
+                                        <td><%= currencyFormat.format(listBill.get(i).getPrice())%> </td>
                                         <td>
                                             <%=subTotal%>
                                         </td>
@@ -224,12 +231,12 @@
                             </table>
                         </div>
                         <a href="StaffManageOrderServlet?mode=makeOrder&total=<%=total%>"> <button class="btn btn-primary btn-block text-uppercase mb-3">
-                                Cash payment
+                                CHECKOUT
                             </button> </a>
-                         <a href="StaffManageOrderServlet?mode=makeOrder&total=<%=total%>"> <button class="btn btn-primary btn-block text-uppercase mb-3">
-                               Online payment
-                            </button> </a>
-                        
+<!--                        <a href="StaffManageOrderServlet?mode=makeOrder&total=<%=total%>"> <button class="btn btn-primary btn-block text-uppercase mb-3">
+                                Online payment
+                            </button> </a>-->
+
                     </div>
                 </div>           
             </div>
