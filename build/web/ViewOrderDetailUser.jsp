@@ -4,6 +4,8 @@
     Author     : BLC
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="dao.BookDAO"%>
 <%@page import="dao.OrderDetailDAO"%>
 <%@page import="entity.OrderDetail"%>
@@ -187,6 +189,10 @@
         OrderDAO myOrderDAO = new OrderDAO();
         OrderDetailDAO myOrderDetailDAO = new OrderDetailDAO();
         BookDAO myBookDAO = new BookDAO();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+// Set the currency symbol to "VND" if necessary
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0);
     %>
     <body>
         <div id="header-wrap">
@@ -195,7 +201,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="social-links">
-                                <ul>
+<!--                                <ul>
                                     <li>
                                         <a href="#"><i class="icon icon-facebook"></i></a>
                                     </li>
@@ -208,7 +214,7 @@
                                     <li>
                                         <a href="#"><i class="icon icon-behance-square"></i></a>
                                     </li>
-                                </ul>
+                                </ul>-->
                             </div><!--social-links-->
                         </div>
                         <div class="col-md-6">
@@ -271,7 +277,7 @@
                                                 %>
                                                 <li><a href="ManageBookServlet?mode=viewBookByGenre&genreID=<%=listGenre.get(i).getGenre_id()%>"><%=listGenre.get(i).getGenre()%></a></li>
 
-                                                <% } %>
+                                                <% }%>
                                             </ul>
 
                                         </li>
@@ -353,7 +359,7 @@
                         </div>
                     </div>
                 </div>
-                                    
+
                 <div class="col-md-9" style="display: flex">
                     <div class="order-tracking">
                         <div class="container">
@@ -364,7 +370,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        
+
                                                         <th>Item #</th>
                                                         <th></th>
                                                         <th>Title</th>
@@ -388,7 +394,7 @@
                                                         <td><img src="bookImages/<%=listOrderDetail.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 80px;height: 120px;" alt="loading"> </td>
                                                         <td><%=myBookDAO.getBookByID(listOrderDetail.get(i).getBook_id()).getTitle()%></td>
                                                         <td><%=listOrderDetail.get(i).getQuantity()%></td>
-                                                        <td><%=listOrderDetail.get(i).getPrice()%></td>
+                                                        <td><%=currencyFormat.format(listOrderDetail.get(i).getPrice())%></td>
                                                     </tr>
                                                     <% }
 

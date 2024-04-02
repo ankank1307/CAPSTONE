@@ -49,7 +49,6 @@ public class StaffManageOrderServlet extends HttpServlet {
             HttpSession ss = request.getSession();
             String target = "staffLogin.jsp";
             if (mode.equals("StaffAddToBill")) {
-
                 int bookID = Integer.parseInt(request.getParameter("bookID"));
                 System.out.println(bookID);
                 ArrayList<Cart> listBill = (ArrayList<Cart>) ss.getAttribute("listBill");

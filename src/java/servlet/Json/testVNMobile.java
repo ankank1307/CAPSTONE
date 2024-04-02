@@ -4,20 +4,18 @@
  */
 package servlet.Json;
 
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author phuon
  */
-public class SentOTP extends HttpServlet {
+public class testVNMobile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +34,10 @@ public class SentOTP extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SentOTPServlet</title>");            
+            out.println("<title>Servlet testVNMobile</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SentOTPServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet testVNMobile at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,14 +55,7 @@ public class SentOTP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          HttpSession mySession = request.getSession();
-        Integer value = (Integer) mySession.getAttribute("otp");  
-         Gson gson = new Gson();
-        String json = gson.toJson(value);
-        System.out.println("Received value: " + value);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+       
     }
 
     /**
@@ -78,6 +69,11 @@ public class SentOTP extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String responseCode = request.getParameter("vnp_ResponseCode");
+        String txnRef = request.getParameter("vnp_TxnRef");
+        System.out.println(responseCode);
+        System.out.println(txnRef);
+         response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**

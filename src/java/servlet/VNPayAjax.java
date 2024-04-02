@@ -145,20 +145,13 @@ public class VNPayAjax extends HttpServlet {
                 vnp_Params.put("vnp_Amount", String.valueOf(amount));
                 vnp_Params.put("vnp_CurrCode", "VND");
                 vnp_Params.put("vnp_BankCode", "NCB");
-
                 vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
                 vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
                 vnp_Params.put("vnp_Locale", "vn");
                 vnp_Params.put("vnp_OrderType", orderType);
 
-//        String locate = req.getParameter("language");
-//        if (locate != null && !locate.isEmpty()) {
-//            vnp_Params.put("vnp_Locale", locate);
-//        } else {
-//           
-//        }
                 vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
-                vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
+                vnp_Params.put("vnp_IpAddr", "13.160.92.202");
 
                 Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
