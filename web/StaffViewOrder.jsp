@@ -77,7 +77,7 @@
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
-                    <h1 class="tm-site-title mb-0">Product Admin</h1>
+                    <h1 class="tm-site-title mb-0">PRODUCT STAFF</h1>
                 </a>
                 <button
                     class="navbar-toggler ml-auto mr-0"
@@ -155,7 +155,7 @@
 
                                     <tr>
 
-                                        <th scope="col"> Order ID </th>
+                                        <th scope="col">Order ID </th>
                                         <th scope="col">Customer ID</th>
                                         <th scope="col">Staff ID</th>
                                         <th scope="col">Order date</th>
@@ -169,7 +169,7 @@
 
 
                                     <% for (int i = 0; i < listOrder.size(); i++) {%>
-                                <form action="ManageOrderServlet?mode=updateShippingStatus" method="post">
+                                <form action="StaffManageOrderServlet?mode=updateShippingStatus" method="post">
                                     <tr>
 
                                         <td><%=listOrder.get(i).getOrder_id()%></td>

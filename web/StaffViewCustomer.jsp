@@ -42,7 +42,7 @@
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
-                    <h1 class="tm-site-title mb-0">Product Admin</h1>
+                    <h1 class="tm-site-title mb-0">PRODUCT STAFF</h1>
                 </a>
                 <button
                     class="navbar-toggler ml-auto mr-0"

@@ -4,6 +4,7 @@
  */
 package servlet;
 
+import configPkg.ConfigInfo;
 import dao.BookDAO;
 import entity.Book;
 import entity.Cart;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import manager.BookManager;
 
 /**
  *
@@ -37,6 +40,7 @@ public class StaffManageBookServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String mode = request.getParameter("mode");
         BookDAO bookDAO = new BookDAO();
+        BookManager myBookManager = new BookManager();
         HttpSession ss = request.getSession();
         String target = "";
         if (mode.equals("StaffViewBook")) {
@@ -52,6 +56,7 @@ public class StaffManageBookServlet extends HttpServlet {
             request.setAttribute("listBook", listBook);
             request.setAttribute("billCount", billCount);
         }
+        
         
         RequestDispatcher rd = request.getRequestDispatcher(target);
         rd.forward(request, response);

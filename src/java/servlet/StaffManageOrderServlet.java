@@ -107,6 +107,22 @@ public class StaffManageOrderServlet extends HttpServlet {
                 ss.setAttribute("listBill", listBill);
                 target = "StaffManageBookServlet?mode=StaffViewBook";
             }
+            if (mode.equals("updateShippingStatus")) {
+                List<Order> listOrder = new ArrayList<>();
+
+                int orderID = Integer.parseInt(request.getParameter("orderID"));
+                Order order = myOrderDAO.getOrderByID(orderID);
+                String shipping_status = request.getParameter("shipping_status");
+                System.out.println(shipping_status);
+                System.out.println(order.getOrder_id());
+
+                order.setShipping_status(shipping_status);
+
+                myOrderDAO.updateOrder(order);
+                listOrder = myOrderDAO.getListOrder();
+                target = "StaffManageServlet?mode=StaffViewOrder";
+                request.setAttribute("listOrder", listOrder);
+            }
             if (mode.equals("makeOrder")) {
                 ArrayList<Cart> listBill = (ArrayList<Cart>) ss.getAttribute("listBill");
                 String date = java.time.LocalDate.now().toString();

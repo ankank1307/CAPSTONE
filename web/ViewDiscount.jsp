@@ -126,7 +126,7 @@
                             </a>
                             <div class="dropdown-content">
                                 <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
-                                <a href="DailyReport.jsp">WEEKLY REPORT</a>
+                                <!--<a href="DailyReport.jsp">WEEKLY REPORT</a>-->
                                 <% String date = java.time.LocalDate.now().toString(); 
                                     System.out.println(date);
                                 %>

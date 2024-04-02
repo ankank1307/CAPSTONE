@@ -48,7 +48,7 @@
         <nav class="navbar navbar-expand-xl">
             <div class="container h-100">
                 <a class="navbar-brand" href="home.jsp">
-                    <h1 class="tm-site-title mb-0">Product Staff</h1>
+                    <h1 class="tm-site-title mb-0">PRODUCT STAFF</h1>
                 </a>
                 <button
                     class="navbar-toggler ml-auto mr-0"
@@ -173,9 +173,9 @@
                                             <i class="fas fa-cart-plus"></i>
                                         </td>
                                         <td>
-                                            <a href="" class="tm-product-delete-link">
-                                                <i class="fas fa-pen"></i>                                           
-                                            </a>
+                                            <!--                                            <a href="StaffManageBookServlet?mode=StaffUpdateBook" class="tm-product-delete-link">
+                                                                                            <i class="fas fa-pen"></i>                                           
+                                                                                        </a>-->
 
                                         </td>
 
@@ -218,7 +218,7 @@
                                         <td> <a href="StaffManageOrderServlet?mode=downQuantity&itemID=<%=listBill.get(i).getBookID()%>">- </a><%=listBill.get(i).getQuantity()%> <a href="StaffManageOrderServlet?mode=upQuantity&itemID=<%=listBill.get(i).getBookID()%>">+</a> </td>
                                         <td><%= currencyFormat.format(listBill.get(i).getPrice())%> </td>
                                         <td>
-                                            <%=subTotal%>
+                                            <%=currencyFormat.format(subTotal)%>
                                         </td>
                                         <td>
                                             <a href="StaffManageOrderServlet?mode=DeleteItem&itemID=<%=listBill.get(i).getBookID()%>" class="tm-product-delete-link">
@@ -229,6 +229,14 @@
                                     <% }%>                                                                      
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                            <div class="col">TOTAL PRICE</div>
+                            <div class="col text-right">
+                                <div class="col text-right-total" style="padding-right: 0">
+                                    <%= currencyFormat.format(total)%>
+                                </div>
+                            </div>
                         </div>
                         <a href="StaffManageOrderServlet?mode=makeOrder&total=<%=total%>"> <button class="btn btn-primary btn-block text-uppercase mb-3">
                                 CHECKOUT

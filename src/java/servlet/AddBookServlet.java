@@ -48,7 +48,7 @@ public class AddBookServlet extends HttpServlet {
 
             BookManager myBookManager = new BookManager();
             PictureDAO myPictureDAO = new PictureDAO();
-            String target = "ViewBook.jsp";
+//            String target = "ViewBook.jsp";
             String title = request.getParameter("title");
             int authorID = Integer.parseInt(request.getParameter("authorID"));
             int genreID = Integer.parseInt(request.getParameter("genreID"));
@@ -72,7 +72,7 @@ public class AddBookServlet extends HttpServlet {
             Picture picture = new Picture(newId, pictureUrl);
             myPictureDAO.insertImage(picture);
             request.setAttribute("listBook", listBook);
-            target = "ManageBookServlet?mode=viewBook";
+            String target = "ManageBookServlet?mode=viewBook";
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
         }

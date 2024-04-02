@@ -384,7 +384,7 @@
                     </div>
 
                 </div>
-                <div class="row"> 
+<!--                <div class="row"> 
                     <div class="col-md-6">
                         <h1>reviews</h1>
                         <div class="container mt-5">
@@ -428,7 +428,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div>-->
             </div>
 
         </section>

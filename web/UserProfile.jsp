@@ -384,7 +384,7 @@
                                                     <tr>
                                                         <th>Order #</th>
                                                         <th>Customer</th>
-                                                        <th>status</th>
+                                                        <th>Status</th>
                                                         <th>Total</th>
                                                         <th>Created</th>
                                                         <th></th>
