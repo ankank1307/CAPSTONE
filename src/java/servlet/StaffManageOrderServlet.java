@@ -48,6 +48,7 @@ public class StaffManageOrderServlet extends HttpServlet {
             OrderDAO myOrderDAO = new OrderDAO();
             HttpSession ss = request.getSession();
             String target = "staffLogin.jsp";
+            OrderDetailDAO myOrderDetailDAO = new OrderDetailDAO();
             if (mode.equals("StaffAddToBill")) {
                 int bookID = Integer.parseInt(request.getParameter("bookID"));
                 System.out.println(bookID);
@@ -82,6 +83,15 @@ public class StaffManageOrderServlet extends HttpServlet {
                 System.out.println("listCheck" + listBill);
                 ss.setAttribute("listBill", listBill);
                 target = "StaffManageBookServlet?mode=StaffViewBook";
+            }
+            if (mode.equals("viewOrderDetail")) {
+                int orderID = Integer.parseInt(request.getParameter("orderID"));
+                ArrayList<OrderDetail> listOrderDetail = myOrderDetailDAO.getListOrderDetailByOrder(orderID);
+
+                target = "StaffViewOrderDetail.jsp";
+
+                request.setAttribute("listOrderDetail", listOrderDetail);
+
             }
            
             if (mode.equals("upQuantity")) {
@@ -166,6 +176,7 @@ public class StaffManageOrderServlet extends HttpServlet {
             rd.forward(request, response);
         }
     }
+    
 
     private int isExisting(int id, ArrayList<Cart> listBill) {
         for (int i = 0; i < listBill.size(); i++) {

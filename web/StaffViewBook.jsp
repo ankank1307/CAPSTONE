@@ -231,9 +231,9 @@
                             </table>
                         </div>
                         <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                            <div class="col">TOTAL PRICE</div>
+                            <div class="col" style="color: white">TOTAL PRICE</div>
                             <div class="col text-right">
-                                <div class="col text-right-total" style="padding-right: 0">
+                                <div class="col text-right-total" style="padding-right: 0; color: white">
                                     <%= currencyFormat.format(total)%>
                                 </div>
                             </div>

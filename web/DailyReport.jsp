@@ -131,10 +131,9 @@
         System.out.println(dataPoints);
         List<Map<String, Object>> dataPointsList = gsonObj.fromJson(dataPoints, new TypeToken<List<Map<String, Object>>>() {
         }.getType());
-         List<String> dates = (List<String>)request.getAttribute("date");
+         List<String> dates = (List<String>)request.getAttribute("dates");
          Gson gson = new Gson();
          String dataJson = gson.toJson(dates);
-         System.out.println("dates: "+ dates.get(0));
         List<Integer> revenueByDate = (List<Integer>) request.getAttribute("revenueByDate");
         List<Integer> yValues = new ArrayList<>();
         for (Map<String, Object> entry : dataPointsList) {

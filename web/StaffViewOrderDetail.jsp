@@ -4,6 +4,8 @@
     Author     : phuon
 --%>
 
+<%@page import="entity.OrderDetail"%>
+<%@page import="dao.BookDAO"%>
 <%@page import="java.util.Currency"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="entity.Staff"%>
@@ -67,6 +69,9 @@
         listStatus.add("Out For Delivery");
         listStatus.add("Completed");
         listStatus.add("Rejected");
+        
+        
+        BookDAO myBookDAO = new BookDAO();
 
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         currencyFormat.setCurrency(Currency.getInstance("VND"));
@@ -129,105 +134,44 @@
         </nav>
         <div class="container mt-5">
             <div class="row tm-content-row">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
-                    <div class="tm-bg-primary-dark tm-block tm-block-products">
-                        <form>
-                            <div class="search-wrapper">
-
-                                <div class="input-holder">
-                                    <form action="ManageOrderServlet" method="post">
-                                        <input type="text" class="search-input" placeholder="Type to search" name="searchInput" />
-                                        <input type="hidden" name="mode" value="search">
-                                    </form>
-                                    <button type="submit" class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
-
-                                </div>
-                                <span class="close" onclick="searchToggle(this, event);"></span>
-                            </div>
-                        </form>
-                        <div class="tm-product-table-container" style="margin-top: 25px">    
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">                   
+                    <div clss="tm-bg-primary-dark tm-block tm-block-products">
+                        <div class="tm-product-table-container" style="margin-top: 25px">
+                            <a class="button4" href="StaffManageServlet?mode=StaffViewOrder">Back                                        
+                            </a>
                             <%
-                                ArrayList<Order> listOrder = (ArrayList<Order>) request.getAttribute("listOrder");
-                                listOrder.sort(( o1,   o2) -> Integer.compare(o2.getOrder_id(), o1.getOrder_id()));
+                                ArrayList<OrderDetail> listOrderDetail = (ArrayList<OrderDetail>) request.getAttribute("listOrderDetail");
+
                             %>
                             <table class="table table-hover tm-table-small tm-product-table">
                                 <thead>
-
                                     <tr>
-
-                                        <th scope="col">Order ID </th>
-                                        <th scope="col">Customer ID</th>
-                                        <th scope="col">Staff ID</th>
-                                        <th scope="col">Order date</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Shipping status</th>
-                                        <th scope="col">&nbsp;</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
-
-                                    <% for (int i = 0; i < listOrder.size(); i++) {%>
-                                <form action="StaffManageOrderServlet?mode=updateShippingStatus" method="post">
+                                    <% for (int i = 0; i < listOrderDetail.size(); i++) {%>
                                     <tr>
-
-                                        <td><%=listOrder.get(i).getOrder_id()%></td>
-                                        <td><%=listOrder.get(i).getCustomer_id()%></td>
-                                        <td><%=listOrder.get(i).getStaff_id()%></td>
-                                        <td><%=listOrder.get(i).getOrder_date()%> </td>
-
-                                        <td><%= currencyFormat.format(listOrder.get(i).getTotal())%></td>
-
-                                        <td>
-                                            <select class="custom-select tm-select-accounts"
-                                                    id="category" name="shipping_status">
-                                                <%
-
-                                                    for (int j = 0; j < listStatus.size(); j++) {
-                                                        String selected = "";
-                                                        if (listOrder.get(i).getShipping_status().equals(listStatus.get(j))) {
-                                                            selected = "selected";
-                                                        }
-                                                %>
-
-                                                <option <%=selected%> value ="<%=listStatus.get(j)%>" > <%=listStatus.get(j)%> </option>
-                                                <%}%>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="orderID" value="<%=listOrder.get(i).getOrder_id()%>">
-                                            <button type="submit" style="border: none; background: none;">
-                                                <a class="tm-product-delete-link">
-                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>                                          
-                                                </a>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <a class="button4" href="StaffManageOrderServlet?mode=viewOrderDetail&orderID=<%=listOrder.get(i).getOrder_id()%>">
-                                                View                                        
-                                            </a>
-                                        </td>
-
+                                        <td><img src="bookImages/<%=listOrderDetail.get(i).getBook_id()%>.jpg" style="max-width: 100%;width: 85px;height: 115px;" alt="loading"></td>
+                                        <td><%=myBookDAO.getBookByID(listOrderDetail.get(i).getBook_id()).getTitle()%></td>
+                                        <td><%=listOrderDetail.get(i).getQuantity()%></td>
+                                        <td><%=currencyFormat.format(listOrderDetail.get(i).getPrice())%></td>
                                     </tr> 
-                                </form>
-                                <% }%>  
-
-
+                                    <% }%>                                                                      
                                 </tbody>
                             </table>
-                        </div><!--
-                        <!-- table container -->
-                        <!--                        <a href="AddAuthor.jsp" class="btn btn-primary btn-block text-uppercase mb-3">Add new author </a>
-                                                <button class="btn btn-primary btn-block text-uppercase">
-                                                    Delete selected products
-                                                </button>-->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script>
+    </tbody>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
 
 
 //                                    
@@ -241,18 +185,18 @@
 
 
 
-                                    function searchToggle(obj, evt) {
-                                        var container = $(obj).closest('.search-wrapper');
-                                        if (!container.hasClass('active')) {
-                                            container.addClass('active');
-                                            evt.preventDefault();
-                                        } else if (container.hasClass('active') && $(obj).closest('.input-holder').length == 0) {
-                                            container.removeClass('active');
-                                            // clear input
-                                            container.find('.search-input').val('');
-                                        }
-                                    }
-        </script>
+        function searchToggle(obj, evt) {
+            var container = $(obj).closest('.search-wrapper');
+            if (!container.hasClass('active')) {
+                container.addClass('active');
+                evt.preventDefault();
+            } else if (container.hasClass('active') && $(obj).closest('.input-holder').length == 0) {
+                container.removeClass('active');
+                // clear input
+                container.find('.search-input').val('');
+            }
+        }
+    </script>
 
-    </body>
+</body>
 </html>
