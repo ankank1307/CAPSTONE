@@ -132,6 +132,9 @@
         List<Map<String, Object>> dataPointsList = gsonObj.fromJson(dataPoints, new TypeToken<List<Map<String, Object>>>() {
         }.getType());
          List<String> dates = (List<String>)request.getAttribute("date");
+         Gson gson = new Gson();
+         String dataJson = gson.toJson(dates);
+         System.out.println("dates: "+ dates.get(0));
         List<Integer> revenueByDate = (List<Integer>) request.getAttribute("revenueByDate");
         List<Integer> yValues = new ArrayList<>();
         for (Map<String, Object> entry : dataPointsList) {
@@ -243,7 +246,7 @@
                 </div>
                 <div class="row" >
                     <div class="col-3">
-                        <p class="tm-bg-primary-dark text" style="padding: 40px;border-radius: 5%">Revenue: <b class="b-padding"><%=total%></b></p>
+                        <p class="tm-bg-primary-dark text" style="padding-bottom: 40px; padding-top: 40px;padding-left: 20px; border-radius: 5%">Revenue: <b class="b-padding"><%=total%></b></p>
                     </div>
                     <div class="col-3">
                         <p class="tm-bg-primary-dark text" style="padding: 40px;border-radius: 5%">Orders:<b class="b-padding"><%=totalOrders%></b></p>
@@ -350,7 +353,7 @@
                         configBar = {
                             type: "horizontalBar",
                             data: {
-                                labels: <%=dates %>,
+                                labels: <%=dataJson %>,
                                 datasets: [
                                     {
                                         label: "",
