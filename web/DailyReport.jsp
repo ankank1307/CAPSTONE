@@ -1,3 +1,6 @@
+<%@page import="java.lang.String"%>
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="com.google.gson.reflect.TypeToken"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -128,12 +131,18 @@
         int saleBook = (Integer) request.getAttribute("saleBook");
         List<Map<Object, Object>> list = (List<Map<Object, Object>>) request.getAttribute("listRevenueByMonth");
         String dataPoints = gsonObj.toJson(list);
-        System.out.println(dataPoints);
+       
         List<Map<String, Object>> dataPointsList = gsonObj.fromJson(dataPoints, new TypeToken<List<Map<String, Object>>>() {
         }.getType());
-         List<String> dates = (List<String>)request.getAttribute("dates");
-         Gson gson = new Gson();
-         String dataJson = gson.toJson(dates);
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        currencyFormat.setCurrency(Currency.getInstance("VND"));
+        currencyFormat.setMaximumFractionDigits(0);
+        List<String> bookName = (List<String>) request.getAttribute("name");
+         String dataName = gsonObj.toJson(bookName);
+        List<Integer> count = (List<Integer>) request.getAttribute("count");
+        List<String> dates = (List<String>) request.getAttribute("date");
+        Gson gson = new Gson();
+        String dataJson = gson.toJson(dates);
         List<Integer> revenueByDate = (List<Integer>) request.getAttribute("revenueByDate");
         List<Integer> yValues = new ArrayList<>();
         for (Map<String, Object> entry : dataPointsList) {
@@ -194,7 +203,7 @@
                                 </a>
                                 <div class="dropdown-content">
                                     <a href="ManageOrderServlet?mode=viewOrder">ORDER</a>
-                                    <!--<a href="DailyReport.jsp">WEEKLY REPORT</a>-->
+                                    <a href="DailyReport.jsp">WEEKLY REPORT</a>
                                     <% String date = java.time.LocalDate.now().toString();
                                         System.out.println(date);
                                     %>
@@ -245,7 +254,7 @@
                 </div>
                 <div class="row" >
                     <div class="col-3">
-                        <p class="tm-bg-primary-dark text" style="padding-bottom: 40px; padding-top: 40px;padding-left: 20px; border-radius: 5%">Revenue: <b class="b-padding"><%=total%></b></p>
+                        <p class="tm-bg-primary-dark text" style="padding-bottom: 40px; padding-top: 40px;padding-left: 20px; border-radius: 5%">Revenue: <b class="b-padding"><%=currencyFormat.format(total)%></b></p>
                     </div>
                     <div class="col-3">
                         <p class="tm-bg-primary-dark text" style="padding: 40px;border-radius: 5%">Orders:<b class="b-padding"><%=totalOrders%></b></p>
@@ -352,11 +361,11 @@
                         configBar = {
                             type: "horizontalBar",
                             data: {
-                                labels: <%=dataJson %>,
+                                labels: <%=dataJson%>,
                                 datasets: [
                                     {
                                         label: "",
-                                        data: <%=revenueByDate %>,
+                                        data: <%=revenueByDate%>,
                                         backgroundColor: [
                                             "#F7604D",
                                             "#4ED6B8",
@@ -411,16 +420,14 @@
                             data: {
                                 datasets: [
                                     {
-                                        data: [18.24, 6.5, 9.15],
-                                        backgroundColor: ["#F7604D", "#4ED6B8", "#A8D582"],
+                                        data: <%=count %>,
+                                        backgroundColor: ["#F7604D", "#4ED6B8", "#A8D582",                                          ],
                                         label: "Storage"
                                     }
                                 ],
-                                labels: [
-                                    "Used Storage (18.240GB)",
-                                    "System Storage (6.500GB)",
-                                    "Available Storage (9.150GB)"
-                                ]
+                                labels: 
+                                   <%=dataName %>
+                                
                             },
                             options: optionsPie
                         };
