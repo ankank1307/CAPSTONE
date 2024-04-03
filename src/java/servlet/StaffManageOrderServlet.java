@@ -139,7 +139,7 @@ public class StaffManageOrderServlet extends HttpServlet {
                 int total = Integer.parseInt(request.getParameter("total"));
                 Staff staff = (Staff) ss.getAttribute("staffLogin");
                 int staffID = staff.getStaff_id();
-                Order order = new Order(date, total, "Pending", 1, "Review", staffID);
+                Order order = new Order(date, total, "Completed", 1, "Review", staffID);
                 int orderID = myOrderDAO.saveOrdersStaff(order);
                 Book book;
                 OrderDetailDAO orderDetailDAO = new OrderDetailDAO();

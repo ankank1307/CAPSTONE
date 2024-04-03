@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class Config {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://192.168.1.11:8080/Capstone/vnpay_return.jsp";
+    public static String vnp_ReturnUrl = "http://booksaw.io.vn/vnpay_return.jsp";
     public static String vnp_TmnCode = "VIRT1F8N";
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
