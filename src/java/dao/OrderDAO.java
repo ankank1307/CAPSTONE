@@ -302,12 +302,50 @@ public class OrderDAO {
                 
                 if (!map.containsKey(rs.getString(3))) {
                     revenue = order.getTotal();
-                    map.put(rs.getString(3), revenue);
+                    map.put(rs.getString(3).toString(), revenue);
                     revenue = 0;
                 } else {
                     revenue = map.get(rs.getString(3));
                     revenue += order.getTotal();
-                    map.replace(rs.getString(3), revenue);
+                    map.replace(rs.getString(3).toString(), revenue);
+                }
+
+            }
+
+            listRevenueByDate = map;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return listRevenueByDate;
+    }
+     public Map<String, Integer> getTopThreeBestSellingByDay(String startDate, String endDate) {
+        Map<String, Integer> listRevenueByDate = new HashMap<String, Integer>();
+        try {
+            Connection con = DBContext.getConnection();
+            String query = "";
+            PreparedStatement pst;
+            if (!startDate.equals("0") && !endDate.equals("0")) {
+                query = "select * from orders inner join orderdetail on orders.order_id = orderdetail.order_id inner join books on orderdetail.book_id = books.book_id where orders.order_date between ? and ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, startDate);
+                pst.setString(2, endDate);
+            } else {
+                query = "select * from orders inner join orderdetail on orders.order_id = orderdetail.order_id inner join books on orderdetail.book_id = books.book_id where orders.order_date= ?";
+                pst = con.prepareStatement(query);
+                pst.setString(1, endDate);
+            }
+            ResultSet rs = pst.executeQuery();
+            Integer count = 0;
+            HashMap<String, Integer> map = new HashMap<>();
+            while (rs.next()) {
+                
+                if (!map.containsKey(rs.getString(14))) {                   
+                    map.put(rs.getString(14), rs.getInt(11));
+                  
+                } else {
+                    count = map.get(rs.getString(14));
+                    count+= rs.getInt(11);
+                    map.replace(rs.getString(14), count);
                 }
 
             }

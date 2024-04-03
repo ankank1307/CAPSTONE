@@ -9,7 +9,9 @@ import entity.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -40,23 +42,38 @@ public class ViewReportServlet extends HttpServlet {
         OrderDAO myOrderDAO = new OrderDAO();
         String target = "";
         try (PrintWriter out = response.getWriter()) {
-           if (mode.equals("dailyReport")) {
+            if (mode.equals("dailyReport")) {
                 int year = 2023;
                 String endDate = request.getParameter("endDate");
                 String startDate = request.getParameter("startDate");
-                int total = myOrderDAO.getRevenueByDate(startDate,endDate);   
+                int total = myOrderDAO.getRevenueByDate(startDate, endDate);
                 int totalOrders = myOrderDAO.getOrdersByDate(startDate, endDate);
                 int totalCustomer = myOrderDAO.getCustomersByDate(startDate, endDate);
                 int saleBook = myOrderDAO.getSaleBookByDate(startDate, endDate);
                 Map<String, Integer> map = myOrderDAO.getRevenueByDay(startDate, endDate);
                 List<String> date = new ArrayList<>(map.keySet());
-                List<Integer> revenue = new ArrayList<>(map.values());     
-                
+                List<Integer> revenue = new ArrayList<>(map.values());
+                Map<String, Integer> sellBook = myOrderDAO.getTopThreeBestSellingByDay(startDate, endDate);
+                List<Map.Entry<String, Integer>> entryList = new ArrayList<>(sellBook.entrySet());
+
+                Collections.sort(entryList, (entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+
+                List<Map.Entry<String, Integer>> topThreeEntries = entryList.subList(0, Math.min(3, entryList.size()));
+               
+              
+                Map<String, Integer> sortedSellBook = new LinkedHashMap<>();
+                for (Map.Entry<String, Integer> entry : topThreeEntries) {
+                    sortedSellBook.put(entry.getKey(), entry.getValue());
+                }
+                 List<String> bookTitle = new ArrayList<>(sortedSellBook.keySet());
+                List<Integer> count = new ArrayList<>(sortedSellBook.values());
                 List<Map<Object, Object>> listRevenueByMonth = new ArrayList<Map<Object, Object>>();
                 listRevenueByMonth = myOrderDAO.getRevenueByMonth(year);
                 target = "DailyReport.jsp";
                 request.setAttribute("totalRevenue", total);
                 request.setAttribute("date", date);
+                request.setAttribute("name", bookTitle);
+                request.setAttribute("count", count);
                 request.setAttribute("revenueByDate", revenue);
                 request.setAttribute("totalOrder", totalOrders);
                 request.setAttribute("totalCustomer", totalCustomer);
@@ -64,7 +81,7 @@ public class ViewReportServlet extends HttpServlet {
                 request.setAttribute("selectedYear", year);
                 request.setAttribute("listRevenueByMonth", listRevenueByMonth);
             }
-           
+
             RequestDispatcher rd = request.getRequestDispatcher(target);
             rd.forward(request, response);
         }
