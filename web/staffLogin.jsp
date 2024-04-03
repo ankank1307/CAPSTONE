@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Login</title>
+        <title>Staff Login</title>
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:400,700"

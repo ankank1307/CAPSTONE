@@ -94,13 +94,13 @@
         if (customer1.getTotal_spent() <= 1000000) {
             level = "Silver";
         }
-        if (customer1.getTotal_spent() > 1000000 && customer1.getTotal_spent() <= 1000000) {
+        if (customer1.getTotal_spent() > 1000000 && customer1.getTotal_spent() <= 2000000) {
             level = "Gold";
         }
         if (customer1.getTotal_spent() > 2000000 && customer1.getTotal_spent() <= 3000000) {
             level = "Diamond";
         }
-        if (customer1.getTotal_spent() > 3000000 && customer1.getTotal_spent() <= 4000000) {
+        if (customer1.getTotal_spent() > 3000000) {
             level = "Platinum";
         }
 
