@@ -29,7 +29,7 @@ public class OrderDAO {
 
         try {
             Connection con = DBContext.getConnection();
-            String query = "SELECT * FROM orders;";
+            String query = "SELECT * FROM orders order by order_id desc";
             Statement st = con.prepareStatement(query);
             ResultSet rs = st.executeQuery(query);
 
